@@ -197,37 +197,65 @@ The assumptions are:
 	クライアントは信頼できるネームサーバーを識別できるようにしておくべき
 	クライアントは信頼できるネームサーバーを、信頼外のネームサーバーへの参照を受け入れる前に使われるのが好まれる
 	
-   - Access to information is more critical than instantaneous
-     updates or guarantees of consistency.  Hence the update
-     process allows updates to percolate out through the users of
+   - Access to information is more critical than instantaneous(即時の)
+     updates or guarantees of consistency(一貫性).  Hence(今後は) the update
+     process allows updates to percolate(浸透する) out through the users of
      the domain system rather than guaranteeing that all copies are
-     simultaneously updated.  When updates are unavailable due to
+     simultaneously(同時に) updated.  When updates are unavailable due to
      network or host failure, the usual course is to believe old
      information while continuing efforts to update it.  The
-     general model is that copies are distributed with timeouts for
+     general model is that copies are distributed(配布する) with timeouts for
      refreshing.  The distributor sets the timeout value and the
      recipient of the distribution is responsible for performing
      the refresh.  In special situations, very short intervals can
-     be specified, or the owner can prohibit copies.
+     be specified(明示する), or the owner can prohibit copies.
+     即時アップデートや一貫性の保証より、情報にアクセスできることを重要
+     アップデートのプロセスは、コピーが同時にアップデートされる保証されることより利用者を通して浸透して更新することを許している
+     アップデートができなくなたときは、アップデートしようとされる限り古い情報をしするのが普通
+     普通のモードでは、コピーはリフレッシュのためのタイムアウト値とともに配布される
+     配布者はタイムアウト値をセット、受取人はリフレッシュする義務をもつ
+     特殊な状況では、短いインターバルが明示できたり、コピーを禁止することができる
 
-   - In any system that has a distributed database, a particular
-     name server may be presented with a query that can only be
+   - In any system that has a distributed database, a particular(特有の、各々の)
+     name server may be presented(提供される) with a query that can only be
      answered by some other server.  The two general approaches to
      dealing with this problem are "recursive", in which the first
-     server pursues the query for the client at another server, and
+     server pursues(追跡する) the query for the client at another server, and
      "iterative", in which the server refers the client to another
      server and lets the client pursue the query.  Both approaches
      have advantages and disadvantages, but the iterative approach
      is preferred for the datagram style of access.  The domain
      system requires implementation of the iterative approach, but
      allows the recursive approach as an option.
-	 
+     分散データベースにおいては、他のサーバーしか答えられないクエリがくるかもしれない
+     ２つの対処法があって、"recursive"と"iterative"
+     "recursive"は最初のサーバーがクライアントのためにクエリを追跡する(再帰)
+     "iterative"はサーバーはクライアントに他のサーバーを参照させ、クライアントがクエリを追う(反復)
+     どちらも、利点と難点があるが、iterativeのほうがダイヤグラムのアクセスとしては好まれる
+     DNSは反復的なアプローチの実装が要求されるが、再帰的なアプローチも許可されている
+
+     by orrange morishita
+     再帰問い合わせ（recursive query)
+     機能：名前解決の依頼
+     DNSクライアントやDNSプロキシーがキャッシュDNSサーバーに対し、必要に応じて実行する
+     DNSクライアントやDNSプロキシーは再帰問い合わせによって、キャッシュDNSサーバーに名前解決を要求する
+
+     非再帰問い合わせ（non-recursive query）
+     機能：名前解決の実行
+     キャッシュDNSサーバーが各権威DNSサーバーに対し、反復的に実行するそのため、
+     非再帰問い合わせは反復問い合わせ（iterativequery）とも呼ばれる
+
 The domain system assumes that all data originates in master files
-scattered through the hosts that use the domain system.  These master
+scattered(ちらかる) through the hosts that use the domain system.  These master
 files are updated by local system administrators.  Master files are text
 files that are read by a local name server, and hence become available
 through the name servers to users of the domain system.  The user
 programs access name servers through standard programs called resolvers.
+すべてのデータはDNSを使うホストに分散されたマスターファイルがオリジナルに源を発する
+マスターファイルはローカル管理者によってアップデートされる
+マスターファイルはローカルネームサーバーに読めるテキストで、それゆえこのネームサーバーを通してユーザが使えるようになる
+ユーザプログラムはリゾルバーと呼ばれる標準的なプログラムをとおしてネームサーバーにアクセスする
+(マスターファイルってなんのこと？ゾーンファイル？)
 
 The standard format of master files allows them to be exchanged between
 hosts (via FTP, mail, or some other mechanism); this facility is useful
@@ -236,19 +264,28 @@ server.  The organization can maintain the master files locally using a
 text editor, transfer them to a foreign host which runs a name server,
 and then arrange with the system administrator of the name server to get
 the files loaded.
+標準的な形式のマスターファイルはホスト間で交換される
+このことは組織がドメインをほしいけど、ネームサーバーのサポートは不必要なときに役に立つ
+組織はテキストエディタでマスターファイルをメンテナンスできるし、
+他のネームサーバーで動くように転送しネームサーバのシステム管理者がファイルをロードできるよう整えられる
 
 Each host's name servers and resolvers are configured by a local system
 administrator [RFC-1033].  For a name server, this configuration data
-includes the identity of local master files and instructions on which
+includes the identity of local master files and instructions(命令、指図) on which
 non-local master files are to be loaded from foreign servers.  The name
 server uses the master files or copies to load its zones.  For
 resolvers, the configuration data identifies the name servers which
 should be the primary sources of information.
+それぞれのホストのネームサーバーとリゾルバーはローカルシステム管理者によって設定される
+ネームサーバーにとっては、この設定データはローカルマスターファイルの識別子と
+外部のサーバから読み込まれたローカルでないマスターファイル上の命令が含まれている
 
-The domain system defines procedures for accessing the data and for
-referrals to other name servers.  The domain system also defines
-procedures for caching retrieved data and for periodic refreshing of
+The domain system defines procedures(手順) for accessing the data and for
+referrals(参照) to other name servers.  The domain system also defines
+procedures for caching retrieved data and for periodic(定期の) refreshing of
 data defined by the system administrator.
+データへのアクセスおよび他のネームサーバーへの参照の手順を規定している
+得たデータのキャッシングおよびシステム管理者に規定された定期的なデータの更新の手順も規定している
 
 The system administrators provide:
 
@@ -269,20 +306,29 @@ The domain system provides:
    - Standard methods for name servers to refresh local data from
      foreign name servers.
 
+システム管理者とドメインシステム
+
 2.4. Elements of the DNS
+DNSの要素
 
 The DNS has three major components:
+３つのコンポーネント
 
    - The DOMAIN NAME SPACE and RESOURCE RECORDS, which are
      specifications for a tree structured name space and data
-     associated with the names.  Conceptually, each node and leaf
-     of the domain name space tree names a set of information, and
+     associated with the names.  Conceptually(概念的に), each node and leaf
+     of the domain name space tree names(指し示す) a set of information, and
      query operations are attempts to extract specific types of
      information from a particular set.  A query names the domain
      name of interest and describes the type of resource
      information that is desired.  For example, the Internet
      uses some of its domain names to identify hosts; queries for
      address resources return Internet host addresses.
+     ①ドメイン名前空間とリソースレコード
+     それは木構造の名前空間と名前に紐付いたデータの仕様
+     それぞれのドメイン名前空間の木のnodeとleafは情報のセットである
+     クエリの実行とは、特定のセットから特定の情報のタイプを引き出す試みのこと
+     クエリは必要なドメイン名と欲しい資源情報の種別を指定する
 
    - NAME SERVERS are server programs which hold information about
      the domain tree's structure and set information.  A name
@@ -297,38 +343,63 @@ The DNS has three major components:
      organized into units called ZONEs, and these zones can be
      automatically distributed to the name servers which provide
      redundant service for the data in a zone.
+     ②ネームサーバーはドメインツリー構造と情報セットを有するサーバプログラム
+     ネームサーバーはメインツリーのどの部分の構造や情報セットをキャシュしてもいいが、
+     普通は、特定のネームサーバーはドメイン空間のサブセットに関しての完全な情報および
+     ドメインツリーのどの部分からの情報へ導くよう使うことのできる他のネームサーバーへのポインターをもっている
+     ネームサーバーはドメインツリーのある部分の完全な情報を持っている、
+     それを名前空間でのその部分のAUTHORITYがあると呼ばれる
 
    - RESOLVERS are programs that extract information from name
      servers in response to client requests.  Resolvers must be
      able to access at least one name server and use that name
-     server's information to answer a query directly, or pursue the
+     server's information to answer a query directly, or pursue(追跡) the
      query using referrals to other name servers.  A resolver will
      typically be a system routine that is directly accessible to
      user programs; hence no protocol is necessary between the
      resolver and the user program.
+     リゾルバーはネームサーバーから情報を取り出しクライアントへ返すプログラム
+     リゾルバーは最低一つのネームサーバーにはアクセスできなくてはならない
+     ネームサーバーの情報を問い合わせにそのまま答えるか、他のネームサーバー参照を使い問い合わせを追うかする
+     典型的なリゾルバはユーザプログラムから直接アクセスできるシステムルーチンである
+     そのためリゾルバとユーザープログラム間のプロトコルは必要ない。
+     (必要ないの？)
 
 These three components roughly correspond to the three layers or views
 of the domain system:
+３つのコンポーネントはざっくり３つのレイヤーまたは視点に対応している
 
    - From the user's point of view, the domain system is accessed
-     through a simple procedure or OS call to a local resolver.
+     through a simple procedure(手順) or OS call to a local resolver.
      The domain space consists of a single tree and the user can
      request information from any section of the tree.
+     ユーザー視点では、DNSはシンプルな手順、ローカルリゾルバーへのOSコールととおしてしてアクセスされる。
+     ドメイン空間なシングルツリーで構成されており、ユーザーはツリーのどの部分の情報を要求してよい
 
    - From the resolver's point of view, the domain system is
-     composed of an unknown number of name servers.  Each name
-     server has one or more pieces of the whole domain tree's data,
+     composed of an unknown number of name servers.
+    　Each nameserver has one or more pieces of the whole domain tree's data,
      but the resolver views each of these databases as essentially
      static.
+     リゾルバー視点では、DNSは不明な数のネームサーバーにより構成される
+     おのおのネームサーバーはドメインツリーの完全なデータを一つ以上持っている
+     しかし、リゾルバは各データベースは本質的に静的であると見ている。
 
    - From a name server's point of view, the domain system consists
      of separate sets of local information called zones.  The name
      server has local copies of some of the zones.  The name server
-     must periodically refresh its zones from master copies in
+     must periodically(定期的に) refresh its zones from master copies in
      local files or foreign name servers.  The name server must
-     concurrently process queries that arrive from resolvers.
+     concurrently(同時に) process queries that arrive from resolvers.
+     ネームサーバー視点では、DNSはゾーンと呼ばれるローカル情報の分割されたセットにより構成される
+     ネームサーバーはいくつかのゾーンのローカルコピーを持っている
+     ネームサーバーは、ローカルマスターコピーからか外部のネームサーバーからゾーンを定期的に更新しなければならない
+     ネームサーバーはリゾルバーからくるクエリを同時に処理しなければならない
 
 In the interests of performance, implementations may couple these
 functions.  For example, a resolver on the same machine as a name server
 might share a database consisting of the the zones managed by the name
 server and the cache managed by the resolver.
+性能面の都合で、これらの機能が結合された実装になっていることもある。
+例えば、ネームサーバと同じマシン上にあるリゾルバは
+ネームサーバの管理するゾーンとリゾルバの管理するキャッシュとからなるデータベースを共有するかもしれない
