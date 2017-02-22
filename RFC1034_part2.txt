@@ -1,0 +1,549 @@
+3. DOMAIN NAME SPACE and RESOURCE RECORDS
+
+3.1. Name space specifications and terminology
+
+The domain name space is a tree structure.  Each node and leaf on the
+tree corresponds to a resource set (which may be empty).  The domain
+system makes no distinctions between the uses of the interior nodes and
+leaves, and this memo uses the term "node" to refer to both.
+
+Each node has a label, which is zero to 63 octets in length.  Brother
+nodes may not have the same label, although the same label can be used
+for nodes which are not brothers.  One label is reserved, and that is
+the null (i.e., zero length) label used for the root.
+
+The domain name of a node is the list of the labels on the path from the
+node to the root of the tree.  By convention, the labels that compose a
+domain name are printed or read left to right, from the most specific
+(lowest, farthest from the root) to the least specific (highest, closest
+to the root).
+
+Internally, programs that manipulate domain names should represent them
+as sequences of labels, where each label is a length octet followed by
+an octet string.  Because all domain names end at the root, which has a
+null string for a label, these internal representations can use a length
+byte of zero to terminate a domain name.
+
+By convention, domain names can be stored with arbitrary case, but
+domain name comparisons for all present domain functions are done in a
+case-insensitive manner, assuming an ASCII character set, and a high
+order zero bit.  This means that you are free to create a node with
+label "A" or a node with label "a", but not both as brothers; you could
+refer to either using "a" or "A".  When you receive a domain name or
+label, you should preserve its case.  The rationale for this choice is
+that we may someday need to add full binary domain names for new
+services; existing services would not be changed.
+
+When a user needs to type a domain name, the length of each label is
+omitted and the labels are separated by dots (".").  Since a complete
+domain name ends with the root label, this leads to a printed form which
+ends in a dot.  We use this property to distinguish between:
+
+   - a character string which represents a complete domain name
+     (often called "absolute").  For example, "poneria.ISI.EDU."
+
+   - a character string that represents the starting labels of a
+     domain name which is incomplete, and should be completed by
+     local software using knowledge of the local domain (often
+     called "relative").  For example, "poneria" used in the
+     ISI.EDU domain.
+
+Relative names are either taken relative to a well known origin, or to a
+list of domains used as a search list.  Relative names appear mostly at
+the user interface, where their interpretation varies from
+implementation to implementation, and in master files, where they are
+relative to a single origin domain name.  The most common interpretation
+uses the root "." as either the single origin or as one of the members
+of the search list, so a multi-label relative name is often one where
+the trailing dot has been omitted to save typing.
+
+To simplify implementations, the total number of octets that represent a
+domain name (i.e., the sum of all label octets and label lengths) is
+limited to 255.
+
+A domain is identified by a domain name, and consists of that part of
+the domain name space that is at or below the domain name which
+specifies the domain.  A domain is a subdomain of another domain if it
+is contained within that domain.  This relationship can be tested by
+seeing if the subdomain's name ends with the containing domain's name.
+For example, A.B.C.D is a subdomain of B.C.D, C.D, D, and " ".
+
+3.2. Administrative guidelines on use
+
+As a matter of policy, the DNS technical specifications do not mandate a
+particular tree structure or rules for selecting labels; its goal is to
+be as general as possible, so that it can be used to build arbitrary
+applications.  In particular, the system was designed so that the name
+space did not have to be organized along the lines of network
+boundaries, name servers, etc.  The rationale for this is not that the
+name space should have no implied semantics, but rather that the choice
+of implied semantics should be left open to be used for the problem at
+hand, and that different parts of the tree can have different implied
+semantics.  For example, the IN-ADDR.ARPA domain is organized and
+distributed by network and host address because its role is to translate
+from network or host numbers to names; NetBIOS domains [RFC-1001, RFC-
+1002] are flat because that is appropriate for that application.
+
+However, there are some guidelines that apply to the "normal" parts of
+the name space used for hosts, mailboxes, etc., that will make the name
+space more uniform, provide for growth, and minimize problems as
+software is converted from the older host table.  The political
+decisions about the top levels of the tree originated in RFC-920.
+Current policy for the top levels is discussed in [RFC-1032].  MILNET
+conversion issues are covered in [RFC-1031].
+
+Lower domains which will eventually be broken into multiple zones should
+provide branching at the top of the domain so that the eventual
+decomposition can be done without renaming.  Node labels which use
+special characters, leading digits, etc., are likely to break older
+software which depends on more restrictive choices.
+
+3.3. Technical guidelines on use
+
+Before the DNS can be used to hold naming information for some kind of
+object, two needs must be met:
+
+   - A convention for mapping between object names and domain
+     names.  This describes how information about an object is
+     accessed.
+
+   - RR types and data formats for describing the object.
+
+These rules can be quite simple or fairly complex.  Very often, the
+designer must take into account existing formats and plan for upward
+compatibility for existing usage.  Multiple mappings or levels of
+mapping may be required.
+
+For hosts, the mapping depends on the existing syntax for host names
+which is a subset of the usual text representation for domain names,
+together with RR formats for describing host addresses, etc.  Because we
+need a reliable inverse mapping from address to host name, a special
+mapping for addresses into the IN-ADDR.ARPA domain is also defined.
+
+For mailboxes, the mapping is slightly more complex.  The usual mail
+address <local-part>@<mail-domain> is mapped into a domain name by
+converting <local-part> into a single label (regardles of dots it
+contains), converting <mail-domain> into a domain name using the usual
+text format for domain names (dots denote label breaks), and
+concatenating the two to form a single domain name.  Thus the mailbox
+HOSTMASTER@SRI-NIC.ARPA is represented as a domain name by
+HOSTMASTER.SRI-NIC.ARPA.  An appreciation for the reasons behind this
+design also must take into account the scheme for mail exchanges [RFC-
+974].
+
+The typical user is not concerned with defining these rules, but should
+understand that they usually are the result of numerous compromises
+between desires for upward compatibility with old usage, interactions
+between different object definitions, and the inevitable urge to add new
+features when defining the rules.  The way the DNS is used to support
+some object is often more crucial than the restrictions inherent in the
+DNS.
+
+3.4. Example name space
+
+The following figure shows a part of the current domain name space, and
+is used in many examples in this RFC.  Note that the tree is a very
+small subset of the actual name space.
+
+                                   |
+                                   |
+             +---------------------+------------------+
+             |                     |                  |
+            MIL                   EDU                ARPA
+             |                     |                  |
+             |                     |                  |
+       +-----+-----+               |     +------+-----+-----+
+       |     |     |               |     |      |           |
+      BRL  NOSC  DARPA             |  IN-ADDR  SRI-NIC     ACC
+                                   |
+       +--------+------------------+---------------+--------+
+       |        |                  |               |        |
+      UCI      MIT                 |              UDEL     YALE
+                |                 ISI
+                |                  |
+            +---+---+              |
+            |       |              |
+           LCS  ACHILLES  +--+-----+-----+--------+
+            |             |  |     |     |        |
+            XX            A  C   VAXA  VENERA Mockapetris
+
+In this example, the root domain has three immediate subdomains: MIL,
+EDU, and ARPA.  The LCS.MIT.EDU domain has one immediate subdomain named
+XX.LCS.MIT.EDU.  All of the leaves are also domains.
+
+3.5. Preferred name syntax
+
+The DNS specifications attempt to be as general as possible in the rules
+for constructing domain names.  The idea is that the name of any
+existing object can be expressed as a domain name with minimal changes.
+However, when assigning a domain name for an object, the prudent user
+will select a name which satisfies both the rules of the domain system
+and any existing rules for the object, whether these rules are published
+or implied by existing programs.
+
+For example, when naming a mail domain, the user should satisfy both the
+rules of this memo and those in RFC-822.  When creating a new host name,
+the old rules for HOSTS.TXT should be followed.  This avoids problems
+when old software is converted to use domain names.
+
+The following syntax will result in fewer problems with many
+applications that use domain names (e.g., mail, TELNET).
+
+<domain> ::= <subdomain> | " "
+
+<subdomain> ::= <label> | <subdomain> "." <label>
+
+<label> ::= <letter> [ [ <ldh-str> ] <let-dig> ]
+
+<ldh-str> ::= <let-dig-hyp> | <let-dig-hyp> <ldh-str>
+
+<let-dig-hyp> ::= <let-dig> | "-"
+
+<let-dig> ::= <letter> | <digit>
+
+<letter> ::= any one of the 52 alphabetic characters A through Z in
+upper case and a through z in lower case
+
+<digit> ::= any one of the ten digits 0 through 9
+
+Note that while upper and lower case letters are allowed in domain
+names, no significance is attached to the case.  That is, two names with
+the same spelling but different case are to be treated as if identical.
+
+The labels must follow the rules for ARPANET host names.  They must
+start with a letter, end with a letter or digit, and have as interior
+characters only letters, digits, and hyphen.  There are also some
+restrictions on the length.  Labels must be 63 characters or less.
+
+For example, the following strings identify hosts in the Internet:
+
+A.ISI.EDU  XX.LCS.MIT.EDU  SRI-NIC.ARPA
+
+3.6. Resource Records
+
+A domain name identifies a node.  Each node has a set of resource
+information, which may be empty.  The set of resource information
+associated with a particular name is composed of separate resource
+records (RRs).  The order of RRs in a set is not significant, and need
+not be preserved by name servers, resolvers, or other parts of the DNS.
+
+When we talk about a specific RR, we assume it has the following:
+
+owner           which is the domain name where the RR is found.
+
+type            which is an encoded 16 bit value that specifies the type
+                of the resource in this resource record.  Types refer to
+                abstract resources.
+
+                This memo uses the following types:
+
+                A               a host address
+
+                CNAME           identifies the canonical name of an
+                                alias
+
+                HINFO           identifies the CPU and OS used by a host
+
+                MX              identifies a mail exchange for the
+                                domain.  See [RFC-974 for details.
+
+                NS
+                the authoritative name server for the domain
+
+                PTR
+                a pointer to another part of the domain name space
+
+                SOA
+                identifies the start of a zone of authority]
+
+class           which is an encoded 16 bit value which identifies a
+                protocol family or instance of a protocol.
+
+                This memo uses the following classes:
+
+                IN              the Internet system
+
+                CH              the Chaos system
+
+TTL             which is the time to live of the RR.  This field is a 32
+                bit integer in units of seconds, an is primarily used by
+                resolvers when they cache RRs.  The TTL describes how
+                long a RR can be cached before it should be discarded.
+
+RDATA           which is the type and sometimes class dependent data
+                which describes the resource:
+
+                A               For the IN class, a 32 bit IP address
+
+                                For the CH class, a domain name followed
+                                by a 16 bit octal Chaos address.
+
+                CNAME           a domain name.
+
+                MX              a 16 bit preference value (lower is
+                                better) followed by a host name willing
+                                to act as a mail exchange for the owner
+                                domain.
+
+                NS              a host name.
+
+                PTR             a domain name.
+
+                SOA             several fields.
+
+The owner name is often implicit, rather than forming an integral part
+of the RR.  For example, many name servers internally form tree or hash
+structures for the name space, and chain RRs off nodes.  The remaining
+RR parts are the fixed header (type, class, TTL) which is consistent for
+all RRs, and a variable part (RDATA) that fits the needs of the resource
+being described.
+
+The meaning of the TTL field is a time limit on how long an RR can be
+kept in a cache.  This limit does not apply to authoritative data in
+zones; it is also timed out, but by the refreshing policies for the
+zone.  The TTL is assigned by the administrator for the zone where the
+data originates.  While short TTLs can be used to minimize caching, and
+a zero TTL prohibits caching, the realities of Internet performance
+suggest that these times should be on the order of days for the typical
+host.  If a change can be anticipated, the TTL can be reduced prior to
+the change to minimize inconsistency during the change, and then
+increased back to its former value following the change.
+
+The data in the RDATA section of RRs is carried as a combination of
+binary strings and domain names.  The domain names are frequently used
+as "pointers" to other data in the DNS.
+
+3.6.1. Textual expression of RRs
+
+RRs are represented in binary form in the packets of the DNS protocol,
+and are usually represented in highly encoded form when stored in a name
+server or resolver.  In this memo, we adopt a style similar to that used
+in master files in order to show the contents of RRs.  In this format,
+most RRs are shown on a single line, although continuation lines are
+possible using parentheses.
+
+The start of the line gives the owner of the RR.  If a line begins with
+a blank, then the owner is assumed to be the same as that of the
+previous RR.  Blank lines are often included for readability.
+
+Following the owner, we list the TTL, type, and class of the RR.  Class
+and type use the mnemonics defined above, and TTL is an integer before
+the type field.  In order to avoid ambiguity in parsing, type and class
+mnemonics are disjoint, TTLs are integers, and the type mnemonic is
+always last. The IN class and TTL values are often omitted from examples
+in the interests of clarity.
+
+The resource data or RDATA section of the RR are given using knowledge
+of the typical representation for the data.
+
+For example, we might show the RRs carried in a message as:
+
+    ISI.EDU.        MX      10 VENERA.ISI.EDU.
+                    MX      10 VAXA.ISI.EDU.
+    VENERA.ISI.EDU. A       128.9.0.32
+                    A       10.1.0.52
+    VAXA.ISI.EDU.   A       10.2.0.27
+                    A       128.9.0.33
+
+The MX RRs have an RDATA section which consists of a 16 bit number
+followed by a domain name.  The address RRs use a standard IP address
+format to contain a 32 bit internet address.
+
+This example shows six RRs, with two RRs at each of three domain names.
+
+Similarly we might see:
+
+    XX.LCS.MIT.EDU. IN      A       10.0.0.44
+                    CH      A       MIT.EDU. 2420
+
+This example shows two addresses for XX.LCS.MIT.EDU, each of a different
+class.
+
+3.6.2. Aliases and canonical names
+
+In existing systems, hosts and other resources often have several names
+that identify the same resource.  For example, the names C.ISI.EDU and
+USC-ISIC.ARPA both identify the same host.  Similarly, in the case of
+mailboxes, many organizations provide many names that actually go to the
+same mailbox; for example Mockapetris@C.ISI.EDU, Mockapetris@B.ISI.EDU,
+and PVM@ISI.EDU all go to the same mailbox (although the mechanism
+behind this is somewhat complicated).
+
+Most of these systems have a notion that one of the equivalent set of
+names is the canonical or primary name and all others are aliases.
+
+The domain system provides such a feature using the canonical name
+(CNAME) RR.  A CNAME RR identifies its owner name as an alias, and
+specifies the corresponding canonical name in the RDATA section of the
+RR.  If a CNAME RR is present at a node, no other data should be
+present; this ensures that the data for a canonical name and its aliases
+cannot be different.  This rule also insures that a cached CNAME can be
+used without checking with an authoritative server for other RR types.
+
+CNAME RRs cause special action in DNS software.  When a name server
+fails to find a desired RR in the resource set associated with the
+domain name, it checks to see if the resource set consists of a CNAME
+record with a matching class.  If so, the name server includes the CNAME
+record in the response and restarts the query at the domain name
+specified in the data field of the CNAME record.  The one exception to
+this rule is that queries which match the CNAME type are not restarted.
+
+For example, suppose a name server was processing a query with for USC-
+ISIC.ARPA, asking for type A information, and had the following resource
+records:
+
+    USC-ISIC.ARPA   IN      CNAME   C.ISI.EDU
+
+    C.ISI.EDU       IN      A       10.0.0.52
+
+Both of these RRs would be returned in the response to the type A query,
+while a type CNAME or * query should return just the CNAME.
+
+Domain names in RRs which point at another name should always point at
+the primary name and not the alias.  This avoids extra indirections in
+accessing information.  For example, the address to name RR for the
+above host should be:
+
+    52.0.0.10.IN-ADDR.ARPA  IN      PTR     C.ISI.EDU
+
+rather than pointing at USC-ISIC.ARPA.  Of course, by the robustness
+principle, domain software should not fail when presented with CNAME
+chains or loops; CNAME chains should be followed and CNAME loops
+signalled as an error.
+
+3.7. Queries
+
+Queries are messages which may be sent to a name server to provoke a
+response.  In the Internet, queries are carried in UDP datagrams or over
+TCP connections.  The response by the name server either answers the
+question posed in the query, refers the requester to another set of name
+servers, or signals some error condition.
+
+In general, the user does not generate queries directly, but instead
+makes a request to a resolver which in turn sends one or more queries to
+name servers and deals with the error conditions and referrals that may
+result.  Of course, the possible questions which can be asked in a query
+does shape the kind of service a resolver can provide.
+
+DNS queries and responses are carried in a standard message format.  The
+message format has a header containing a number of fixed fields which
+are always present, and four sections which carry query parameters and
+RRs.
+
+The most important field in the header is a four bit field called an
+opcode which separates different queries.  Of the possible 16 values,
+one (standard query) is part of the official protocol, two (inverse
+query and status query) are options, one (completion) is obsolete, and
+the rest are unassigned.
+
+The four sections are:
+
+Question        Carries the query name and other query parameters.
+
+Answer          Carries RRs which directly answer the query.
+
+Authority       Carries RRs which describe other authoritative servers.
+                May optionally carry the SOA RR for the authoritative
+                data in the answer section.
+
+Additional      Carries RRs which may be helpful in using the RRs in the
+                other sections.
+
+Note that the content, but not the format, of these sections varies with
+header opcode.
+
+3.7.1. Standard queries
+
+A standard query specifies a target domain name (QNAME), query type
+(QTYPE), and query class (QCLASS) and asks for RRs which match.  This
+type of query makes up such a vast majority of DNS queries that we use
+the term "query" to mean standard query unless otherwise specified.  The
+QTYPE and QCLASS fields are each 16 bits long, and are a superset of
+defined types and classes.
+
+The QTYPE field may contain:
+
+<any type>      matches just that type. (e.g., A, PTR).
+
+AXFR            special zone transfer QTYPE.
+
+MAILB           matches all mail box related RRs (e.g. MB and MG).
+
+*               matches all RR types.
+
+The QCLASS field may contain:
+
+<any class>     matches just that class (e.g., IN, CH).
+
+*               matches aLL RR classes.
+
+Using the query domain name, QTYPE, and QCLASS, the name server looks
+for matching RRs.  In addition to relevant records, the name server may
+return RRs that point toward a name server that has the desired
+information or RRs that are expected to be useful in interpreting the
+relevant RRs.  For example, a name server that doesn't have the
+requested information may know a name server that does; a name server
+that returns a domain name in a relevant RR may also return the RR that
+binds that domain name to an address.
+
+For example, a mailer tying to send mail to Mockapetris@ISI.EDU might
+ask the resolver for mail information about ISI.EDU, resulting in a
+query for QNAME=ISI.EDU, QTYPE=MX, QCLASS=IN.  The response's answer
+section would be:
+
+    ISI.EDU.        MX      10 VENERA.ISI.EDU.
+                    MX      10 VAXA.ISI.EDU.
+
+while the additional section might be:
+
+    VAXA.ISI.EDU.   A       10.2.0.27
+                    A       128.9.0.33
+    VENERA.ISI.EDU. A       10.1.0.52
+                    A       128.9.0.32
+
+Because the server assumes that if the requester wants mail exchange
+information, it will probably want the addresses of the mail exchanges
+soon afterward.
+
+Note that the QCLASS=* construct requires special interpretation
+regarding authority.  Since a particular name server may not know all of
+the classes available in the domain system, it can never know if it is
+authoritative for all classes.  Hence responses to QCLASS=* queries can
+never be authoritative.
+
+3.7.2. Inverse queries (Optional)
+
+Name servers may also support inverse queries that map a particular
+resource to a domain name or domain names that have that resource.  For
+example, while a standard query might map a domain name to a SOA RR, the
+corresponding inverse query might map the SOA RR back to the domain
+name.
+
+Implementation of this service is optional in a name server, but all
+name servers must at least be able to understand an inverse query
+message and return a not-implemented error response.
+
+The domain system cannot guarantee the completeness or uniqueness of
+inverse queries because the domain system is organized by domain name
+rather than by host address or any other resource type.  Inverse queries
+are primarily useful for debugging and database maintenance activities.
+
+Inverse queries may not return the proper TTL, and do not indicate cases
+where the identified RR is one of a set (for example, one address for a
+host having multiple addresses).  Therefore, the RRs returned in inverse
+queries should never be cached.
+
+Inverse queries are NOT an acceptable method for mapping host addresses
+to host names; use the IN-ADDR.ARPA domain instead.
+
+A detailed discussion of inverse queries is contained in [RFC-1035].
+
+3.8. Status queries (Experimental)
+
+To be defined.
+
+3.9. Completion queries (Obsolete)
+
+The optional completion services described in RFCs 882 and 883 have been
+deleted.  Redesigned services may become available in the future, or the
+opcodes may be reclaimed for other use.
