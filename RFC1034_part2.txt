@@ -90,32 +90,49 @@ the trailing dot has been omitted to save typing.
 一般的な解釈は、ルート('.')を唯一の基点として、 もしくは検索リストのメンバーにふくめて使うもの
 マルチラベルの相対名はドットを省略したものとしてよく使用される
 
-To simplify implementations, the total number of octets that represent a
-domain name (i.e., the sum of all label octets and label lengths) is
+To simplify implementations, the total number of octets [that represent a
+domain name (i.e., the sum of all label octets and label lengths)] is
 limited to 255.
+オクテットのトータルの数(オクテットラベルとラベル長合わせて)は255に制限
+
+cf. https://www.nic.ad.jp/ja/dom/system.html
+DNSメッセージ中のドメイン名を表すパラメータの長さは255オクテット以下とされています。 この中には、ラベルの長さを表す数字と実際のラベル文字列のセットが繰り返し含まれ、最後は0で終わることになっています。 ドメイン名の表記と比較すると、ラベルの数よりピリオドの数が必ず一つ少なくなること、 またパラメータの最後が0で終わることから、ユーザーがドメイン名として使える最大長は253文字となります。
+
+253文字になる理由ですが、具体的に上記「www.example.co.jp」を例に挙げると、 DNSメッセージ中の表現は、
+"3" +「www」+ "7" ＋「example」+ "2" ＋「co」＋ "2 " ＋「jp」＋ "0" 
+となり19オクテットですが、 ドメイン名の表記としては17文字（ピリオドを含む）となり、2オクテット分少なくなります。
 
 A domain is identified by a domain name, and consists of that part of
-the domain name space that is at or below the domain name which
-specifies the domain.  A domain is a subdomain of another domain if it
+the domain name space [that is at or below the domain name [which
+specifies the domain]].  A domain is a subdomain of another domain if it
 is contained within that domain.  This relationship can be tested by
 seeing if the subdomain's name ends with the containing domain's name.
 For example, A.B.C.D is a subdomain of B.C.D, C.D, D, and " ".
+ドメインはドメイン名により識別され、ドメインはドメインを特定するドメイン名の上/下であるドメイン名前空間の一部からなりたっている
+ドメインは、他のドメイン内に含まれるなら、他のドメインのサブドメインといえる
+この関係性はサブドメイン名がドメイン名を含むことで終わるのかで、試される
 
 3.2. Administrative guidelines on use
+管理者用利用ガイドライン
 
-As a matter of policy, the DNS technical specifications do not mandate a
-particular tree structure or rules for selecting labels; its goal is to
-be as general as possible, so that it can be used to build arbitrary
+As a matter of policy, the DNS technical specifications do not mandate(命令する、強制する)
+a particular tree structure or rules for selecting labels; its goal is to
+be as general as possible, so that it can be used to build arbitrary(任意の)
 applications.  In particular, the system was designed so that the name
 space did not have to be organized along the lines of network
-boundaries, name servers, etc.  The rationale for this is not that the
-name space should have no implied semantics, but rather that the choice
-of implied semantics should be left open to be used for the problem at
+boundaries, name servers, etc.  The rationale(理論的根拠) for this is not that the
+name space should have no implied(暗黙の) semantics(意味), but rather that the choice
+of implied semantics should be left open(開けっぱなし) to be used for the problem at
 hand, and that different parts of the tree can have different implied
 semantics.  For example, the IN-ADDR.ARPA domain is organized and
 distributed by network and host address because its role is to translate
 from network or host numbers to names; NetBIOS domains [RFC-1001, RFC-
 1002] are flat because that is appropriate for that application.
+いろんなアプリで使えるよう、技術仕様では木構造やラベル選択を強制しない
+名前空間は、ネットワーク境界やネームサーバー等の区分に沿ってまとめる必要が無いように設計された
+名前空間は暗黙の意味をもつべきでないとと言いたいわけではなく、むしろ意味の選択は手元の問題に使うためにオープンにしておくべき
+ツリーの異なる部分では異なる暗黙の意味を持つことが可能ということである
+(手元の問題？)
 
 However, there are some guidelines that apply to the "normal" parts of
 the name space used for hosts, mailboxes, etc., that will make the name
@@ -124,10 +141,14 @@ software is converted from the older host table.  The political
 decisions about the top levels of the tree originated in RFC-920.
 Current policy for the top levels is discussed in [RFC-1032].  MILNET
 conversion issues are covered in [RFC-1031].
+いくつかのガイドラインはホストやメールボックスなどのために名前空間の普通の部分を使われるようしている
+それは、名前空間を均一にし、成長を促し、古いホストテーブルの変換問題を最小にする
+(古いホストテーブル？)
+TLD?の政治的決定はRFC-920が最初、RFC-1032で議論される MILNET変換問題はRFC-1031
 
-Lower domains which will eventually be broken into multiple zones should
+Lower domains(下位ドメイン) [which will eventually(最終的には) be broken into(分割) multiple zones] should
 provide branching at the top of the domain so that the eventual
-decomposition can be done without renaming.  Node labels which use
+decomposition(分解) can be done without renaming(リネーム).  Node labels which use
 special characters, leading digits, etc., are likely to break older
 software which depends on more restrictive choices.
 
