@@ -1,61 +1,94 @@
 3. DOMAIN NAME SPACE and RESOURCE RECORDS
 
-3.1. Name space specifications and terminology
+3.1. Name space specifications(仕様) and terminology(用語)
 
 The domain name space is a tree structure.  Each node and leaf on the
 tree corresponds to a resource set (which may be empty).  The domain
-system makes no distinctions between the uses of the interior nodes and
+system makes no distinctions between the uses of the interior(内部の) nodes and
 leaves, and this memo uses the term "node" to refer to both.
+ドメイン名前空間は木構造
+node/leafはリソースセットに対応している(からかもしれない)
+DNSは内部のnode/leafの使用を区別しない
 
 Each node has a label, which is zero to 63 octets in length.  Brother
 nodes may not have the same label, although the same label can be used
 for nodes which are not brothers.  One label is reserved, and that is
 the null (i.e., zero length) label used for the root.
+ノードはラベルをもち、それは0-63オクテットの長さ
+兄弟のでは同じラベルを持てないが兄弟nodeでなければ同じラベルを持てる
+nullのラベルはroot用のみ使われる
+
+cf. https://www.nic.ad.jp/ja/dom/system.html
+"."に区切られたのがラベル
 
 The domain name of a node is the list of the labels on the path from the
-node to the root of the tree.  By convention, the labels that compose a
+node to the root of the tree.  By convention(習慣的に), the labels that compose a
 domain name are printed or read left to right, from the most specific
 (lowest, farthest from the root) to the least specific (highest, closest
 to the root).
+ノードのドメイン名は、nodeから木のrootへの経路におけるラベルのリストである
+ドメイン名を構成するラベルは左から右へ読み書きされ、
+つまりrootから遠い(低い)からrootに近い(高い)へ
 
-Internally, programs that manipulate domain names should represent them
+Internally(内部的に), programs [that manipulate(操作する) domain names] should represent them
 as sequences of labels, where each label is a length octet followed by
 an octet string.  Because all domain names end at the root, which has a
 null string for a label, these internal representations can use a length
 byte of zero to terminate a domain name.
+内部的に、ドメイン名を操作するプログラムはドメイン名をラベルの連続性したものとして表すべき
+各ラベルは長さを示すオクテットとそれに続くオクテット列とする
+ドメイン名はすべて、null文字列を持つrootで終わるので、内部的な表現は0バイトの長さをドメイン名の終端として扱える
 
-By convention, domain names can be stored with arbitrary case, but
+By convention(習慣的に), domain names can be stored with arbitrary(任意の) case, but
 domain name comparisons for all present domain functions are done in a
-case-insensitive manner, assuming an ASCII character set, and a high
+case-insensitive(大文字・小文字を区別しない) manner, assuming an ASCII character set, and a high
 order zero bit.  This means that you are free to create a node with
 label "A" or a node with label "a", but not both as brothers; you could
 refer to either using "a" or "A".  When you receive a domain name or
-label, you should preserve its case.  The rationale for this choice is
+label, you should preserve(保護する) its case.  The rationale(理論的根拠) for this choice is
 that we may someday need to add full binary domain names for new
 services; existing services would not be changed.
+慣習的にドメイン名は大文字/小文字もOKだが、
+現在のドメイン機能では、アスキー文字かつ0bitより大きいことを想定しているので、	大文字・小文字を区別しない
+Aだろうがaだろうがnodeのラベルを作れるけど、兄弟nodeにしてはならない
+(兄弟nodeは同じラベルを持てない)
+ドメイン名やラベルを受け取ったときは、そのままの文字にしておくべき
+ 理由は新サービスのために任意の文字が使えるドメイン名を加えることになるかもしれず、 
+ それでも既存のサービスを変えずに済ませるためである。 
 
 When a user needs to type a domain name, the length of each label is
 omitted and the labels are separated by dots (".").  Since a complete
 domain name ends with the root label, this leads to a printed form which
-ends in a dot.  We use this property to distinguish between:
-
+ends in a dot.  We use this property(特性) to distinguish between:
+ユーザーがドメイン名を表現するとき、各ラベルの長さは省略され、ラベルはドットで分けられる
+完全なドメイン名なrootラベルで終わるので、最後はドットで終わる
+この特徴を使って以下のように区別される
    - a character string which represents a complete domain name
      (often called "absolute").  For example, "poneria.ISI.EDU."
-
+	 完全なドメイン名を表現する文字列　絶対名"absolute"
+	 (FQDNかな？)
+	 
    - a character string that represents the starting labels of a
      domain name which is incomplete, and should be completed by
      local software using knowledge of the local domain (often
      called "relative").  For example, "poneria" used in the
      ISI.EDU domain.
+	 不完全なドメイン名のラベルから始まるラベルを表す文字列は
+	 ローカルのソフトウェアによって補完されるべき　相対名"relative"
 
-Relative names are either taken relative to a well known origin, or to a
+Relative names are either(どちらか) taken relative to a well known origin, or to a
 list of domains used as a search list.  Relative names appear mostly at
-the user interface, where their interpretation varies from
-implementation to implementation, and in master files, where they are
+the user interface, where their interpretation(解釈) varies(違い) from
+implementation(履行) to implementation, and in master files, where they are
 relative to a single origin domain name.  The most common interpretation
 uses the root "." as either the single origin or as one of the members
 of the search list, so a multi-label relative name is often one where
 the trailing dot has been omitted to save typing.
+相対名は、よく知られたオリジンかサーチリストとして使われるドメインリストに関連付される
+相対名は、実行環境の解釈が違うユーザーインターフェースでよくつかわれる
+マスターファイルでは相対名は一つのドメイン名に関連付けされる
+一般的な解釈は、ルート('.')を唯一の基点として、 もしくは検索リストのメンバーにふくめて使うもの
+マルチラベルの相対名はドットを省略したものとしてよく使用される
 
 To simplify implementations, the total number of octets that represent a
 domain name (i.e., the sum of all label octets and label lengths) is
