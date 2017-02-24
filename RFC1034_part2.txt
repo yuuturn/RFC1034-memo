@@ -148,47 +148,59 @@ TLD?の政治的決定はRFC-920が最初、RFC-1032で議論される MILNET変
 
 Lower domains(下位ドメイン) [which will eventually(最終的には) be broken into(分割) multiple zones] should
 provide branching at the top of the domain so that the eventual
-decomposition(分解) can be done without renaming(リネーム).  Node labels which use
-special characters, leading digits, etc., are likely to break older
+decomposition(分解) can be done without renaming(リネーム).  Node labels [which use
+special characters, leading digits, etc.,] are likely to break older
 software which depends on more restrictive choices.
+分割する下位ドメインはリネームなしにトップのドメインで分けておくべきである
+特殊文字を使っていたり、数字で始まっていたりするnodeラベルは古い/制限のあるソフトウェアでは壊れるかも
 
 3.3. Technical guidelines on use
 
 Before the DNS can be used to hold naming information for some kind of
 object, two needs must be met:
+オブジェクトの名前情報を保持できるようになるまえに、2つの必要事項がある
 
    - A convention for mapping between object names and domain
      names.  This describes how information about an object is
      accessed.
+	 オブジェクト名とドメイン名の間のしきたりがあり、オブジェクト情報へのアクセス方法が記されている
 
    - RR types and data formats for describing the object.
+   RRタイプとオブジェクトを記すデータ形式
 
 These rules can be quite simple or fairly complex.  Very often, the
-designer must take into account existing formats and plan for upward
-compatibility for existing usage.  Multiple mappings or levels of
+designer must take into account(考慮する) existing formats and plan for upward(上向きの)
+compatibility(適合性) for existing usage.  Multiple mappings or levels of
 mapping may be required.
+この２つはシンプルか複雑
+設計者は既存の形式も考慮に入れて、 既存の使い方の上位互換性を計画しなきゃならない
+多数のマッピングや多段のマッピングが必要かも
 
 For hosts, the mapping depends on the existing syntax for host names
-which is a subset of the usual text representation for domain names,
-together with RR formats for describing host addresses, etc.  Because we
-need a reliable inverse mapping from address to host name, a special
+[which is a subset of the usual text representation(表現) for domain names,
+together with RR formats for describing host addresses, etc.]  Because we
+need a reliable(信頼できる) inverse(逆の) mapping from address to host name, a special
 mapping for addresses into the IN-ADDR.ARPA domain is also defined.
+ホストでは、マッピングは既存のホスト名の記法に依存する、逆引きが必要なのでin-addr.arpaも規定
+既存のホスト名形式：ドメイン名のテキスト表記、ホストアドレスを記すRR形式
 
 For mailboxes, the mapping is slightly more complex.  The usual mail
 address <local-part>@<mail-domain> is mapped into a domain name by
-converting <local-part> into a single label (regardles of dots it
+converting <local-part> into a single label (regardles of(にもかかわらず) dots it
 contains), converting <mail-domain> into a domain name using the usual
-text format for domain names (dots denote label breaks), and
-concatenating the two to form a single domain name.  Thus the mailbox
+text format for domain names (dots denote(示す) label breaks(区切り), and
+concatenating(鎖状につなぐ) the two to form a single domain name.  Thus the mailbox
 HOSTMASTER@SRI-NIC.ARPA is represented as a domain name by
 HOSTMASTER.SRI-NIC.ARPA.  An appreciation for the reasons behind this
 design also must take into account the scheme for mail exchanges [RFC-
 974].
+メールは複雑、ローカルパートを一つのラベル、メールドメインはいつものラベルで、その２つをつなげる
+ex. HOSTMASTER@SRI-NIC.ARPA. -> HOSTMASTER.SRI-NIC.ARPA.
 
-The typical user is not concerned with defining these rules, but should
-understand that they usually are the result of numerous compromises
-between desires for upward compatibility with old usage, interactions
-between different object definitions, and the inevitable urge to add new
+The typical user is not concerned with(興味がない) defining these rules, but should
+understand [that they usually are the result of numerous(多数の) compromises(妥協)
+between desires(欲求) for upward compatibility(上位互換) with old usage, interactions(相互作用)
+between different object definitions, and the inevitable(必然的な) urge(駆り立てる) to add new
 features when defining the rules.  The way the DNS is used to support
 some object is often more crucial than the restrictions inherent in the
 DNS.
