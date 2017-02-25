@@ -1,0 +1,1078 @@
+6. A SCENARIO
+
+In our sample domain space, suppose we wanted separate administrative
+control for the root, MIL, EDU, MIT.EDU and ISI.EDU zones.  We might
+allocate name servers as follows:
+
+
+                                   |(C.ISI.EDU,SRI-NIC.ARPA
+                                   | A.ISI.EDU)
+             +---------------------+------------------+
+             |                     |                  |
+            MIL                   EDU                ARPA
+             |(SRI-NIC.ARPA,       |(SRI-NIC.ARPA,    |
+             | A.ISI.EDU           | C.ISI.EDU)       |
+       +-----+-----+               |     +------+-----+-----+
+       |     |     |               |     |      |           |
+      BRL  NOSC  DARPA             |  IN-ADDR  SRI-NIC     ACC
+                                   |
+       +--------+------------------+---------------+--------+
+       |        |                  |               |        |
+      UCI      MIT                 |              UDEL     YALE
+                |(XX.LCS.MIT.EDU, ISI
+                |ACHILLES.MIT.EDU) |(VAXA.ISI.EDU,VENERA.ISI.EDU,
+            +---+---+              | A.ISI.EDU)
+            |       |              |
+           LCS   ACHILLES +--+-----+-----+--------+
+            |             |  |     |     |        |
+            XX            A  C   VAXA  VENERA Mockapetris
+
+
+
+
+Mockapetris                                                    [Page 36]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+In this example, the authoritative name server is shown in parentheses
+at the point in the domain tree at which is assumes control.
+
+Thus the root name servers are on C.ISI.EDU, SRI-NIC.ARPA, and
+A.ISI.EDU.  The MIL domain is served by SRI-NIC.ARPA and A.ISI.EDU.  The
+EDU domain is served by SRI-NIC.ARPA. and C.ISI.EDU.  Note that servers
+may have zones which are contiguous or disjoint.  In this scenario,
+C.ISI.EDU has contiguous zones at the root and EDU domains.  A.ISI.EDU
+has contiguous zones at the root and MIL domains, but also has a non-
+contiguous zone at ISI.EDU.
+
+6.1. C.ISI.EDU name server
+
+C.ISI.EDU is a name server for the root, MIL, and EDU domains of the IN
+class, and would have zones for these domains.  The zone data for the
+root domain might be:
+
+    .       IN      SOA     SRI-NIC.ARPA. HOSTMASTER.SRI-NIC.ARPA. (
+                            870611          ;serial
+                            1800            ;refresh every 30 min
+                            300             ;retry every 5 min
+                            604800          ;expire after a week
+                            86400)          ;minimum of a day
+                    NS      A.ISI.EDU.
+                    NS      C.ISI.EDU.
+                    NS      SRI-NIC.ARPA.
+
+    MIL.    86400   NS      SRI-NIC.ARPA.
+            86400   NS      A.ISI.EDU.
+
+    EDU.    86400   NS      SRI-NIC.ARPA.
+            86400   NS      C.ISI.EDU.
+
+    SRI-NIC.ARPA.   A       26.0.0.73
+                    A       10.0.0.51
+                    MX      0 SRI-NIC.ARPA.
+                    HINFO   DEC-2060 TOPS20
+
+    ACC.ARPA.       A       26.6.0.65
+                    HINFO   PDP-11/70 UNIX
+                    MX      10 ACC.ARPA.
+
+    USC-ISIC.ARPA.  CNAME   C.ISI.EDU.
+
+    73.0.0.26.IN-ADDR.ARPA.  PTR    SRI-NIC.ARPA.
+    65.0.6.26.IN-ADDR.ARPA.  PTR    ACC.ARPA.
+    51.0.0.10.IN-ADDR.ARPA.  PTR    SRI-NIC.ARPA.
+    52.0.0.10.IN-ADDR.ARPA.  PTR    C.ISI.EDU.
+
+
+
+Mockapetris                                                    [Page 37]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+    103.0.3.26.IN-ADDR.ARPA. PTR    A.ISI.EDU.
+
+    A.ISI.EDU. 86400 A      26.3.0.103
+    C.ISI.EDU. 86400 A      10.0.0.52
+
+This data is represented as it would be in a master file.  Most RRs are
+single line entries; the sole exception here is the SOA RR, which uses
+"(" to start a multi-line RR and ")" to show the end of a multi-line RR.
+Since the class of all RRs in a zone must be the same, only the first RR
+in a zone need specify the class.  When a name server loads a zone, it
+forces the TTL of all authoritative RRs to be at least the MINIMUM field
+of the SOA, here 86400 seconds, or one day.  The NS RRs marking
+delegation of the MIL and EDU domains, together with the glue RRs for
+the servers host addresses, are not part of the authoritative data in
+the zone, and hence have explicit TTLs.
+
+Four RRs are attached to the root node: the SOA which describes the root
+zone and the 3 NS RRs which list the name servers for the root.  The
+data in the SOA RR describes the management of the zone.  The zone data
+is maintained on host SRI-NIC.ARPA, and the responsible party for the
+zone is HOSTMASTER@SRI-NIC.ARPA.  A key item in the SOA is the 86400
+second minimum TTL, which means that all authoritative data in the zone
+has at least that TTL, although higher values may be explicitly
+specified.
+
+The NS RRs for the MIL and EDU domains mark the boundary between the
+root zone and the MIL and EDU zones.  Note that in this example, the
+lower zones happen to be supported by name servers which also support
+the root zone.
+
+The master file for the EDU zone might be stated relative to the origin
+EDU.  The zone data for the EDU domain might be:
+
+    EDU.  IN SOA SRI-NIC.ARPA. HOSTMASTER.SRI-NIC.ARPA. (
+                            870729 ;serial
+                            1800 ;refresh every 30 minutes
+                            300 ;retry every 5 minutes
+                            604800 ;expire after a week
+                            86400 ;minimum of a day
+                            )
+                    NS SRI-NIC.ARPA.
+                    NS C.ISI.EDU.
+
+    UCI 172800 NS ICS.UCI
+                    172800 NS ROME.UCI
+    ICS.UCI 172800 A 192.5.19.1
+    ROME.UCI 172800 A 192.5.19.31
+
+
+
+
+Mockapetris                                                    [Page 38]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+    ISI 172800 NS VAXA.ISI
+                    172800 NS A.ISI
+                    172800 NS VENERA.ISI.EDU.
+    VAXA.ISI 172800 A 10.2.0.27
+                    172800 A 128.9.0.33
+    VENERA.ISI.EDU. 172800 A 10.1.0.52
+                    172800 A 128.9.0.32
+    A.ISI 172800 A 26.3.0.103
+
+    UDEL.EDU.  172800 NS LOUIE.UDEL.EDU.
+                    172800 NS UMN-REI-UC.ARPA.
+    LOUIE.UDEL.EDU. 172800 A 10.0.0.96
+                    172800 A 192.5.39.3
+
+    YALE.EDU.  172800 NS YALE.ARPA.
+    YALE.EDU.  172800 NS YALE-BULLDOG.ARPA.
+
+    MIT.EDU.  43200 NS XX.LCS.MIT.EDU.
+                      43200 NS ACHILLES.MIT.EDU.
+    XX.LCS.MIT.EDU.  43200 A 10.0.0.44
+    ACHILLES.MIT.EDU. 43200 A 18.72.0.8
+
+Note the use of relative names here.  The owner name for the ISI.EDU. is
+stated using a relative name, as are two of the name server RR contents.
+Relative and absolute domain names may be freely intermixed in a master
+
+6.2. Example standard queries
+
+The following queries and responses illustrate name server behavior.
+Unless otherwise noted, the queries do not have recursion desired (RD)
+in the header.  Note that the answers to non-recursive queries do depend
+on the server being asked, but do not depend on the identity of the
+requester.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Mockapetris                                                    [Page 39]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+6.2.1. QNAME=SRI-NIC.ARPA, QTYPE=A
+
+The query would look like:
+
+               +---------------------------------------------------+
+    Header     | OPCODE=SQUERY                                     |
+               +---------------------------------------------------+
+    Question   | QNAME=SRI-NIC.ARPA., QCLASS=IN, QTYPE=A           |
+               +---------------------------------------------------+
+    Answer     | <empty>                                           |
+               +---------------------------------------------------+
+    Authority  | <empty>                                           |
+               +---------------------------------------------------+
+    Additional | <empty>                                           |
+               +---------------------------------------------------+
+
+The response from C.ISI.EDU would be:
+
+               +---------------------------------------------------+
+    Header     | OPCODE=SQUERY, RESPONSE, AA                       |
+               +---------------------------------------------------+
+    Question   | QNAME=SRI-NIC.ARPA., QCLASS=IN, QTYPE=A           |
+               +---------------------------------------------------+
+    Answer     | SRI-NIC.ARPA. 86400 IN A 26.0.0.73                |
+               |               86400 IN A 10.0.0.51                |
+               +---------------------------------------------------+
+    Authority  | <empty>                                           |
+               +---------------------------------------------------+
+    Additional | <empty>                                           |
+               +---------------------------------------------------+
+
+The header of the response looks like the header of the query, except
+that the RESPONSE bit is set, indicating that this message is a
+response, not a query, and the Authoritative Answer (AA) bit is set
+indicating that the address RRs in the answer section are from
+authoritative data.  The question section of the response matches the
+question section of the query.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Mockapetris                                                    [Page 40]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+If the same query was sent to some other server which was not
+authoritative for SRI-NIC.ARPA, the response might be:
+
+               +---------------------------------------------------+
+    Header     | OPCODE=SQUERY,RESPONSE                            |
+               +---------------------------------------------------+
+    Question   | QNAME=SRI-NIC.ARPA., QCLASS=IN, QTYPE=A           |
+               +---------------------------------------------------+
+    Answer     | SRI-NIC.ARPA. 1777 IN A 10.0.0.51                 |
+               |               1777 IN A 26.0.0.73                 |
+               +---------------------------------------------------+
+    Authority  | <empty>                                           |
+               +---------------------------------------------------+
+    Additional | <empty>                                           |
+               +---------------------------------------------------+
+
+This response is different from the previous one in two ways: the header
+does not have AA set, and the TTLs are different.  The inference is that
+the data did not come from a zone, but from a cache.  The difference
+between the authoritative TTL and the TTL here is due to aging of the
+data in a cache.  The difference in ordering of the RRs in the answer
+section is not significant.
+
+6.2.2. QNAME=SRI-NIC.ARPA, QTYPE=*
+
+A query similar to the previous one, but using a QTYPE of *, would
+receive the following response from C.ISI.EDU:
+
+               +---------------------------------------------------+
+    Header     | OPCODE=SQUERY, RESPONSE, AA                       |
+               +---------------------------------------------------+
+    Question   | QNAME=SRI-NIC.ARPA., QCLASS=IN, QTYPE=*           |
+               +---------------------------------------------------+
+    Answer     | SRI-NIC.ARPA. 86400 IN  A     26.0.0.73           |
+               |                         A     10.0.0.51           |
+               |                         MX    0 SRI-NIC.ARPA.     |
+               |                         HINFO DEC-2060 TOPS20     |
+               +---------------------------------------------------+
+    Authority  | <empty>                                           |
+               +---------------------------------------------------+
+    Additional | <empty>                                           |
+               +---------------------------------------------------+
+
+
+
+
+
+
+
+
+
+Mockapetris                                                    [Page 41]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+If a similar query was directed to two name servers which are not
+authoritative for SRI-NIC.ARPA, the responses might be:
+
+               +---------------------------------------------------+
+    Header     | OPCODE=SQUERY, RESPONSE                           |
+               +---------------------------------------------------+
+    Question   | QNAME=SRI-NIC.ARPA., QCLASS=IN, QTYPE=*           |
+               +---------------------------------------------------+
+    Answer     | SRI-NIC.ARPA. 12345 IN     A       26.0.0.73      |
+               |                            A       10.0.0.51      |
+               +---------------------------------------------------+
+    Authority  | <empty>                                           |
+               +---------------------------------------------------+
+    Additional | <empty>                                           |
+               +---------------------------------------------------+
+
+and
+
+               +---------------------------------------------------+
+    Header     | OPCODE=SQUERY, RESPONSE                           |
+               +---------------------------------------------------+
+    Question   | QNAME=SRI-NIC.ARPA., QCLASS=IN, QTYPE=*           |
+               +---------------------------------------------------+
+    Answer     | SRI-NIC.ARPA. 1290 IN HINFO  DEC-2060 TOPS20      |
+               +---------------------------------------------------+
+    Authority  | <empty>                                           |
+               +---------------------------------------------------+
+    Additional | <empty>                                           |
+               +---------------------------------------------------+
+
+Neither of these answers have AA set, so neither response comes from
+authoritative data.  The different contents and different TTLs suggest
+that the two servers cached data at different times, and that the first
+server cached the response to a QTYPE=A query and the second cached the
+response to a HINFO query.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Mockapetris                                                    [Page 42]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+6.2.3. QNAME=SRI-NIC.ARPA, QTYPE=MX
+
+This type of query might be result from a mailer trying to look up
+routing information for the mail destination HOSTMASTER@SRI-NIC.ARPA.
+The response from C.ISI.EDU would be:
+
+               +---------------------------------------------------+
+    Header     | OPCODE=SQUERY, RESPONSE, AA                       |
+               +---------------------------------------------------+
+    Question   | QNAME=SRI-NIC.ARPA., QCLASS=IN, QTYPE=MX          |
+               +---------------------------------------------------+
+    Answer     | SRI-NIC.ARPA. 86400 IN     MX      0 SRI-NIC.ARPA.|
+               +---------------------------------------------------+
+    Authority  | <empty>                                           |
+               +---------------------------------------------------+
+    Additional | SRI-NIC.ARPA. 86400 IN     A       26.0.0.73      |
+               |                            A       10.0.0.51      |
+               +---------------------------------------------------+
+
+This response contains the MX RR in the answer section of the response.
+The additional section contains the address RRs because the name server
+at C.ISI.EDU guesses that the requester will need the addresses in order
+to properly use the information carried by the MX.
+
+6.2.4. QNAME=SRI-NIC.ARPA, QTYPE=NS
+
+C.ISI.EDU would reply to this query with:
+
+               +---------------------------------------------------+
+    Header     | OPCODE=SQUERY, RESPONSE, AA                       |
+               +---------------------------------------------------+
+    Question   | QNAME=SRI-NIC.ARPA., QCLASS=IN, QTYPE=NS          |
+               +---------------------------------------------------+
+    Answer     | <empty>                                           |
+               +---------------------------------------------------+
+    Authority  | <empty>                                           |
+               +---------------------------------------------------+
+    Additional | <empty>                                           |
+               +---------------------------------------------------+
+
+The only difference between the response and the query is the AA and
+RESPONSE bits in the header.  The interpretation of this response is
+that the server is authoritative for the name, and the name exists, but
+no RRs of type NS are present there.
+
+6.2.5. QNAME=SIR-NIC.ARPA, QTYPE=A
+
+If a user mistyped a host name, we might see this type of query.
+
+
+
+Mockapetris                                                    [Page 43]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+C.ISI.EDU would answer it with:
+
+               +---------------------------------------------------+
+    Header     | OPCODE=SQUERY, RESPONSE, AA, RCODE=NE             |
+               +---------------------------------------------------+
+    Question   | QNAME=SIR-NIC.ARPA., QCLASS=IN, QTYPE=A           |
+               +---------------------------------------------------+
+    Answer     | <empty>                                           |
+               +---------------------------------------------------+
+    Authority  | . SOA SRI-NIC.ARPA. HOSTMASTER.SRI-NIC.ARPA.      |
+               |       870611 1800 300 604800 86400                |
+               +---------------------------------------------------+
+    Additional | <empty>                                           |
+               +---------------------------------------------------+
+
+This response states that the name does not exist.  This condition is
+signalled in the response code (RCODE) section of the header.
+
+The SOA RR in the authority section is the optional negative caching
+information which allows the resolver using this response to assume that
+the name will not exist for the SOA MINIMUM (86400) seconds.
+
+6.2.6. QNAME=BRL.MIL, QTYPE=A
+
+If this query is sent to C.ISI.EDU, the reply would be:
+
+               +---------------------------------------------------+
+    Header     | OPCODE=SQUERY, RESPONSE                           |
+               +---------------------------------------------------+
+    Question   | QNAME=BRL.MIL, QCLASS=IN, QTYPE=A                 |
+               +---------------------------------------------------+
+    Answer     | <empty>                                           |
+               +---------------------------------------------------+
+    Authority  | MIL.             86400 IN NS       SRI-NIC.ARPA.  |
+               |                  86400    NS       A.ISI.EDU.     |
+               +---------------------------------------------------+
+    Additional | A.ISI.EDU.                A        26.3.0.103     |
+               | SRI-NIC.ARPA.             A        26.0.0.73      |
+               |                           A        10.0.0.51      |
+               +---------------------------------------------------+
+
+This response has an empty answer section, but is not authoritative, so
+it is a referral.  The name server on C.ISI.EDU, realizing that it is
+not authoritative for the MIL domain, has referred the requester to
+servers on A.ISI.EDU and SRI-NIC.ARPA, which it knows are authoritative
+for the MIL domain.
+
+
+
+
+
+Mockapetris                                                    [Page 44]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+6.2.7. QNAME=USC-ISIC.ARPA, QTYPE=A
+
+The response to this query from A.ISI.EDU would be:
+
+               +---------------------------------------------------+
+    Header     | OPCODE=SQUERY, RESPONSE, AA                       |
+               +---------------------------------------------------+
+    Question   | QNAME=USC-ISIC.ARPA., QCLASS=IN, QTYPE=A          |
+               +---------------------------------------------------+
+    Answer     | USC-ISIC.ARPA. 86400 IN CNAME      C.ISI.EDU.     |
+               | C.ISI.EDU.     86400 IN A          10.0.0.52      |
+               +---------------------------------------------------+
+    Authority  | <empty>                                           |
+               +---------------------------------------------------+
+    Additional | <empty>                                           |
+               +---------------------------------------------------+
+
+Note that the AA bit in the header guarantees that the data matching
+QNAME is authoritative, but does not say anything about whether the data
+for C.ISI.EDU is authoritative.  This complete reply is possible because
+A.ISI.EDU happens to be authoritative for both the ARPA domain where
+USC-ISIC.ARPA is found and the ISI.EDU domain where C.ISI.EDU data is
+found.
+
+If the same query was sent to C.ISI.EDU, its response might be the same
+as shown above if it had its own address in its cache, but might also
+be:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Mockapetris                                                    [Page 45]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+               +---------------------------------------------------+
+    Header     | OPCODE=SQUERY, RESPONSE, AA                       |
+               +---------------------------------------------------+
+    Question   | QNAME=USC-ISIC.ARPA., QCLASS=IN, QTYPE=A          |
+               +---------------------------------------------------+
+    Answer     | USC-ISIC.ARPA.   86400 IN CNAME   C.ISI.EDU.      |
+               +---------------------------------------------------+
+    Authority  | ISI.EDU.        172800 IN NS      VAXA.ISI.EDU.   |
+               |                           NS      A.ISI.EDU.      |
+               |                           NS      VENERA.ISI.EDU. |
+               +---------------------------------------------------+
+    Additional | VAXA.ISI.EDU.   172800    A       10.2.0.27       |
+               |                 172800    A       128.9.0.33      |
+               | VENERA.ISI.EDU. 172800    A       10.1.0.52       |
+               |                 172800    A       128.9.0.32      |
+               | A.ISI.EDU.      172800    A       26.3.0.103      |
+               +---------------------------------------------------+
+
+This reply contains an authoritative reply for the alias USC-ISIC.ARPA,
+plus a referral to the name servers for ISI.EDU.  This sort of reply
+isn't very likely given that the query is for the host name of the name
+server being asked, but would be common for other aliases.
+
+6.2.8. QNAME=USC-ISIC.ARPA, QTYPE=CNAME
+
+If this query is sent to either A.ISI.EDU or C.ISI.EDU, the reply would
+be:
+
+               +---------------------------------------------------+
+    Header     | OPCODE=SQUERY, RESPONSE, AA                       |
+               +---------------------------------------------------+
+    Question   | QNAME=USC-ISIC.ARPA., QCLASS=IN, QTYPE=A          |
+               +---------------------------------------------------+
+    Answer     | USC-ISIC.ARPA. 86400 IN CNAME      C.ISI.EDU.     |
+               +---------------------------------------------------+
+    Authority  | <empty>                                           |
+               +---------------------------------------------------+
+    Additional | <empty>                                           |
+               +---------------------------------------------------+
+
+Because QTYPE=CNAME, the CNAME RR itself answers the query, and the name
+server doesn't attempt to look up anything for C.ISI.EDU.  (Except
+possibly for the additional section.)
+
+6.3. Example resolution
+
+The following examples illustrate the operations a resolver must perform
+for its client.  We assume that the resolver is starting without a
+
+
+
+Mockapetris                                                    [Page 46]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+cache, as might be the case after system boot.  We further assume that
+the system is not one of the hosts in the data and that the host is
+located somewhere on net 26, and that its safety belt (SBELT) data
+structure has the following information:
+
+    Match count = -1
+    SRI-NIC.ARPA.   26.0.0.73       10.0.0.51
+    A.ISI.EDU.      26.3.0.103
+
+This information specifies servers to try, their addresses, and a match
+count of -1, which says that the servers aren't very close to the
+target.  Note that the -1 isn't supposed to be an accurate closeness
+measure, just a value so that later stages of the algorithm will work.
+
+The following examples illustrate the use of a cache, so each example
+assumes that previous requests have completed.
+
+6.3.1. Resolve MX for ISI.EDU.
+
+Suppose the first request to the resolver comes from the local mailer,
+which has mail for PVM@ISI.EDU.  The mailer might then ask for type MX
+RRs for the domain name ISI.EDU.
+
+The resolver would look in its cache for MX RRs at ISI.EDU, but the
+empty cache wouldn't be helpful.  The resolver would recognize that it
+needed to query foreign servers and try to determine the best servers to
+query.  This search would look for NS RRs for the domains ISI.EDU, EDU,
+and the root.  These searches of the cache would also fail.  As a last
+resort, the resolver would use the information from the SBELT, copying
+it into its SLIST structure.
+
+At this point the resolver would need to pick one of the three available
+addresses to try.  Given that the resolver is on net 26, it should
+choose either 26.0.0.73 or 26.3.0.103 as its first choice.  It would
+then send off a query of the form:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Mockapetris                                                    [Page 47]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+               +---------------------------------------------------+
+    Header     | OPCODE=SQUERY                                     |
+               +---------------------------------------------------+
+    Question   | QNAME=ISI.EDU., QCLASS=IN, QTYPE=MX               |
+               +---------------------------------------------------+
+    Answer     | <empty>                                           |
+               +---------------------------------------------------+
+    Authority  | <empty>                                           |
+               +---------------------------------------------------+
+    Additional | <empty>                                           |
+               +---------------------------------------------------+
+
+The resolver would then wait for a response to its query or a timeout.
+If the timeout occurs, it would try different servers, then different
+addresses of the same servers, lastly retrying addresses already tried.
+It might eventually receive a reply from SRI-NIC.ARPA:
+
+               +---------------------------------------------------+
+    Header     | OPCODE=SQUERY, RESPONSE                           |
+               +---------------------------------------------------+
+    Question   | QNAME=ISI.EDU., QCLASS=IN, QTYPE=MX               |
+               +---------------------------------------------------+
+    Answer     | <empty>                                           |
+               +---------------------------------------------------+
+    Authority  | ISI.EDU.        172800 IN NS       VAXA.ISI.EDU.  |
+               |                           NS       A.ISI.EDU.     |
+               |                           NS       VENERA.ISI.EDU.|
+               +---------------------------------------------------+
+    Additional | VAXA.ISI.EDU.   172800    A        10.2.0.27      |
+               |                 172800    A        128.9.0.33     |
+               | VENERA.ISI.EDU. 172800    A        10.1.0.52      |
+               |                 172800    A        128.9.0.32     |
+               | A.ISI.EDU.      172800    A        26.3.0.103     |
+               +---------------------------------------------------+
+
+The resolver would notice that the information in the response gave a
+closer delegation to ISI.EDU than its existing SLIST (since it matches
+three labels).  The resolver would then cache the information in this
+response and use it to set up a new SLIST:
+
+    Match count = 3
+    A.ISI.EDU.      26.3.0.103
+    VAXA.ISI.EDU.   10.2.0.27       128.9.0.33
+    VENERA.ISI.EDU. 10.1.0.52       128.9.0.32
+
+A.ISI.EDU appears on this list as well as the previous one, but that is
+purely coincidental.  The resolver would again start transmitting and
+waiting for responses.  Eventually it would get an answer:
+
+
+
+Mockapetris                                                    [Page 48]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+               +---------------------------------------------------+
+    Header     | OPCODE=SQUERY, RESPONSE, AA                       |
+               +---------------------------------------------------+
+    Question   | QNAME=ISI.EDU., QCLASS=IN, QTYPE=MX               |
+               +---------------------------------------------------+
+    Answer     | ISI.EDU.                MX 10 VENERA.ISI.EDU.     |
+               |                         MX 20 VAXA.ISI.EDU.       |
+               +---------------------------------------------------+
+    Authority  | <empty>                                           |
+               +---------------------------------------------------+
+    Additional | VAXA.ISI.EDU.   172800  A  10.2.0.27              |
+               |                 172800  A  128.9.0.33             |
+               | VENERA.ISI.EDU. 172800  A  10.1.0.52              |
+               |                 172800  A  128.9.0.32             |
+               +---------------------------------------------------+
+
+The resolver would add this information to its cache, and return the MX
+RRs to its client.
+
+6.3.2. Get the host name for address 26.6.0.65
+
+The resolver would translate this into a request for PTR RRs for
+65.0.6.26.IN-ADDR.ARPA.  This information is not in the cache, so the
+resolver would look for foreign servers to ask.  No servers would match,
+so it would use SBELT again.  (Note that the servers for the ISI.EDU
+domain are in the cache, but ISI.EDU is not an ancestor of
+65.0.6.26.IN-ADDR.ARPA, so the SBELT is used.)
+
+Since this request is within the authoritative data of both servers in
+SBELT, eventually one would return:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Mockapetris                                                    [Page 49]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+               +---------------------------------------------------+
+    Header     | OPCODE=SQUERY, RESPONSE, AA                       |
+               +---------------------------------------------------+
+    Question   | QNAME=65.0.6.26.IN-ADDR.ARPA.,QCLASS=IN,QTYPE=PTR |
+               +---------------------------------------------------+
+    Answer     | 65.0.6.26.IN-ADDR.ARPA.    PTR     ACC.ARPA.      |
+               +---------------------------------------------------+
+    Authority  | <empty>                                           |
+               +---------------------------------------------------+
+    Additional | <empty>                                           |
+               +---------------------------------------------------+
+
+6.3.3. Get the host address of poneria.ISI.EDU
+
+This request would translate into a type A request for poneria.ISI.EDU.
+The resolver would not find any cached data for this name, but would
+find the NS RRs in the cache for ISI.EDU when it looks for foreign
+servers to ask.  Using this data, it would construct a SLIST of the
+form:
+
+    Match count = 3
+
+    A.ISI.EDU.      26.3.0.103
+    VAXA.ISI.EDU.   10.2.0.27       128.9.0.33
+    VENERA.ISI.EDU. 10.1.0.52
+
+A.ISI.EDU is listed first on the assumption that the resolver orders its
+choices by preference, and A.ISI.EDU is on the same network.
+
+One of these servers would answer the query.
+
+7. REFERENCES and BIBLIOGRAPHY
+
+[Dyer 87]       Dyer, S., and F. Hsu, "Hesiod", Project Athena
+                Technical Plan - Name Service, April 1987, version 1.9.
+
+                Describes the fundamentals of the Hesiod name service.
+
+[IEN-116]       J. Postel, "Internet Name Server", IEN-116,
+                USC/Information Sciences Institute, August 1979.
+
+                A name service obsoleted by the Domain Name System, but
+                still in use.
+
+
+
+
+
+
+
+
+Mockapetris                                                    [Page 50]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+[Quarterman 86] Quarterman, J., and J. Hoskins, "Notable Computer
+                Networks",Communications of the ACM, October 1986,
+                volume 29, number 10.
+
+[RFC-742]       K. Harrenstien, "NAME/FINGER", RFC-742, Network
+                Information Center, SRI International, December 1977.
+
+[RFC-768]       J. Postel, "User Datagram Protocol", RFC-768,
+                USC/Information Sciences Institute, August 1980.
+
+[RFC-793]       J. Postel, "Transmission Control Protocol", RFC-793,
+                USC/Information Sciences Institute, September 1981.
+
+[RFC-799]       D. Mills, "Internet Name Domains", RFC-799, COMSAT,
+                September 1981.
+
+                Suggests introduction of a hierarchy in place of a flat
+                name space for the Internet.
+
+[RFC-805]       J. Postel, "Computer Mail Meeting Notes", RFC-805,
+                USC/Information Sciences Institute, February 1982.
+
+[RFC-810]       E. Feinler, K. Harrenstien, Z. Su, and V. White, "DOD
+                Internet Host Table Specification", RFC-810, Network
+                Information Center, SRI International, March 1982.
+
+                Obsolete.  See RFC-952.
+
+[RFC-811]       K. Harrenstien, V. White, and E. Feinler, "Hostnames
+                Server", RFC-811, Network Information Center, SRI
+                International, March 1982.
+
+                Obsolete.  See RFC-953.
+
+[RFC-812]       K. Harrenstien, and V. White, "NICNAME/WHOIS", RFC-812,
+                Network Information Center, SRI International, March
+                1982.
+
+[RFC-819]       Z. Su, and J. Postel, "The Domain Naming Convention for
+                Internet User Applications", RFC-819, Network
+                Information Center, SRI International, August 1982.
+
+                Early thoughts on the design of the domain system.
+                Current implementation is completely different.
+
+[RFC-821]       J. Postel, "Simple Mail Transfer Protocol", RFC-821,
+                USC/Information Sciences Institute, August 1980.
+
+
+
+
+Mockapetris                                                    [Page 51]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+[RFC-830]       Z. Su, "A Distributed System for Internet Name Service",
+                RFC-830, Network Information Center, SRI International,
+                October 1982.
+
+                Early thoughts on the design of the domain system.
+                Current implementation is completely different.
+
+[RFC-882]       P. Mockapetris, "Domain names - Concepts and
+                Facilities," RFC-882, USC/Information Sciences
+                Institute, November 1983.
+
+                Superceeded by this memo.
+
+[RFC-883]       P. Mockapetris, "Domain names - Implementation and
+                Specification," RFC-883, USC/Information Sciences
+                Institute, November 1983.
+
+                Superceeded by this memo.
+
+[RFC-920]       J. Postel and J. Reynolds, "Domain Requirements",
+                RFC-920, USC/Information Sciences Institute
+                October 1984.
+
+                Explains the naming scheme for top level domains.
+
+[RFC-952]       K. Harrenstien, M. Stahl, E. Feinler, "DoD Internet Host
+                Table Specification", RFC-952, SRI, October 1985.
+
+                Specifies the format of HOSTS.TXT, the host/address
+                table replaced by the DNS.
+
+[RFC-953]       K. Harrenstien, M. Stahl, E. Feinler, "HOSTNAME Server",
+                RFC-953, SRI, October 1985.
+
+                This RFC contains the official specification of the
+                hostname server protocol, which is obsoleted by the DNS.
+                This TCP based protocol accesses information stored in
+                the RFC-952 format, and is used to obtain copies of the
+                host table.
+
+[RFC-973]       P. Mockapetris, "Domain System Changes and
+                Observations", RFC-973, USC/Information Sciences
+                Institute, January 1986.
+
+                Describes changes to RFC-882 and RFC-883 and reasons for
+                them.  Now obsolete.
+
+
+
+
+
+Mockapetris                                                    [Page 52]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+[RFC-974]       C. Partridge, "Mail routing and the domain system",
+                RFC-974, CSNET CIC BBN Labs, January 1986.
+
+                Describes the transition from HOSTS.TXT based mail
+                addressing to the more powerful MX system used with the
+                domain system.
+
+[RFC-1001]      NetBIOS Working Group, "Protocol standard for a NetBIOS
+                service on a TCP/UDP transport: Concepts and Methods",
+                RFC-1001, March 1987.
+
+                This RFC and RFC-1002 are a preliminary design for
+                NETBIOS on top of TCP/IP which proposes to base NetBIOS
+                name service on top of the DNS.
+
+[RFC-1002]      NetBIOS Working Group, "Protocol standard for a NetBIOS
+                service on a TCP/UDP transport: Detailed
+                Specifications", RFC-1002, March 1987.
+
+[RFC-1010]      J. Reynolds and J. Postel, "Assigned Numbers", RFC-1010,
+                USC/Information Sciences Institute, May 1987
+
+                Contains socket numbers and mnemonics for host names,
+                operating systems, etc.
+
+[RFC-1031]      W. Lazear, "MILNET Name Domain Transition", RFC-1031,
+                November 1987.
+
+                Describes a plan for converting the MILNET to the DNS.
+
+[RFC-1032]      M. K. Stahl, "Establishing a Domain - Guidelines for
+                Administrators", RFC-1032, November 1987.
+
+                Describes the registration policies used by the NIC to
+                administer the top level domains and delegate subzones.
+
+[RFC-1033]      M. K. Lottor, "Domain Administrators Operations Guide",
+                RFC-1033, November 1987.
+
+                A cookbook for domain administrators.
+
+[Solomon 82]    M. Solomon, L. Landweber, and D. Neuhengen, "The CSNET
+                Name Server", Computer Networks, vol 6, nr 3, July 1982.
+
+                Describes a name service for CSNET which is independent
+                from the DNS and DNS use in the CSNET.
+
+
+
+
+
+Mockapetris                                                    [Page 53]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+Index
+
+          A   12
+          Absolute names   8
+          Aliases   14, 31
+          Authority   6
+          AXFR   17
+
+          Case of characters   7
+          CH   12
+          CNAME   12, 13, 31
+          Completion queries   18
+
+          Domain name   6, 7
+
+          Glue RRs   20
+
+          HINFO   12
+
+          IN   12
+          Inverse queries   16
+          Iterative   4
+
+          Label   7
+
+          Mailbox names   9
+          MX   12
+
+          Name error   27, 36
+          Name servers   5, 17
+          NE   30
+          Negative caching   44
+          NS   12
+
+          Opcode   16
+
+          PTR   12
+
+          QCLASS   16
+          QTYPE   16
+
+          RDATA   13
+          Recursive   4
+          Recursive service   22
+          Relative names   7
+          Resolvers   6
+          RR   12
+
+
+
+
+Mockapetris                                                    [Page 54]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+          Safety belt   33
+          Sections   16
+          SOA   12
+          Standard queries   22
+
+          Status queries   18
+          Stub resolvers   32
+
+          TTL   12, 13
+
+          Wildcards   25
+
+          Zone transfers   28
+          Zones   19

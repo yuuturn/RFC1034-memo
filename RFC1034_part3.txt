@@ -1,0 +1,601 @@
+4. NAME SERVERS
+
+4.1. Introduction
+
+Name servers are the repositories of information that make up the domain
+database.  The database is divided up into sections called zones, which
+are distributed among the name servers.  While name servers can have
+several optional functions and sources of data, the essential task of a
+name server is to answer queries using data in its zones.  By design,
+
+
+
+Mockapetris                                                    [Page 18]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+name servers can answer queries in a simple manner; the response can
+always be generated using only local data, and either contains the
+answer to the question or a referral to other name servers "closer" to
+the desired information.
+
+A given zone will be available from several name servers to insure its
+availability in spite of host or communication link failure.  By
+administrative fiat, we require every zone to be available on at least
+two servers, and many zones have more redundancy than that.
+
+A given name server will typically support one or more zones, but this
+gives it authoritative information about only a small section of the
+domain tree.  It may also have some cached non-authoritative data about
+other parts of the tree.  The name server marks its responses to queries
+so that the requester can tell whether the response comes from
+authoritative data or not.
+
+4.2. How the database is divided into zones
+
+The domain database is partitioned in two ways: by class, and by "cuts"
+made in the name space between nodes.
+
+The class partition is simple.  The database for any class is organized,
+delegated, and maintained separately from all other classes.  Since, by
+convention, the name spaces are the same for all classes, the separate
+classes can be thought of as an array of parallel namespace trees.  Note
+that the data attached to nodes will be different for these different
+parallel classes.  The most common reasons for creating a new class are
+the necessity for a new data format for existing types or a desire for a
+separately managed version of the existing name space.
+
+Within a class, "cuts" in the name space can be made between any two
+adjacent nodes.  After all cuts are made, each group of connected name
+space is a separate zone.  The zone is said to be authoritative for all
+names in the connected region.  Note that the "cuts" in the name space
+may be in different places for different classes, the name servers may
+be different, etc.
+
+These rules mean that every zone has at least one node, and hence domain
+name, for which it is authoritative, and all of the nodes in a
+particular zone are connected.  Given, the tree structure, every zone
+has a highest node which is closer to the root than any other node in
+the zone.  The name of this node is often used to identify the zone.
+
+It would be possible, though not particularly useful, to partition the
+name space so that each domain name was in a separate zone or so that
+all nodes were in a single zone.  Instead, the database is partitioned
+at points where a particular organization wants to take over control of
+
+
+
+Mockapetris                                                    [Page 19]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+a subtree.  Once an organization controls its own zone it can
+unilaterally change the data in the zone, grow new tree sections
+connected to the zone, delete existing nodes, or delegate new subzones
+under its zone.
+
+If the organization has substructure, it may want to make further
+internal partitions to achieve nested delegations of name space control.
+In some cases, such divisions are made purely to make database
+maintenance more convenient.
+
+4.2.1. Technical considerations
+
+The data that describes a zone has four major parts:
+
+   - Authoritative data for all nodes within the zone.
+
+   - Data that defines the top node of the zone (can be thought of
+     as part of the authoritative data).
+
+   - Data that describes delegated subzones, i.e., cuts around the
+     bottom of the zone.
+
+   - Data that allows access to name servers for subzones
+     (sometimes called "glue" data).
+
+All of this data is expressed in the form of RRs, so a zone can be
+completely described in terms of a set of RRs.  Whole zones can be
+transferred between name servers by transferring the RRs, either carried
+in a series of messages or by FTPing a master file which is a textual
+representation.
+
+The authoritative data for a zone is simply all of the RRs attached to
+all of the nodes from the top node of the zone down to leaf nodes or
+nodes above cuts around the bottom edge of the zone.
+
+Though logically part of the authoritative data, the RRs that describe
+the top node of the zone are especially important to the zone's
+management.  These RRs are of two types: name server RRs that list, one
+per RR, all of the servers for the zone, and a single SOA RR that
+describes zone management parameters.
+
+The RRs that describe cuts around the bottom of the zone are NS RRs that
+name the servers for the subzones.  Since the cuts are between nodes,
+these RRs are NOT part of the authoritative data of the zone, and should
+be exactly the same as the corresponding RRs in the top node of the
+subzone.  Since name servers are always associated with zone boundaries,
+NS RRs are only found at nodes which are the top node of some zone.  In
+the data that makes up a zone, NS RRs are found at the top node of the
+
+
+
+Mockapetris                                                    [Page 20]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+zone (and are authoritative) and at cuts around the bottom of the zone
+(where they are not authoritative), but never in between.
+
+One of the goals of the zone structure is that any zone have all the
+data required to set up communications with the name servers for any
+subzones.  That is, parent zones have all the information needed to
+access servers for their children zones.  The NS RRs that name the
+servers for subzones are often not enough for this task since they name
+the servers, but do not give their addresses.  In particular, if the
+name of the name server is itself in the subzone, we could be faced with
+the situation where the NS RRs tell us that in order to learn a name
+server's address, we should contact the server using the address we wish
+to learn.  To fix this problem, a zone contains "glue" RRs which are not
+part of the authoritative data, and are address RRs for the servers.
+These RRs are only necessary if the name server's name is "below" the
+cut, and are only used as part of a referral response.
+
+4.2.2. Administrative considerations
+
+When some organization wants to control its own domain, the first step
+is to identify the proper parent zone, and get the parent zone's owners
+to agree to the delegation of control.  While there are no particular
+technical constraints dealing with where in the tree this can be done,
+there are some administrative groupings discussed in [RFC-1032] which
+deal with top level organization, and middle level zones are free to
+create their own rules.  For example, one university might choose to use
+a single zone, while another might choose to organize by subzones
+dedicated to individual departments or schools.  [RFC-1033] catalogs
+available DNS software an discusses administration procedures.
+
+Once the proper name for the new subzone is selected, the new owners
+should be required to demonstrate redundant name server support.  Note
+that there is no requirement that the servers for a zone reside in a
+host which has a name in that domain.  In many cases, a zone will be
+more accessible to the internet at large if its servers are widely
+distributed rather than being within the physical facilities controlled
+by the same organization that manages the zone.  For example, in the
+current DNS, one of the name servers for the United Kingdom, or UK
+domain, is found in the US.  This allows US hosts to get UK data without
+using limited transatlantic bandwidth.
+
+As the last installation step, the delegation NS RRs and glue RRs
+necessary to make the delegation effective should be added to the parent
+zone.  The administrators of both zones should insure that the NS and
+glue RRs which mark both sides of the cut are consistent and remain so.
+
+4.3. Name server internals
+
+
+
+
+Mockapetris                                                    [Page 21]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+4.3.1. Queries and responses
+
+The principal activity of name servers is to answer standard queries.
+Both the query and its response are carried in a standard message format
+which is described in [RFC-1035].  The query contains a QTYPE, QCLASS,
+and QNAME, which describe the types and classes of desired information
+and the name of interest.
+
+The way that the name server answers the query depends upon whether it
+is operating in recursive mode or not:
+
+   - The simplest mode for the server is non-recursive, since it
+     can answer queries using only local information: the response
+     contains an error, the answer, or a referral to some other
+     server "closer" to the answer.  All name servers must
+     implement non-recursive queries.
+
+   - The simplest mode for the client is recursive, since in this
+     mode the name server acts in the role of a resolver and
+     returns either an error or the answer, but never referrals.
+     This service is optional in a name server, and the name server
+     may also choose to restrict the clients which can use
+     recursive mode.
+
+Recursive service is helpful in several situations:
+
+   - a relatively simple requester that lacks the ability to use
+     anything other than a direct answer to the question.
+
+   - a request that needs to cross protocol or other boundaries and
+     can be sent to a server which can act as intermediary.
+
+   - a network where we want to concentrate the cache rather than
+     having a separate cache for each client.
+
+Non-recursive service is appropriate if the requester is capable of
+pursuing referrals and interested in information which will aid future
+requests.
+
+The use of recursive mode is limited to cases where both the client and
+the name server agree to its use.  The agreement is negotiated through
+the use of two bits in query and response messages:
+
+   - The recursion available, or RA bit, is set or cleared by a
+     name server in all responses.  The bit is true if the name
+     server is willing to provide recursive service for the client,
+     regardless of whether the client requested recursive service.
+     That is, RA signals availability rather than use.
+
+
+
+Mockapetris                                                    [Page 22]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+   - Queries contain a bit called recursion desired or RD.  This
+     bit specifies specifies whether the requester wants recursive
+     service for this query.  Clients may request recursive service
+     from any name server, though they should depend upon receiving
+     it only from servers which have previously sent an RA, or
+     servers which have agreed to provide service through private
+     agreement or some other means outside of the DNS protocol.
+
+The recursive mode occurs when a query with RD set arrives at a server
+which is willing to provide recursive service; the client can verify
+that recursive mode was used by checking that both RA and RD are set in
+the reply.  Note that the name server should never perform recursive
+service unless asked via RD, since this interferes with trouble shooting
+of name servers and their databases.
+
+If recursive service is requested and available, the recursive response
+to a query will be one of the following:
+
+   - The answer to the query, possibly preface by one or more CNAME
+     RRs that specify aliases encountered on the way to an answer.
+
+   - A name error indicating that the name does not exist.  This
+     may include CNAME RRs that indicate that the original query
+     name was an alias for a name which does not exist.
+
+   - A temporary error indication.
+
+If recursive service is not requested or is not available, the non-
+recursive response will be one of the following:
+
+   - An authoritative name error indicating that the name does not
+     exist.
+
+   - A temporary error indication.
+
+   - Some combination of:
+
+     RRs that answer the question, together with an indication
+     whether the data comes from a zone or is cached.
+
+     A referral to name servers which have zones which are closer
+     ancestors to the name than the server sending the reply.
+
+   - RRs that the name server thinks will prove useful to the
+     requester.
+
+
+
+
+
+
+Mockapetris                                                    [Page 23]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+4.3.2. Algorithm
+
+The actual algorithm used by the name server will depend on the local OS
+and data structures used to store RRs.  The following algorithm assumes
+that the RRs are organized in several tree structures, one for each
+zone, and another for the cache:
+
+   1. Set or clear the value of recursion available in the response
+      depending on whether the name server is willing to provide
+      recursive service.  If recursive service is available and
+      requested via the RD bit in the query, go to step 5,
+      otherwise step 2.
+
+   2. Search the available zones for the zone which is the nearest
+      ancestor to QNAME.  If such a zone is found, go to step 3,
+      otherwise step 4.
+
+   3. Start matching down, label by label, in the zone.  The
+      matching process can terminate several ways:
+
+         a. If the whole of QNAME is matched, we have found the
+            node.
+
+            If the data at the node is a CNAME, and QTYPE doesn't
+            match CNAME, copy the CNAME RR into the answer section
+            of the response, change QNAME to the canonical name in
+            the CNAME RR, and go back to step 1.
+
+            Otherwise, copy all RRs which match QTYPE into the
+            answer section and go to step 6.
+
+         b. If a match would take us out of the authoritative data,
+            we have a referral.  This happens when we encounter a
+            node with NS RRs marking cuts along the bottom of a
+            zone.
+
+            Copy the NS RRs for the subzone into the authority
+            section of the reply.  Put whatever addresses are
+            available into the additional section, using glue RRs
+            if the addresses are not available from authoritative
+            data or the cache.  Go to step 4.
+
+         c. If at some label, a match is impossible (i.e., the
+            corresponding label does not exist), look to see if a
+            the "*" label exists.
+
+            If the "*" label does not exist, check whether the name
+            we are looking for is the original QNAME in the query
+
+
+
+Mockapetris                                                    [Page 24]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+            or a name we have followed due to a CNAME.  If the name
+            is original, set an authoritative name error in the
+            response and exit.  Otherwise just exit.
+
+            If the "*" label does exist, match RRs at that node
+            against QTYPE.  If any match, copy them into the answer
+            section, but set the owner of the RR to be QNAME, and
+            not the node with the "*" label.  Go to step 6.
+
+   4. Start matching down in the cache.  If QNAME is found in the
+      cache, copy all RRs attached to it that match QTYPE into the
+      answer section.  If there was no delegation from
+      authoritative data, look for the best one from the cache, and
+      put it in the authority section.  Go to step 6.
+
+   5. Using the local resolver or a copy of its algorithm (see
+      resolver section of this memo) to answer the query.  Store
+      the results, including any intermediate CNAMEs, in the answer
+      section of the response.
+
+   6. Using local data only, attempt to add other RRs which may be
+      useful to the additional section of the query.  Exit.
+
+4.3.3. Wildcards
+
+In the previous algorithm, special treatment was given to RRs with owner
+names starting with the label "*".  Such RRs are called wildcards.
+Wildcard RRs can be thought of as instructions for synthesizing RRs.
+When the appropriate conditions are met, the name server creates RRs
+with an owner name equal to the query name and contents taken from the
+wildcard RRs.
+
+This facility is most often used to create a zone which will be used to
+forward mail from the Internet to some other mail system.  The general
+idea is that any name in that zone which is presented to server in a
+query will be assumed to exist, with certain properties, unless explicit
+evidence exists to the contrary.  Note that the use of the term zone
+here, instead of domain, is intentional; such defaults do not propagate
+across zone boundaries, although a subzone may choose to achieve that
+appearance by setting up similar defaults.
+
+The contents of the wildcard RRs follows the usual rules and formats for
+RRs.  The wildcards in the zone have an owner name that controls the
+query names they will match.  The owner name of the wildcard RRs is of
+the form "*.<anydomain>", where <anydomain> is any domain name.
+<anydomain> should not contain other * labels, and should be in the
+authoritative data of the zone.  The wildcards potentially apply to
+descendants of <anydomain>, but not to <anydomain> itself.  Another way
+
+
+
+Mockapetris                                                    [Page 25]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+to look at this is that the "*" label always matches at least one whole
+label and sometimes more, but always whole labels.
+
+Wildcard RRs do not apply:
+
+   - When the query is in another zone.  That is, delegation cancels
+     the wildcard defaults.
+
+   - When the query name or a name between the wildcard domain and
+     the query name is know to exist.  For example, if a wildcard
+     RR has an owner name of "*.X", and the zone also contains RRs
+     attached to B.X, the wildcards would apply to queries for name
+     Z.X (presuming there is no explicit information for Z.X), but
+     not to B.X, A.B.X, or X.
+
+A * label appearing in a query name has no special effect, but can be
+used to test for wildcards in an authoritative zone; such a query is the
+only way to get a response containing RRs with an owner name with * in
+it.  The result of such a query should not be cached.
+
+Note that the contents of the wildcard RRs are not modified when used to
+synthesize RRs.
+
+To illustrate the use of wildcard RRs, suppose a large company with a
+large, non-IP/TCP, network wanted to create a mail gateway.  If the
+company was called X.COM, and IP/TCP capable gateway machine was called
+A.X.COM, the following RRs might be entered into the COM zone:
+
+    X.COM           MX      10      A.X.COM
+
+    *.X.COM         MX      10      A.X.COM
+
+    A.X.COM         A       1.2.3.4
+    A.X.COM         MX      10      A.X.COM
+
+    *.A.X.COM       MX      10      A.X.COM
+
+This would cause any MX query for any domain name ending in X.COM to
+return an MX RR pointing at A.X.COM.  Two wildcard RRs are required
+since the effect of the wildcard at *.X.COM is inhibited in the A.X.COM
+subtree by the explicit data for A.X.COM.  Note also that the explicit
+MX data at X.COM and A.X.COM is required, and that none of the RRs above
+would match a query name of XX.COM.
+
+4.3.4. Negative response caching (Optional)
+
+The DNS provides an optional service which allows name servers to
+distribute, and resolvers to cache, negative results with TTLs.  For
+
+
+
+Mockapetris                                                    [Page 26]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+example, a name server can distribute a TTL along with a name error
+indication, and a resolver receiving such information is allowed to
+assume that the name does not exist during the TTL period without
+consulting authoritative data.  Similarly, a resolver can make a query
+with a QTYPE which matches multiple types, and cache the fact that some
+of the types are not present.
+
+This feature can be particularly important in a system which implements
+naming shorthands that use search lists beacuse a popular shorthand,
+which happens to require a suffix toward the end of the search list,
+will generate multiple name errors whenever it is used.
+
+The method is that a name server may add an SOA RR to the additional
+section of a response when that response is authoritative.  The SOA must
+be that of the zone which was the source of the authoritative data in
+the answer section, or name error if applicable.  The MINIMUM field of
+the SOA controls the length of time that the negative result may be
+cached.
+
+Note that in some circumstances, the answer section may contain multiple
+owner names.  In this case, the SOA mechanism should only be used for
+the data which matches QNAME, which is the only authoritative data in
+this section.
+
+Name servers and resolvers should never attempt to add SOAs to the
+additional section of a non-authoritative response, or attempt to infer
+results which are not directly stated in an authoritative response.
+There are several reasons for this, including: cached information isn't
+usually enough to match up RRs and their zone names, SOA RRs may be
+cached due to direct SOA queries, and name servers are not required to
+output the SOAs in the authority section.
+
+This feature is optional, although a refined version is expected to
+become part of the standard protocol in the future.  Name servers are
+not required to add the SOA RRs in all authoritative responses, nor are
+resolvers required to cache negative results.  Both are recommended.
+All resolvers and recursive name servers are required to at least be
+able to ignore the SOA RR when it is present in a response.
+
+Some experiments have also been proposed which will use this feature.
+The idea is that if cached data is known to come from a particular zone,
+and if an authoritative copy of the zone's SOA is obtained, and if the
+zone's SERIAL has not changed since the data was cached, then the TTL of
+the cached data can be reset to the zone MINIMUM value if it is smaller.
+This usage is mentioned for planning purposes only, and is not
+recommended as yet.
+
+
+
+
+
+Mockapetris                                                    [Page 27]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+4.3.5. Zone maintenance and transfers
+
+Part of the job of a zone administrator is to maintain the zones at all
+of the name servers which are authoritative for the zone.  When the
+inevitable changes are made, they must be distributed to all of the name
+servers.  While this distribution can be accomplished using FTP or some
+other ad hoc procedure, the preferred method is the zone transfer part
+of the DNS protocol.
+
+The general model of automatic zone transfer or refreshing is that one
+of the name servers is the master or primary for the zone.  Changes are
+coordinated at the primary, typically by editing a master file for the
+zone.  After editing, the administrator signals the master server to
+load the new zone.  The other non-master or secondary servers for the
+zone periodically check for changes (at a selectable interval) and
+obtain new zone copies when changes have been made.
+
+To detect changes, secondaries just check the SERIAL field of the SOA
+for the zone.  In addition to whatever other changes are made, the
+SERIAL field in the SOA of the zone is always advanced whenever any
+change is made to the zone.  The advancing can be a simple increment, or
+could be based on the write date and time of the master file, etc.  The
+purpose is to make it possible to determine which of two copies of a
+zone is more recent by comparing serial numbers.  Serial number advances
+and comparisons use sequence space arithmetic, so there is a theoretic
+limit on how fast a zone can be updated, basically that old copies must
+die out before the serial number covers half of its 32 bit range.  In
+practice, the only concern is that the compare operation deals properly
+with comparisons around the boundary between the most positive and most
+negative 32 bit numbers.
+
+The periodic polling of the secondary servers is controlled by
+parameters in the SOA RR for the zone, which set the minimum acceptable
+polling intervals.  The parameters are called REFRESH, RETRY, and
+EXPIRE.  Whenever a new zone is loaded in a secondary, the secondary
+waits REFRESH seconds before checking with the primary for a new serial.
+If this check cannot be completed, new checks are started every RETRY
+seconds.  The check is a simple query to the primary for the SOA RR of
+the zone.  If the serial field in the secondary's zone copy is equal to
+the serial returned by the primary, then no changes have occurred, and
+the REFRESH interval wait is restarted.  If the secondary finds it
+impossible to perform a serial check for the EXPIRE interval, it must
+assume that its copy of the zone is obsolete an discard it.
+
+When the poll shows that the zone has changed, then the secondary server
+must request a zone transfer via an AXFR request for the zone.  The AXFR
+may cause an error, such as refused, but normally is answered by a
+sequence of response messages.  The first and last messages must contain
+
+
+
+Mockapetris                                                    [Page 28]
+
+ 
+RFC 1034             Domain Concepts and Facilities        November 1987
+
+
+the data for the top authoritative node of the zone.  Intermediate
+messages carry all of the other RRs from the zone, including both
+authoritative and non-authoritative RRs.  The stream of messages allows
+the secondary to construct a copy of the zone.  Because accuracy is
+essential, TCP or some other reliable protocol must be used for AXFR
+requests.
+
+Each secondary server is required to perform the following operations
+against the master, but may also optionally perform these operations
+against other secondary servers.  This strategy can improve the transfer
+process when the primary is unavailable due to host downtime or network
+problems, or when a secondary server has better network access to an
+"intermediate" secondary than to the primary.
