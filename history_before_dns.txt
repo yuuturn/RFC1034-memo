@@ -1,0 +1,41 @@
+考古学となってきた
+https://www.ietf.org/rfc/rfc881.txt
+↑から始まり　歴史はここからはじまった
+RFC882,883と連続している
+->RFC1034, 1035のαタイプ
+
+このころのねっとは
+違うホストにログインする
+共同作業
+hosts.txt運用 -> 拡大にすれつらたん
+ DDN/ARPA Internet community
+ コミュニティの人らがDNSを欲しがった
+
+ Domain Requirements
+ https://www.ietf.org/rfc/rfc920.txt
+ hostsはみんな好き勝手
+ TLD(EDU,MIL...)などを作った
+ 移行のためにarpaドメインを作成
+ 
+ contries ISOに従う
+ どこ国と決めると政治的に問題なのでISOに
+ 
+ Common DNS Data File Configuration Errors
+ https://www.ietf.org/rfc/rfc1537.txt
+ 
+Key words for use in RFCs to Indicate Requirement Levels
+https://www.ietf.org/rfc/rfc2119.txt
+ 
+Clarifications to the DNS Specification
+https://www.ietf.org/rfc/rfc2181.txt
+rfc1034,35がわかりにくいので補足的なRFC
+
+Negative Caching of DNS Queries (DNS NCACHE)
+https://www.ietf.org/rfc/rfc2308.txt
+ネガティブキャッシュTTL 
+SOAのminimum
+ - 以前はデフォルトのTTLに使われていた
+ 
+history of BIND
+https://www.isc.org/downloads/bind/history-of-bind/
+

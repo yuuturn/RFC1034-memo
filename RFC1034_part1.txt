@@ -1,3 +1,10 @@
+Network Working Group                                     P. Mockapetris
+Request for Comments: 1034                                           ISI
+Obsoletes: RFCs 882, 883, 973                              November 1987
+
+
+                 DOMAIN NAMES - CONCEPTS AND FACILITIES
+
 1. STATUS OF THIS MEMO
 
 This RFC is an introduction to the Domain Name System (DNS), and omits
@@ -7,6 +14,7 @@ reader is familiar with the concepts discussed in this memo.
 DNSのイントロダクション
 細かいことはRFC1035
 RFC1035はRFC1034を前提としている
+> コミュニティで色々議論されている前提
 
 A subset of DNS functions and data types constitute(構成する) an official
 protocol.  The official protocol includes standard queries and their
@@ -57,6 +65,8 @@ Internet:
      the future.
  	FTPでhosts.txtを交換していた時代のインターネット
 	つらたん -> DNSしようぜ
+	> The NICという組織があった
+	> 階層的にFTPもやっていた。mirrorサイトみたいなかんじ？
 
    - The network population(人口) was also changing in character.(性格)  The
      timeshared hosts that made up the original ARPANET were being
@@ -68,11 +78,14 @@ Internet:
 	タイムシェアリングなホストからローカルなワークステーションへ
 	新しく立てたホストは、hostsの更新を待たなきゃインターネットから見えなかった
 	ローカルでのネームスペース機構がほしい
+	> population 人口ってより台
+	> TSS time sharing system
+	> the Internet at large インターネット全体
 	 
    - The applications on the Internet were getting more
      sophisticated(洗練された) and creating a need for general purpose name
      service.
-
+	 > general purpose name service. それぞれの仕様のアプリケーションじゃなくて、一般的なDNSが期待された
 
 The result was several ideas about name spaces and their management
 [IEN-116, RFC-799, RFC-819, RFC-830].  The proposals(提案) varied(多様), but a
@@ -83,13 +96,18 @@ levels.(階層レベル)  A design using a distributed database(分散データ�
 was described in [RFC-882, RFC-883].  Based on experience with several
 implementations(実行), the system evolved into(に発展する) the scheme described in this
 memo.
+> hosts.txt ローカルなものもあったけど、他の組織から見えるためにTheNICが管理した
+> ドットが組織の区分(だいたい)
+> the system ex. BIND
 
 The terms(言葉、用語) "domain" or "domain name" are used in many contexts beyond the
 DNS described here.  Very often, the term domain name is used to refer
 to a name with structure indicated by dots, but no relation to the DNS.
 This is particularly true in mail addressing [Quarterman 86].
-ドメイン / ドメイン名
+ドメイン / ドメイン名 いろんな文脈で使われる
 ドメイン名は、DNSに関係なくドットで区切られた名前構造を呼ぶときに使われます。
+> 名前空間はドットで区切られる
+> DNSはドットでは区切られない .jp /.co.jpみたいに？ちょっとちがうかも
 
 2.2. DNS design goals
 
@@ -102,7 +120,11 @@ The design goals of the DNS influence(に影響を及ぼす) its structure.  The
      information as part of the name.
 	 一環とした名前空間のルールの策定がゴール
 	 余計な問題を起こさないため名前にはアドホックなエンコーディングは避けるべき
-
+	> resorceをreferするために
+	> http://www.netcat.jp/netcat.jp-web/Book/%25E3%2582%25A4%25E3%2583%25B3%25E3%2582%25BF%25E3%2583%25BC%25E3%2583%258D%25E3%2583%2583%25E3%2583%2588%25E3%2581%25AE%25E9%259B%25BB%25E5%25AD%2590%25E3%2583%25A1%25E3%2583%25BC%25E3%2583%25AB%25EF%25BC%2588%25EF%25BC%2591%25EF%25BC%2589.html
+	>UUCPでは メールアドレスに経路情報が入っていた、DNSではこんなのやりたくない！ということ
+	> "ad hoc encodings" の Encoding ですが、メール配送のようなラベルわけって意味だと。
+	 
    - The sheer(薄い) size of the database and frequency of updates
      suggest that it must be(べき) maintained in a distributed manner(方法),
      with local caching to improve performance.  Approaches [that
@@ -119,7 +141,12 @@ The design goals of the DNS influence(に影響を及ぼす) its structure.  The
      the data should control the tradeoff.
 	 トレードオフ　{データ取得コスト　アップデートスピード　キャッシュの正確さ}
 	 データの元がトレードオフをコントロールすべき
-
+	> acquiring data ≒ 通信コスト
+	> 時々しかデータを取りに行かないと アップデートのスピード
+	> 時々しかデータを取りに行かないとキャッシュの正確さが犠牲になる
+	> TTL, SOAとかでソース元がコントロールする
+	> このころは権威/キャッシュ共用
+	
    - The costs of implementing(実装) such a facility dictate(規定する、要求する) that it be
      generally useful, and not restricted to a single application.
      We should be able to use names to retrieve(回収する) host addresses,
@@ -128,6 +155,8 @@ The design goals of the DNS influence(に影響を及ぼす) its structure.  The
      can be limited to a single type.
 	ホストアドレス、メールデータなどなどを得るために名前を使うべき
 	名前のデータにはtypeをタグ付けし、クエリは一つのtypeに絞るべき
+	 > まだ見ぬソフトを想定しておかなくちゃならない
+	 > 名前にいろんな情報が紐付けられる
 	 
    - Because we want the name space to be useful in dissimilar
      networks and applications, we provide the ability(技能) to use the
@@ -138,8 +167,10 @@ The design goals of the DNS influence(に影響を及ぼす) its structure.  The
      that we can allow parallel use of different formats for data
      of type address.
 	ホストアドレスのように、異なるネットワークやアプリケーションにでも有用な名前空間にしたい
-	DNSは全てのデータに「tyep」と同様に「class」をつける
-	 これによってtypeアドレスのデータに異なる形式が利用可能となる
+	DNSは全てのデータに「type」と同様に「class」をつける
+	これによってtypeアドレスのデータに異なる形式が利用可能となる
+	 > A / AAAA type分けじゃなくてclass分けでもよかった
+	 > ex. IN A "ipv4 addr" / IN6 A "ipv6 addr"
 	 
    - We want name server transactions to be independent of the
      communications system that carries them.  Some systems may
@@ -152,12 +183,16 @@ The design goals of the DNS influence(に影響を及ぼす) its structure.  The
 	データベースアップデートや長いトランザクションなどの
 	信頼性が必要なトランザクションのみにヴァーチャルサーキットが確立する
 	 他のシステムはヴァーチャルサーキットをもっぱら使用するだろう
+	 > datagrams -> UDP
+	 > virtual ciruit -> TCP
 	 
    - The system should be useful across a wide spectrum(連続体、範囲) of host
      capabilities(能力、性能).  Both personal computers and large timeshared
      hosts should be able to use the system, though perhaps in
      different ways.
 	 DNSはどんなマシンであろうと、たとえ方法が違ったとしても広く使われるようすべき
+	 > spectrum:虹色の
+	 > 当初はいろんなシステムが並列で
 	 
 2.3. Assumptions(仮定、前提) about usage
 
