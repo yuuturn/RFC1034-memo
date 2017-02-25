@@ -200,6 +200,7 @@ The organization(構成) of the domain system derives(引き出す) from some as
 about the needs and usage patterns of its user community and (The organization of the domain system) is designed
 to avoid many of the the complicated(複雑な) problems found in general purpose
 database systems.
+> DNSを使う人を仮定してみる
 
 The assumptions are:
 
@@ -217,7 +218,8 @@ The assumptions are:
      order of seconds or minutes).
 	 システムのデータのほとんどがゆっくり変わっていくが、(hosts.txtを使っいる現状はってこと？)
 	 もっと早く変更できるサブセットを扱えるようになるべきである
-
+	> データはそんなにころころかわるものではない、でも早く変わる可能性も
+	
    - The administrative(管理の) boundaries [used to distribute(分配する)
      responsibility(責任) for the database] will usually(普段は) correspond to(に一致する)
      organizations that have one or more hosts.  Each organization
@@ -231,6 +233,11 @@ The assumptions are:
      referrals to name servers outside of this "trusted" set.
 	クライアントは信頼できるネームサーバーを識別できるようにしておくべき
 	クライアントは信頼できるネームサーバーを、信頼外のネームサーバーへの参照を受け入れる前に使われるのが好まれる
+	> referrals=あっちを参照してね
+	> trusted set=rootサーバーからの信頼の木
+	> client=resolver
+	> 誰に聞いたら信頼のある答えをもらえるか。キャッシュ/権威　同時はどっちも
+	> 権威の移譲につながっていく話、この時点では抽象的なはなし　あくまで仮定
 	
    - Access to information is more critical than instantaneous(即時の)
      updates or guarantees of consistency(一貫性).  Hence(今後は) the update
@@ -250,7 +257,12 @@ The assumptions are:
      普通のモードでは、コピーはリフレッシュのためのタイムアウト値とともに配布される
      配布者はタイムアウト値をセット、受取人はリフレッシュする義務をもつ
      特殊な状況では、短いインターバルが明示できたり、コピーを禁止することができる
-
+	> 可用性が重要
+	> percolate 浸透
+	> このころはデータの更新 pull/push型かも決まっていない
+	> [The distributor sets the timeout]  -> [source of the data should control the tradeoff.]
+	>
+	
    - In any system that has a distributed database, a particular(特有の、各々の)
      name server may be presented(提供される) with a query that can only be
      answered by some other server.  The two general approaches to
@@ -268,7 +280,10 @@ The assumptions are:
      "iterative"はサーバーはクライアントに他のサーバーを参照させ、クライアントがクエリを追う(反復)
      どちらも、利点と難点があるが、iterativeのほうがダイヤグラムのアクセスとしては好まれる
      DNSは反復的なアプローチの実装が要求されるが、再帰的なアプローチも許可されている
-
+	> recursive 多段の動作がリカーシブ 勘違いされやすい　ex① -> ② -> ③ -> フルリゾルバ
+	> 俯瞰的に見たらiterative / recursive 
+	> recursiveはoption
+	 
      by orrange morishita
      再帰問い合わせ（recursive query)
      機能：名前解決の依頼
@@ -291,6 +306,8 @@ programs access name servers through standard programs called resolvers.
 マスターファイルはローカルネームサーバーに読めるテキストで、それゆえこのネームサーバーを通してユーザが使えるようになる
 ユーザプログラムはリゾルバーと呼ばれる標準的なプログラムをとおしてネームサーバーにアクセスする
 (マスターファイルってなんのこと？ゾーンファイル？)
+> cache/authrityがごっちゃを前提
+> 
 
 The standard format of master files allows them to be exchanged between
 hosts (via FTP, mail, or some other mechanism); this facility is useful
@@ -314,6 +331,8 @@ should be the primary sources of information.
 それぞれのホストのネームサーバーとリゾルバーはローカルシステム管理者によって設定される
 ネームサーバーにとっては、この設定データはローカルマスターファイルの識別子と
 外部のサーバから読み込まれたローカルでないマスターファイル上の命令が含まれている
+> primary sources of information.
+> /etc/hostsのnameserver A; nameserver BでAに聞きに行く。まず最初に聞きに行くサーバー
 
 The domain system defines procedures(手順) for accessing the data and for
 referrals(参照) to other name servers.  The domain system also defines
@@ -325,19 +344,13 @@ data defined by the system administrator.
 The system administrators provide:
 
    - The definition of zone boundaries.
-
    - Master files of data.
-
    - Updates to master files.
-
    - Statements of the refresh policies desired.
 
 The domain system provides:
-
    - Standard formats for resource data.
-
    - Standard methods for querying the database.
-
    - Standard methods for name servers to refresh local data from
      foreign name servers.
 
@@ -364,6 +377,7 @@ The DNS has three major components:
      それぞれのドメイン名前空間の木のnodeとleafは情報のセットである
      クエリの実行とは、特定のセットから特定の情報のタイプを引き出す試みのこと
      クエリは必要なドメイン名と欲しい資源情報の種別を指定する
+	 > extract specific types ex.CNAME
 
    - NAME SERVERS are server programs which hold information about
      the domain tree's structure and set information.  A name
@@ -384,7 +398,9 @@ The DNS has three major components:
      ドメインツリーのどの部分からの情報へ導くよう使うことのできる他のネームサーバーへのポインターをもっている
      ネームサーバーはドメインツリーのある部分の完全な情報を持っている、
      それを名前空間でのその部分のAUTHORITYがあると呼ばれる
-
+	> 普通のauthrityはrootから移譲されている部分を持っていれば権威
+	> ここで解釈はauthrityはおれおれ権威、移譲されてなくてもいいと
+	 
    - RESOLVERS are programs that extract information from name
      servers in response to client requests.  Resolvers must be
      able to access at least one name server and use that name
@@ -399,6 +415,7 @@ The DNS has three major components:
      典型的なリゾルバはユーザプログラムから直接アクセスできるシステムルーチンである
      そのためリゾルバとユーザープログラム間のプロトコルは必要ない。
      (必要ないの？)
+	 > 関数呼び出しくらいでいい
 
 These three components roughly correspond to the three layers or views
 of the domain system:
@@ -408,7 +425,7 @@ of the domain system:
      through a simple procedure(手順) or OS call to a local resolver.
      The domain space consists of a single tree and the user can
      request information from any section of the tree.
-     ユーザー視点では、DNSはシンプルな手順、ローカルリゾルバーへのOSコールととおしてしてアクセスされる。
+     "ユーザー"視点では、DNSはシンプルな手順、ローカルリゾルバーへのOSコールととおしてしてアクセスされる。
      ドメイン空間なシングルツリーで構成されており、ユーザーはツリーのどの部分の情報を要求してよい
 
    - From the resolver's point of view, the domain system is
@@ -416,7 +433,7 @@ of the domain system:
     　Each nameserver has one or more pieces of the whole domain tree's data,
      but the resolver views each of these databases as essentially
      static.
-     リゾルバー視点では、DNSは不明な数のネームサーバーにより構成される
+     "リゾルバー"視点では、DNSは不明な数のネームサーバーにより構成される
      おのおのネームサーバーはドメインツリーの完全なデータを一つ以上持っている
      しかし、リゾルバは各データベースは本質的に静的であると見ている。
 
@@ -438,3 +455,4 @@ server and the cache managed by the resolver.
 性能面の都合で、これらの機能が結合された実装になっていることもある。
 例えば、ネームサーバと同じマシン上にあるリゾルバは
 ネームサーバの管理するゾーンとリゾルバの管理するキャッシュとからなるデータベースを共有するかもしれない
+> resolver/cache/contonts serverにもなり得る
