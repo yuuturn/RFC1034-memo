@@ -7,7 +7,7 @@ tree corresponds to a resource set (which may be empty).  The domain
 system makes no distinctions between the uses of the interior(内部の) nodes and
 leaves, and this memo uses the term "node" to refer to both.
 ドメイン名前空間は木構造
-node/leafはリソースセットに対応している(からかもしれない)
+node/leafはリソースセットに対応している(emptyかもしれない)
 DNSは内部のnode/leafの使用を区別しない
 
 Each node has a label, which is zero to 63 octets in length.  Brother
@@ -79,15 +79,15 @@ ends in a dot.  We use this property(特性) to distinguish between:
 Relative names are either(どちらか) taken relative to a well known origin, or to a
 list of domains used as a search list.  Relative names appear mostly at
 the user interface, where their interpretation(解釈) varies(違い) from
-implementation(履行) to implementation, and in master files, where they are
+implementation(実行) to implementation, and in master files, where they are
 relative to a single origin domain name.  The most common interpretation
 uses the root "." as either the single origin or as one of the members
 of the search list, so a multi-label relative name is often one where
-the trailing dot has been omitted to save typing.
+the trailing(後端の) dot has been omitted to save typing.
 相対名は、よく知られたオリジンかサーチリストとして使われるドメインリストに関連付される
 相対名は、実行環境の解釈が違うユーザーインターフェースでよくつかわれる
 マスターファイルでは相対名は一つのドメイン名に関連付けされる
-一般的な解釈は、ルート('.')を唯一の基点として、 もしくは検索リストのメンバーにふくめて使うもの
+もっとも一般的な解釈は、ルート"."を単一のオリジンとしてか、もしくはサーチリストのメンバーにふくめて使う
 マルチラベルの相対名はドットを省略したものとしてよく使用される
 
 To simplify implementations, the total number of octets [that represent a
@@ -96,11 +96,14 @@ limited to 255.
 オクテットのトータルの数(オクテットラベルとラベル長合わせて)は255に制限
 
 cf. https://www.nic.ad.jp/ja/dom/system.html
-DNSメッセージ中のドメイン名を表すパラメータの長さは255オクテット以下とされています。 この中には、ラベルの長さを表す数字と実際のラベル文字列のセットが繰り返し含まれ、最後は0で終わることになっています。 ドメイン名の表記と比較すると、ラベルの数よりピリオドの数が必ず一つ少なくなること、 またパラメータの最後が0で終わることから、ユーザーがドメイン名として使える最大長は253文字となります。
+"DNSメッセージ中のドメイン名を表すパラメータの長さは255オクテット以下とされています。 
+この中には、ラベルの長さを表す数字と実際のラベル文字列のセットが繰り返し含まれ、最後は0で終わることになっています。
+ドメイン名の表記と比較すると、ラベルの数よりピリオドの数が必ず一つ少なくなること、
+またパラメータの最後が0で終わることから、ユーザーがドメイン名として使える最大長は253文字となります。"
 
-253文字になる理由ですが、具体的に上記「www.example.co.jp」を例に挙げると、 DNSメッセージ中の表現は、
+"253文字になる理由ですが、具体的に上記「www.example.co.jp」を例に挙げると、 DNSメッセージ中の表現は、
 "3" +「www」+ "7" ＋「example」+ "2" ＋「co」＋ "2 " ＋「jp」＋ "0" 
-となり19オクテットですが、 ドメイン名の表記としては17文字（ピリオドを含む）となり、2オクテット分少なくなります。
+となり19オクテットですが、 ドメイン名の表記としては17文字（ピリオドを含む）となり、2オクテット分少なくなります。"
 
 A domain is identified by a domain name, and consists of that part of
 the domain name space [that is at or below the domain name [which
@@ -172,7 +175,7 @@ These rules can be quite simple or fairly complex.  Very often, the
 designer must take into account(考慮する) existing formats and plan for upward(上向きの)
 compatibility(適合性) for existing usage.  Multiple mappings or levels of
 mapping may be required.
-この２つはシンプルか複雑
+この２つはシンプルか複雑かどちらか
 設計者は既存の形式も考慮に入れて、 既存の使い方の上位互換性を計画しなきゃならない
 多数のマッピングや多段のマッピングが必要かも
 
@@ -194,7 +197,7 @@ HOSTMASTER@SRI-NIC.ARPA is represented as a domain name by
 HOSTMASTER.SRI-NIC.ARPA.  An appreciation for the reasons behind this
 design also must take into account the scheme for mail exchanges [RFC-
 974].
-メールは複雑、ローカルパートを一つのラベル、メールドメインはいつものラベルで、その２つをつなげる
+メールのマッピングは複雑、ローカルパートを一つのラベル、メールドメインはいつものラベルで、その２つをつなげる
 ex. HOSTMASTER@SRI-NIC.ARPA. -> HOSTMASTER.SRI-NIC.ARPA.
 
 The typical user is not concerned with(興味がない) defining these rules, but should
@@ -202,14 +205,18 @@ understand [that they usually are the result of numerous(多数の) compromises(
 between desires(欲求) for upward compatibility(上位互換) with old usage, interactions(相互作用)
 between different object definitions, and the inevitable(必然的な) urge(駆り立てる) to add new
 features when defining the rules.  The way the DNS is used to support
-some object is often more crucial than the restrictions inherent in the
+some object is often more crucial than the restrictions inherent(固有の、本来の) in the
 DNS.
+大半のユーザはルールの定義には興味が無いかもだけど、このルールは多数の妥協のけっかなのだと理解すべき
 
 3.4. Example name space
+名前空間の例
 
-The following figure shows a part of the current domain name space, and
+The following figure(図) shows a part of the current domain name space, and
 is used in many examples in this RFC.  Note that the tree is a very
 small subset of the actual name space.
+次の図は現愛のドメイン名空間の一部を表しており、このRFCにてよく用いられる例である
+この木構造は実際の名前空間の縮小版だと心得ておくように
 
                                    |
                                    |
@@ -238,14 +245,20 @@ EDU, and ARPA.  The LCS.MIT.EDU domain has one immediate subdomain named
 XX.LCS.MIT.EDU.  All of the leaves are also domains.
 
 3.5. Preferred name syntax
+好まれる名前の文法
 
 The DNS specifications attempt to be as general as possible in the rules
 for constructing domain names.  The idea is that the name of any
 existing object can be expressed as a domain name with minimal changes.
-However, when assigning a domain name for an object, the prudent user
-will select a name which satisfies both the rules of the domain system
-and any existing rules for the object, whether these rules are published
-or implied by existing programs.
+However, when assigning a domain name for an object, the prudent(慎重な) user
+will select a name [which satisfies both the rules of the domain system
+and any existing rules for the object, whether(であろうと) these rules are published
+or implied(暗に含まれた) by existing programs.
+DNSの仕様は、ドメイン名を構築するルールの中で、できるだけ一般的であろうとしている
+このアイディアは、どんな存在するオブジェクトの名前が最小限の変更でドメイン名を表現できるようにするものである
+しかし、オブジェクトに対しドメイン名をアサインする際には、
+慎重なユーザはDNSのルールと既存のオブジェクト名のルール両方を満たす名前を選ぶ
+そのルールが公開されているか既存のプログラムに暗に含まれていようが関係なく
 
 For example, when naming a mail domain, the user should satisfy both the
 rules of this memo and those in RFC-822.  When creating a new host name,
