@@ -264,9 +264,13 @@ For example, when naming a mail domain, the user should satisfy both the
 rules of this memo and those in RFC-822.  When creating a new host name,
 the old rules for HOSTS.TXT should be followed.  This avoids problems
 when old software is converted to use domain names.
+上記の例として、メール用ドメイン名をきめる際にユーザはRFC1034とRFC822を両方満たさなきゃならない
+新しいホスト名を作成する際、HOSTS.TXTの古いルールは守られるべき
+ことことは、古いソフトウェアがDNSを使うようになったら時に、問題が避けれる
 
 The following syntax will result in fewer problems with many
 applications that use domain names (e.g., mail, TELNET).
+下記の文法だと、DNSを使う多くのアプリケーションで問題が起きにくい
 
 <domain> ::= <subdomain> | " "
 
@@ -285,16 +289,27 @@ upper case and a through z in lower case
 
 <digit> ::= any one of the ten digits 0 through 9
 
+バッカスナウア記法(BNF)
+怖くないバッカスナウア記法(BNF)入門　http://qiita.com/h_sakurai/items/3cc328a6db8941ac6336
+BNF記法入門（1）　http://www.atmarkit.co.jp/fxml/ddd/ddd004/ddd004-bnf.html
+
 Note that while upper and lower case letters are allowed in domain
-names, no significance is attached to the case.  That is, two names with
+names, no significance(意味、意義) is attached to the case.  That is, two names with
 the same spelling but different case are to be treated as if identical.
+ドメイン名には大/小文字どちらも使えるが、大/小文字に意義はない
+同じスペルで大/小文字だけ違うのは、別のもととして扱われない
 
 The labels must follow the rules for ARPANET host names.  They must
-start with a letter, end with a letter or digit, and have as interior
-characters only letters, digits, and hyphen.  There are also some
+start with a letter, end with a letter or digit(アラビア数字), and have as interior(内側の)
+characters only letters, digits, and hyphen(ハイフン).  There are also some
 restrictions on the length.  Labels must be 63 characters or less.
+ラベルは、ARPANETのホスト名のルールに従い
+文字で始まり、文字化か数字で終わるようにしなければならない、
+また、始まりと終わり以外は、文字、数字、ハイフン
+文字の長さにも制限があり、63文字以下にしてければならない
 
 For example, the following strings identify hosts in the Internet:
+たとえば、以下の文字列がインターネットではホストとして扱われる
 
 A.ISI.EDU  XX.LCS.MIT.EDU  SRI-NIC.ARPA
 
