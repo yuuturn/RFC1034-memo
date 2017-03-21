@@ -314,63 +314,87 @@ For example, the following strings identify hosts in the Internet:
 A.ISI.EDU  XX.LCS.MIT.EDU  SRI-NIC.ARPA
 
 3.6. Resource Records
+リソースレコード(RR)
 
 A domain name identifies a node.  Each node has a set of resource
 information, which may be empty.  The set of resource information
 associated with a particular name is composed of separate resource
 records (RRs).  The order of RRs in a set is not significant, and need
 not be preserved by name servers, resolvers, or other parts of the DNS.
+ドメイン名はノードを識別する
+各ノードは資源情報をもっていて、それは空でもよい
+特定の名前に紐付いている資源情報は別々の資源レコード(RR)から構成される
+RRの並び順には意味がなく、ネームサーバー、リゾルバー、DNSの他の部分で保持される必要はない
 
 When we talk about a specific RR, we assume it has the following:
+特定のRRについて議論する際、下記事項を想定する
 
 owner           which is the domain name where the RR is found.
+				　RRがあるドメイン名
 
 type            which is an encoded 16 bit value that specifies the type
                 of the resource in this resource record.  Types refer to
                 abstract resources.
-
+				RRの中で資源のtypeを指定する16bit値でエンコードされている
+				
                 This memo uses the following types:
+				このメモでは次のタイプを使用する
 
                 A               a host address
+								ホストアドレス
 
-                CNAME           identifies the canonical name of an
-                                alias
+                CNAME           identifies the canonical name of an alias
+									エイリアスの正式名を表す
 
                 HINFO           identifies the CPU and OS used by a host
+									ホストのCPUやOSを表す
 
                 MX              identifies a mail exchange for the
                                 domain.  See [RFC-974 for details.
+								ドメインに対してのメールを表す。詳細はRFC974を
 
                 NS
                 the authoritative name server for the domain
+				ドメインに対しての権威あるネームサーバー
 
                 PTR
                 a pointer to another part of the domain name space
+				ドメイン名前空間の別部分へのポインタ
 
                 SOA
                 identifies the start of a zone of authority]
+				権威のゾーンの始まりを表す
 
 class           which is an encoded 16 bit value which identifies a
                 protocol family or instance of a protocol.
+				プロトコルファミリーまたはプロトコルのインスタンスを表す16bitでエンコードされた値
 
                 This memo uses the following classes:
+				このメモでは下記クラスを扱う
 
                 IN              the Internet system
+								インターネットシステム
 
                 CH              the Chaos system
+								カオスシステム
 
 TTL             which is the time to live of the RR.  This field is a 32
                 bit integer in units of seconds, an is primarily used by
                 resolvers when they cache RRs.  The TTL describes how
                 long a RR can be cached before it should be discarded.
+				RRの生存期間。このフィールどは秒単位の32bit整数で、主にリゾルバーがRRをキャッシュした際に用いられる
+				TTLはRRが破棄されるまでどの長さキャッシュしてよいか示している
 
 RDATA           which is the type and sometimes class dependent data
                 which describes the resource:
+				RDATAとは、タイプやクラスが依存している資源を表すデータ
 
                 A               For the IN class, a 32 bit IP address
+								INクラスで32bitのIPアドレスを表す
 
                                 For the CH class, a domain name followed
                                 by a 16 bit octal Chaos address.
+								CHクラスではドメイン名と16bitオクテットのカオスアドレス
 
                 CNAME           a domain name.
 
@@ -378,12 +402,16 @@ RDATA           which is the type and sometimes class dependent data
                                 better) followed by a host name willing
                                 to act as a mail exchange for the owner
                                 domain.
+								16bitの優先値(低いほど優先)とそれに続く、メール交換をするホスト名
 
                 NS              a host name.
+									ホスト名
 
                 PTR             a domain name.
+									ドメイン名
 
                 SOA             several fields.
+									いくつかのフィールド
 
 The owner name is often implicit, rather than forming an integral part
 of the RR.  For example, many name servers internally form tree or hash
