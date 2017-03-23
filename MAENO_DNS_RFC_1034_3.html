@@ -1,0 +1,618 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!-- saved from url=(0036)https://moin.qmail.jp/DNS/RFC/1034/3 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="robots" content="index,nofollow">
+
+<title>DNS/RFC/1034/3 - moin.qmail.jp</title>
+<script type="text/javascript" src="./MAENO_DNS_RFC_1034_3_files/common.js.ダウンロード"></script>
+
+<script type="text/javascript">
+<!--
+var search_hint = "検索";
+//-->
+</script>
+
+
+<link rel="stylesheet" type="text/css" charset="utf-8" media="all" href="./MAENO_DNS_RFC_1034_3_files/common.css">
+<link rel="stylesheet" type="text/css" charset="utf-8" media="screen" href="./MAENO_DNS_RFC_1034_3_files/screen.css">
+<link rel="stylesheet" type="text/css" charset="utf-8" media="print" href="./MAENO_DNS_RFC_1034_3_files/print.css">
+<link rel="stylesheet" type="text/css" charset="utf-8" media="projection" href="./MAENO_DNS_RFC_1034_3_files/projection.css">
+
+<!-- css only for MS IE6/IE7 browsers -->
+<!--[if lt IE 8]>
+   <link rel="stylesheet" type="text/css" charset="utf-8" media="all" href="/moin_static198/modern/css/msie.css">
+<![endif]-->
+
+
+<link rel="alternate" title="moin.qmail.jp: DNS/RFC/1034/3" href="https://moin.qmail.jp/DNS/RFC/1034/3?diffs=1&amp;show_att=1&amp;action=rss_rc&amp;unique=0&amp;page=DNS%2FRFC%2F1034%2F3&amp;ddiffs=1" type="application/rss+xml">
+
+
+<link rel="Start" href="https://moin.qmail.jp/FrontPage">
+<link rel="Alternate" title="Wikiマークアップ" href="https://moin.qmail.jp/DNS/RFC/1034/3?action=raw">
+<link rel="Alternate" media="print" title="印刷ビュー" href="https://moin.qmail.jp/DNS/RFC/1034/3?action=print">
+<link rel="Up" href="https://moin.qmail.jp/DNS/RFC/1034">
+<link rel="Search" href="https://moin.qmail.jp/%E3%83%9A%E3%83%BC%E3%82%B8%E6%A4%9C%E7%B4%A2">
+<link rel="Index" href="https://moin.qmail.jp/%E3%82%BF%E3%82%A4%E3%83%88%E3%83%AB%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AF%E3%82%B9">
+<link rel="Glossary" href="https://moin.qmail.jp/%E5%8D%98%E8%AA%9E%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AF%E3%82%B9">
+<link rel="Help" href="https://moin.qmail.jp/HelpOnFormatting">
+</head>
+
+<body lang="ja" dir="ltr">
+
+<div id="header">
+<div id="logo"><a href="https://moin.qmail.jp/FrontPage"><img src="./MAENO_DNS_RFC_1034_3_files/moinmoin.png" alt="MoinMoin Logo"></a></div>
+
+<form id="searchform" method="get" action="https://moin.qmail.jp/DNS/RFC/1034/3">
+<div>
+<input type="hidden" name="action" value="fullsearch">
+<input type="hidden" name="context" value="180">
+<label for="searchinput" style="display: none;">検索:</label>
+<input id="searchinput" type="text" name="value" value="" size="20" onfocus="searchFocus(this)" onblur="searchBlur(this)" onkeyup="searchChange(this)" onchange="searchChange(this)" alt="Search" class="disabled">
+<input id="titlesearch" name="titlesearch" type="submit" value="タイトル" alt="Search Titles" disabled="">
+<input id="fullsearch" name="fullsearch" type="submit" value="テキスト" alt="Search Full Text" disabled="">
+</div>
+</form>
+<script type="text/javascript">
+<!--// Initialize search form
+var f = document.getElementById('searchform');
+f.getElementsByTagName('label')[0].style.display = 'none';
+var e = document.getElementById('searchinput');
+searchChange(e);
+searchBlur(e);
+//-->
+</script>
+
+<ul id="username"><li><a href="https://moin.qmail.jp/DNS/RFC/1034/3?action=login" id="login" rel="nofollow">ログイン</a></li></ul>
+<div id="locationline">
+<div id="interwiki"><span><a href="https://moin.qmail.jp/FrontPage" rel="nofollow">MoinqmailJp</a></span></div>
+
+<ul id="pagelocation">
+<li><a href="https://moin.qmail.jp/DNS">DNS</a></li><li><a href="https://moin.qmail.jp/DNS/RFC">RFC</a></li><li><a href="https://moin.qmail.jp/DNS/RFC/1034">1034</a></li><li><a href="https://moin.qmail.jp/DNS/RFC/1034/3">3</a></li>
+</ul>
+
+</div>
+
+
+<ul id="navibar">
+<li class="wikilink"><a href="https://moin.qmail.jp/%E6%9B%B4%E6%96%B0%E5%B1%A5%E6%AD%B4">更新履歴</a></li><li class="wikilink"><a href="https://moin.qmail.jp/%E3%83%9A%E3%83%BC%E3%82%B8%E6%A4%9C%E7%B4%A2">ページ検索</a></li><li class="wikilink"><a href="https://moin.qmail.jp/%E3%83%98%E3%83%AB%E3%83%97%E3%81%AE%E7%9B%AE%E6%AC%A1">ヘルプの目次</a></li><li class="wikilink"><a href="https://moin.qmail.jp/DNS/NEWS">DNS/NEWS</a></li><li class="userlink"><a href="https://moin.qmail.jp/Letsencrypt">Letsencrypt</a></li><li class="userlink"><a href="https://moin.qmail.jp/DNS">DNS</a></li><li class="current"><a href="https://moin.qmail.jp/DNS/RFC/1034/3">DNS/RFC/1034/3</a></li>
+</ul>
+
+<div id="pageline"><hr style="display:none;"></div>
+
+<ul class="editbar"><li><span class="disabled">編集不可のページ</span></li><li class="toggleCommentsButton" style="display:none;"><a href="https://moin.qmail.jp/DNS/RFC/1034/3#" class="nbcomment" onclick="toggleComments();return false;">コメント</a></li><li><a class="nbinfo" href="https://moin.qmail.jp/DNS/RFC/1034/3?action=info" rel="nofollow">情報</a></li><li><a class="nbattachments" href="https://moin.qmail.jp/DNS/RFC/1034/3?action=AttachFile" rel="nofollow">添付ファイル</a></li><li>
+<form class="actionsmenu" method="GET" action="https://moin.qmail.jp/DNS/RFC/1034/3">
+<div>
+    
+    <select name="action" onchange="if ((this.selectedIndex != 0) &amp;&amp;
+                      (this.options[this.selectedIndex].disabled == false)) {
+                this.form.submit();
+            }
+            this.selectedIndex = 0;">
+        <option value="show">その他のアクション:</option><option value="raw">Wikiテキスト</option>
+<option value="print">印刷ビュー</option>
+<option value="RenderAsDocbook">Docbookで表示</option>
+<option value="refresh">キャッシュ削除</option>
+<option value="show" disabled="" class="disabled">------------------------</option>
+<option value="SpellCheck">スペルチェック</option>
+<option value="LikePages">似たページ</option>
+<option value="LocalSiteMap">ローカルサイトマップ</option>
+<option value="show" disabled="" class="disabled">------------------------</option>
+<option value="RenamePage" disabled="" class="disabled">ページ名変更</option>
+<option value="CopyPage">ページコピー</option>
+<option value="DeletePage" disabled="" class="disabled">ページ削除</option>
+<option value="show" disabled="" class="disabled">------------------------</option>
+<option value="MyPages">マイページ</option>
+<option value="show" disabled="" class="disabled">購読ユーザ追加</option>
+<option value="show" disabled="" class="disabled">------------------------</option>
+<option value="show" disabled="" class="disabled">スパム削除</option>
+<option value="show" disabled="" class="disabled">このリビジョンに戻す</option>
+<option value="PackagePages">ページパッケージ化</option>
+<option value="SyncPages">ページ同期</option>
+<option value="show" disabled="" class="disabled">------------------------</option>
+<option value="CreateNewPage">CreateNewPage</option>
+<option value="Load">ロード</option>
+<option value="PageActions">PageActions</option>
+<option value="Save">保存</option>
+<option value="SlideShow">SlideShow</option>
+<option value="Thumbnails">Thumbnails</option>
+    </select>
+    
+    
+</div>
+<script type="text/javascript">
+<!--// Init menu
+actionsMenuInit('その他のアクション:');
+//-->
+</script>
+</form>
+</li></ul>
+
+</div>
+
+<div id="page" lang="ja" dir="ltr">
+<div dir="ltr" id="content" lang="ja"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-1"></span><span class="anchor" id="line-2"></span><span class="anchor" id="line-3"></span><span class="anchor" id="line-4"></span><span class="anchor" id="line-5"></span><span class="anchor" id="line-6"></span><p class="line862">DNS/RFC1034/3 改行を適当に挟んで、読みやすくしてみよう。-- <a href="https://moin.qmail.jp/ToshinoriMaeno">ToshinoriMaeno</a> 2017-03-13 01:54:35 <span class="anchor" id="line-7"></span><span class="anchor" id="line-8"></span></p><p class="line867"></p><div class="table-of-contents"><p class="table-of-contents-heading">目次</p><ol><li>
+<a href="https://moin.qmail.jp/DNS/RFC/1034/3#A3._.2BMMkw4TCkMPNUDXp6lZMwaIzHbpAw7DCzMPwwyQ_DOMAIN_NAME_SPACE_and_RESOURCE_RECORDS">3. ドメイン名空間と資源レコード DOMAIN NAME SPACE and RESOURCE RECORDS</a><ol><li>
+<a href="https://moin.qmail.jp/DNS/RFC/1034/3#A3.1._.2BVA1STXp6lZMwbluaf6kwaHUoip4_Name_space_specifications_and_terminology">3.1. 名前空間の定義と用語 Name space specifications and terminology</a></li><li>
+<a href="https://moin.qmail.jp/DNS/RFC/1034/3#A3.2._.2BUil1KE4KMG57oXQGMKwwpDDJMOkwpDDz_Administrative_guidelines_on_use">3.2. 利用上の管理ガイドライン Administrative guidelines on use</a></li><li>
+<a href="https://moin.qmail.jp/DNS/RFC/1034/3#A3.3._.2BUil1KE4KMG5igIhTdoQwrDCkMMkw6TCkMPM_Technical_guidelines_on_use">3.3. 利用上の技術的ガイドライン Technical guidelines on use</a></li><li>
+<a href="https://moin.qmail.jp/DNS/RFC/1034/3#A3.4._.2BT4swa09.2FMEZUDVJNenqVkw_Example_name_space">3.4. 例に使う名前空間 Example name space</a></li><li>
+<a href="https://moin.qmail.jp/DNS/RFC/1034/3#A3.5._.2BVA1STTBuMIgwijCIMERpy2WH_Preferred_name_syntax">3.5. 名前のよりよい構文 Preferred name syntax</a></li><li>
+<a href="https://moin.qmail.jp/DNS/RFC/1034/3#A3.6._.2BjMdukDDsMLMw.2FDDJ_Resource_Records">3.6. 資源レコード Resource Records</a></li><li>
+<a href="https://moin.qmail.jp/DNS/RFC/1034/3#A3.7._.2BVU9UCDBb_Queries">3.7. 問合せ Queries</a></li><li>
+<a href="https://moin.qmail.jp/DNS/RFC/1034/3#A3.8._.2BcrZhS1VPVAgwWw.28.2BW5.2BaE3aE.2Fwk_Status_queries_.28Experimental.29">3.8. 状態問合せ(実験的） Status queries (Experimental)</a></li><li>
+<a href="https://moin.qmail.jp/DNS/RFC/1034/3#A3.9._.2BiNxbjDBujOpVTw.28.2BXsNrYg.29_Completion_queries_.28Obsolete.29">3.9. 補完の質問(廃止) Completion queries (Obsolete)</a></li></ol></li></ol></div> <span class="anchor" id="line-9"></span><span class="anchor" id="line-10"></span><p class="line867">
+</p><h2 id="A3._.2BMMkw4TCkMPNUDXp6lZMwaIzHbpAw7DCzMPwwyQ_DOMAIN_NAME_SPACE_and_RESOURCE_RECORDS">3. ドメイン名空間と資源レコード DOMAIN NAME SPACE and RESOURCE RECORDS</h2>
+<span class="anchor" id="line-11"></span><span class="anchor" id="line-12"></span><p class="line867"><span class="anchor" id="A96"></span> <span class="anchor" id="line-13"></span>
+</p><h3 id="A3.1._.2BVA1STXp6lZMwbluaf6kwaHUoip4_Name_space_specifications_and_terminology">3.1. 名前空間の定義と用語 Name space specifications and terminology</h3>
+<span class="anchor" id="line-14"></span><p class="line867"><span class="anchor" id="line-15"></span><span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span><span class="anchor" id="line-18"></span><span class="anchor" id="line-19"></span></p><pre><span class="anchor" id="line-1"></span>The domain name space is a tree structure.
+<span class="anchor" id="line-2"></span>Each node and leaf on the tree corresponds to a resource set (which may be empty).
+<span class="anchor" id="line-3"></span>The domain system makes no distinctions between the uses of the interior nodes and leaves,
+<span class="anchor" id="line-4"></span>and this memo uses the term 'node' to refer to both.</pre><span class="anchor" id="line-20"></span><p class="line874">ドメイン名空間は木構造をしている。 <span class="anchor" id="line-21"></span></p><ul><li style="list-style-type:none">木の節点(node)と葉(末端、leaf)はそれぞれ資源集合(空も可)に対応する。 <span class="anchor" id="line-22"></span></li></ul><p class="line874">DNS では内部節点と葉との使い方は区別しない。そして、この文書では両者を指すのに用語「節点」を使う。 <span class="anchor" id="line-23"></span><span class="anchor" id="line-24"></span><span class="anchor" id="line-25"></span><span class="anchor" id="line-26"></span><span class="anchor" id="line-27"></span><span class="anchor" id="line-28"></span><span class="anchor" id="line-29"></span></p><pre><span class="anchor" id="line-1-1"></span>Each node has a label, which is zero to 63 octets in length.
+<span class="anchor" id="line-2-1"></span>Brother nodes may not have the same label, although the same label can be used
+<span class="anchor" id="line-3-1"></span>for nodes which are not brothers.
+<span class="anchor" id="line-4-1"></span>
+<span class="anchor" id="line-5"></span>One label is reserved, and that is the null (i.e., zero length) label used for the root.</pre><span class="anchor" id="line-30"></span><p class="line874">各節点はラベルを持ち、その長さは 0 から63 オクテットである。 <span class="anchor" id="line-31"></span><span class="anchor" id="line-32"></span></p><p class="line874">兄弟節点は同じラベルを持てないが、兄弟ではない節点は同じラベルを持てる。 <span class="anchor" id="line-33"></span><span class="anchor" id="line-34"></span></p><p class="line874">事前に予約されていラベルがひとつあり、それは空(つまり長さがゼロ)のラベルであって根(root)を表わすのに使われる。 <span class="anchor" id="line-35"></span><span class="anchor" id="line-36"></span><span class="anchor" id="line-37"></span><span class="anchor" id="line-38"></span><span class="anchor" id="line-39"></span><span class="anchor" id="line-40"></span></p><pre><span class="anchor" id="line-1-2"></span>The domain name of a node is the list of the labels on the path from the
+<span class="anchor" id="line-2-2"></span>node to the root of the tree. 
+<span class="anchor" id="line-3-2"></span> By convention, the labels that compose a domain name are printed or read left to right,
+<span class="anchor" id="line-4-2"></span> from the most specific (lowest, farthest from the root) to the least specific (highest, closest to the root).</pre><span class="anchor" id="line-41"></span><p class="line874">節点のドメイン名とは節点から根に到る経路上のラベルを並べたものである。 <span class="anchor" id="line-42"></span></p><ul><li style="list-style-type:none">読みかきの約束として、ドメイン名を構成するラベルは <span class="anchor" id="line-43"></span>左から右へ、つまり最も細部(下位の、根から遠いもの）から <span class="anchor" id="line-44"></span>より限定されない(上位の、根に近い）ものへと並べる。 <span class="anchor" id="line-45"></span></li></ul><p class="line867"><span class="anchor" id="line-46"></span><span class="anchor" id="line-47"></span><span class="anchor" id="line-48"></span><span class="anchor" id="line-49"></span><span class="anchor" id="line-50"></span></p><pre><span class="anchor" id="line-1-3"></span>Internally, programs that manipulate domain names should represent them
+<span class="anchor" id="line-2-3"></span>as sequences of labels, where each label is a length octet followed by an octet string.
+<span class="anchor" id="line-3-3"></span>  Because all domain names end at the root, which has a null string for a label,
+<span class="anchor" id="line-4-3"></span>  these internal representations can use a length byte of zero to terminate a domain name.</pre><span class="anchor" id="line-51"></span><p class="line874">ドメイン名を扱うプログラムなどは内部ではドメイン名をラベルの列として表現すべきである。 <span class="anchor" id="line-52"></span></p><ul><li style="list-style-type:none">そして、各ラベルは長さを示すオクテットとそれに続くオクテット列とする。 <span class="anchor" id="line-53"></span></li></ul><p class="line874">すべてのドメイン名は根で終るので、そして根が持つラベルは空であるので、 <span class="anchor" id="line-54"></span>内部表現としてはドメイン名の終端に長さバイト 0 を使うことができる。 <span class="anchor" id="line-55"></span><span class="anchor" id="line-56"></span><span class="anchor" id="line-57"></span><span class="anchor" id="line-58"></span><span class="anchor" id="line-59"></span><span class="anchor" id="line-60"></span><span class="anchor" id="line-61"></span><span class="anchor" id="line-62"></span><span class="anchor" id="line-63"></span><span class="anchor" id="line-64"></span><span class="anchor" id="line-65"></span><span class="anchor" id="line-66"></span></p><pre><span class="anchor" id="line-1-4"></span>By convention, domain names can be stored with arbitrary case, but
+<span class="anchor" id="line-2-4"></span>domain name comparisons for all present domain functions are done in a
+<span class="anchor" id="line-3-4"></span>case-insensitive manner, assuming an ASCII character set, and a high
+<span class="anchor" id="line-4-4"></span>order zero bit.  This means that you are free to create a node with
+<span class="anchor" id="line-5-1"></span>label 'A' or a node with label 'a', but not both as brothers;
+<span class="anchor" id="line-6"></span>you could refer to either using 'a' or 'A'.
+<span class="anchor" id="line-7"></span>
+<span class="anchor" id="line-8"></span>When you receive a domain name or label, you should preserve its case.
+<span class="anchor" id="line-9"></span>  The rationale for this choice is that we may someday need to add full binary domain names for new services;
+<span class="anchor" id="line-10"></span>existing services would not be changed.</pre><span class="anchor" id="line-67"></span><p class="line874">ドメイン名には大文字も小文字も使用できることになっているが、 <span class="anchor" id="line-68"></span>現在のドメイン機能ではドメイン名の比較には <span class="anchor" id="line-69"></span>ASCII文字であって、最上位ビットがゼロという仮定のもとで、 <span class="anchor" id="line-70"></span>大文字小文字の区別をせずに比較している。 <span class="anchor" id="line-71"></span><span class="anchor" id="line-72"></span></p><p class="line874">この事は'A'というラベルを持つ節点や'a'というラベルを持つ節点を作ってよいが、 <span class="anchor" id="line-73"></span>これら両方を作って、兄弟としてはならない; <span class="anchor" id="line-74"></span>これらはどちらも 'A'や'a'として参照してよい、ということを意味する。 <span class="anchor" id="line-75"></span><span class="anchor" id="line-76"></span></p><p class="line874">ドメイン名やラベルを受け取る時には、大文字小文字の区別を守るべきである。 <span class="anchor" id="line-77"></span>そうする理由は新サービスのために任意の文字が使えるドメイン名を加えることになるかもしれず、 <span class="anchor" id="line-78"></span>それでも既存のサービスを変えずに済ませるためである。 <span class="anchor" id="line-79"></span><span class="anchor" id="line-80"></span><span class="anchor" id="line-81"></span><span class="anchor" id="line-82"></span><span class="anchor" id="line-83"></span><span class="anchor" id="line-84"></span></p><pre><span class="anchor" id="line-1-5"></span>When a user needs to type a domain name, the length of each label is
+<span class="anchor" id="line-2-5"></span>omitted and the labels are separated by dots ('.').  Since a complete
+<span class="anchor" id="line-3-5"></span>domain name ends with the root label, this leads to a printed form which
+<span class="anchor" id="line-4-5"></span>ends in a dot.  We use this property to distinguish between:</pre><span class="anchor" id="line-85"></span><p class="line874">利用者はドメイン名を使うときには各ラベルの長さは書かないで、ラベルをドット('.')で区切る。 <span class="anchor" id="line-86"></span></p><ul><li style="list-style-type:none">完全なドメイン名は根ラベルで終るので、ドットで終端された書式となる。 <span class="anchor" id="line-87"></span></li></ul><p class="line874">この特徴を使って以下のように区別される： <span class="anchor" id="line-88"></span><span class="anchor" id="line-89"></span><span class="anchor" id="line-90"></span><span class="anchor" id="line-91"></span></p><pre><span class="anchor" id="line-1-6"></span>   - a character string which represents a complete domain name
+<span class="anchor" id="line-2-6"></span>     (often called 'absolute').  For example, 'poneria.ISI.EDU.'</pre><span class="anchor" id="line-92"></span><ul><li style="list-style-type:none">- 完全なドメイン名を表す文字列(よく「絶対名」と呼ばれる）。 <span class="anchor" id="line-93"></span><ul><li style="list-style-type:none">例えば、'poneria.ISI.EDU.' <span class="anchor" id="line-94"></span></li></ul></li></ul><p class="line867"><span class="anchor" id="line-95"></span><span class="anchor" id="line-96"></span><span class="anchor" id="line-97"></span><span class="anchor" id="line-98"></span><span class="anchor" id="line-99"></span></p><pre><span class="anchor" id="line-1-7"></span>   - a character string that represents the starting labels of a
+<span class="anchor" id="line-2-7"></span>     domain name which is incomplete, and should be completed by
+<span class="anchor" id="line-3-6"></span>     local software using knowledge of the local domain (often
+<span class="anchor" id="line-4-6"></span>     called 'relative').  For example, 'poneria' used in the ISI.EDU domain.</pre><span class="anchor" id="line-100"></span><ul><li style="list-style-type:none">- ドメイン名の始まり部分のラベル列を表現する文字列、 <span class="anchor" id="line-101"></span><ul><li style="list-style-type:none">ドメイン名としては不完全であり、ローカルドメインについての知識を使って <span class="anchor" id="line-102"></span>ローカルソフトウェアが補完する必要がある(しばしば「相対名」と呼ばれる）。 <span class="anchor" id="line-103"></span>例えば、ISI.EDUドメイン内で使われた'poneria' <span class="anchor" id="line-104"></span></li></ul></li></ul><p class="line867"><span class="anchor" id="line-105"></span><span class="anchor" id="line-106"></span><span class="anchor" id="line-107"></span><span class="anchor" id="line-108"></span><span class="anchor" id="line-109"></span><span class="anchor" id="line-110"></span><span class="anchor" id="line-111"></span><span class="anchor" id="line-112"></span><span class="anchor" id="line-113"></span></p><pre><span class="anchor" id="line-1-8"></span>Relative names are either taken relative to a well known origin, or to a
+<span class="anchor" id="line-2-8"></span>list of domains used as a search list.  Relative names appear mostly at
+<span class="anchor" id="line-3-7"></span>the user interface, where their interpretation varies from
+<span class="anchor" id="line-4-7"></span>implementation to implementation, and in master files, where they are
+<span class="anchor" id="line-5-2"></span>relative to a single origin domain name.  The most common interpretation
+<span class="anchor" id="line-6-1"></span>uses the root '.' as either the single origin or as one of the members
+<span class="anchor" id="line-7-1"></span>of the search list, so a multi-label relative name is often one where
+<span class="anchor" id="line-8-1"></span>the trailing dot has been omitted to save typing.</pre><span class="anchor" id="line-114"></span><p class="line874">相対名の基点としては、既知の起点もしくは検索リストに使われるドメインリストが採用される。 <span class="anchor" id="line-115"></span>相対名はほとんどの場合ユーザインタフェースで現れ、解釈は実装ごとに異っている。 <span class="anchor" id="line-116"></span>マスターファイルで使われる場合には起点ドメイン名相対となる。 <span class="anchor" id="line-117"></span>最もよく使われる解釈ではルート('.')を唯一の基点として、 <span class="anchor" id="line-118"></span>もしくは検索リストのメンバーにふくめて使うものである。 <span class="anchor" id="line-119"></span>これにより、多段ラベルをもつ相対名は <span class="anchor" id="line-120"></span>タイプの手間を省くために末尾のドットを省略されたものとなることがよくある。 <span class="anchor" id="line-121"></span><span class="anchor" id="line-122"></span><span class="anchor" id="line-123"></span><span class="anchor" id="line-124"></span><span class="anchor" id="line-125"></span></p><pre><span class="anchor" id="line-1-9"></span>To simplify implementations, the total number of octets that represent a
+<span class="anchor" id="line-2-9"></span>domain name (i.e., the sum of all label octets and label lengths) is
+<span class="anchor" id="line-3-8"></span>limited to 255.</pre><span class="anchor" id="line-126"></span><p class="line874">実装の単純化のために、ドメイン名を表すオクテットの総数 <span class="anchor" id="line-127"></span>(すべてのラベルオクテットとラベル長の合計）は255に制限される。 <span class="anchor" id="line-128"></span><span class="anchor" id="line-129"></span><span class="anchor" id="line-130"></span><span class="anchor" id="line-131"></span><span class="anchor" id="line-132"></span><span class="anchor" id="line-133"></span><span class="anchor" id="line-134"></span><span class="anchor" id="line-135"></span></p><pre><span class="anchor" id="line-1-10"></span>A domain is identified by a domain name, and consists of that part of
+<span class="anchor" id="line-2-10"></span>the domain name space that is at or below the domain name which
+<span class="anchor" id="line-3-9"></span>specifies the domain.  A domain is a subdomain of another domain if it
+<span class="anchor" id="line-4-8"></span>is contained within that domain.  This relationship can be tested by
+<span class="anchor" id="line-5-3"></span>seeing if the subdomain's name ends with the containing domain's name.
+<span class="anchor" id="line-6-2"></span>For example, A.B.C.D is a subdomain of B.C.D, C.D, D, and ' '.</pre><span class="anchor" id="line-136"></span><p class="line874">ドメインはドメイン名で識別される。 <span class="anchor" id="line-137"></span>そして、ドメイン名空間のうち、ドメインを示すドメイン名の部分と <span class="anchor" id="line-138"></span>その下の部分から成り立っている。 <span class="anchor" id="line-139"></span><span class="anchor" id="line-140"></span></p><p class="line874">ドメインが他のドメインに含まれているとき、他のドメインのサブドメインで <span class="anchor" id="line-141"></span>あるという。 <span class="anchor" id="line-142"></span>この関係はサブドメインの名前の後部が「含む側のドメイン」の名前に一致するかを <span class="anchor" id="line-143"></span>調べればわかる。 <span class="anchor" id="line-144"></span>例えば、A.B.C.DはB.C.DとC.DとDと " "のサブドメインである。 <span class="anchor" id="line-145"></span><span class="anchor" id="line-146"></span></p><p class="line867"><span class="anchor" id="A97"></span> <span class="anchor" id="line-147"></span>
+</p><h3 id="A3.2._.2BUil1KE4KMG57oXQGMKwwpDDJMOkwpDDz_Administrative_guidelines_on_use">3.2. 利用上の管理ガイドライン Administrative guidelines on use</h3>
+<span class="anchor" id="line-148"></span><p class="line867"><span class="anchor" id="line-149"></span><span class="anchor" id="line-150"></span><span class="anchor" id="line-151"></span><span class="anchor" id="line-152"></span><span class="anchor" id="line-153"></span><span class="anchor" id="line-154"></span><span class="anchor" id="line-155"></span><span class="anchor" id="line-156"></span><span class="anchor" id="line-157"></span><span class="anchor" id="line-158"></span><span class="anchor" id="line-159"></span><span class="anchor" id="line-160"></span><span class="anchor" id="line-161"></span><span class="anchor" id="line-162"></span></p><pre><span class="anchor" id="line-1-11"></span>As a matter of policy, the DNS technical specifications do not mandate a
+<span class="anchor" id="line-2-11"></span>particular tree structure or rules for selecting labels; its goal is to
+<span class="anchor" id="line-3-10"></span>be as general as possible, so that it can be used to build arbitrary
+<span class="anchor" id="line-4-9"></span>applications.  In particular, the system was designed so that the name
+<span class="anchor" id="line-5-4"></span>space did not have to be organized along the lines of network
+<span class="anchor" id="line-6-3"></span>boundaries, name servers, etc.  The rationale for this is not that the
+<span class="anchor" id="line-7-2"></span>name space should have no implied semantics, but rather that the choice
+<span class="anchor" id="line-8-2"></span>of implied semantics should be left open to be used for the problem at
+<span class="anchor" id="line-9-1"></span>hand, and that different parts of the tree can have different implied
+<span class="anchor" id="line-10-1"></span>semantics.  For example, the IN-ADDR.ARPA domain is organized and
+<span class="anchor" id="line-11"></span>distributed by network and host address because its role is to translate
+<span class="anchor" id="line-12"></span>from network or host numbers to names; NetBIOS domains [RFC-1001, RFC-
+<span class="anchor" id="line-13"></span>1002] are flat because that is appropriate for that application.</pre><span class="anchor" id="line-163"></span><p class="line874">ポリシーの問題として、 DNS技術仕様書では特定の木構造や特定のラベル選択規 <span class="anchor" id="line-164"></span>則を強要しない； その目的をできるだけ一般的にしておくことで、 <span class="anchor" id="line-165"></span>任意のアプリケーションを構築するときに使えるようにするためである。 <span class="anchor" id="line-166"></span>特に、名前空間がネットワーク境界やネームサーバなどに従属する構成を <span class="anchor" id="line-167"></span>とる必要がないように DNS は設計された。 <span class="anchor" id="line-168"></span>こうしたのは <span class="anchor" id="line-169"></span>名前空間はきまった意味を持つべきものではなく、 <span class="anchor" id="line-170"></span>意味の選択は対象とする問題分野で自由に決められるようにしておくためであり、 <span class="anchor" id="line-171"></span>木の異なる部分ごとに異なった意味をもてるようにするためでもある。 <span class="anchor" id="line-172"></span>例えば、IN-ADDR.ARPAドメインはネットワークやホストアドレスにしたがって <span class="anchor" id="line-173"></span>組織化され分散される。なぜなら、ネットワークやホスト番号を <span class="anchor" id="line-174"></span>名前へ変換することがその役割だから; <span class="anchor" id="line-175"></span>NetBIOSドメイン[RFC-1001, RFC- 1002]はアプリケーションにとって適切なので、 <span class="anchor" id="line-176"></span>フラットな構造になっている。 <span class="anchor" id="line-177"></span><span class="anchor" id="line-178"></span><span class="anchor" id="line-179"></span><span class="anchor" id="line-180"></span><span class="anchor" id="line-181"></span><span class="anchor" id="line-182"></span><span class="anchor" id="line-183"></span><span class="anchor" id="line-184"></span><span class="anchor" id="line-185"></span></p><pre><span class="anchor" id="line-1-12"></span>However, there are some guidelines that apply to the 'normal' parts of
+<span class="anchor" id="line-2-12"></span>the name space used for hosts, mailboxes, etc., that will make the name
+<span class="anchor" id="line-3-11"></span>space more uniform, provide for growth, and minimize problems as
+<span class="anchor" id="line-4-10"></span>software is converted from the older host table.  The political
+<span class="anchor" id="line-5-5"></span>decisions about the top levels of the tree originated in RFC-920.
+<span class="anchor" id="line-6-4"></span>Current policy for the top levels is discussed in [RFC-1032].  MILNET
+<span class="anchor" id="line-7-3"></span>conversion issues are covered in [RFC-1031].</pre><span class="anchor" id="line-186"></span><p class="line874">しかしながら、 <span class="anchor" id="line-187"></span>ホストやメールボックス等に使われる名前空間の通常部分に適用される <span class="anchor" id="line-188"></span>ガイドラインは存在しており、 <span class="anchor" id="line-189"></span>名前空間をより一様にし、発展に備え、古いホストテーブルを使った <span class="anchor" id="line-190"></span>ソフトウェアを変換する際の問題を最小にするようにしている。 <span class="anchor" id="line-191"></span>木のトップレベルについての政治的決定はRFC920から始まる。 <span class="anchor" id="line-192"></span>トップレベルに関するポリシーの現状は[RFC-1032]にある。 <span class="anchor" id="line-193"></span>MILNET変換問題は[RFC-1031]で触れられている。 <span class="anchor" id="line-194"></span><span class="anchor" id="line-195"></span><span class="anchor" id="line-196"></span><span class="anchor" id="line-197"></span><span class="anchor" id="line-198"></span><span class="anchor" id="line-199"></span><span class="anchor" id="line-200"></span></p><pre><span class="anchor" id="line-1-13"></span>Lower domains which will eventually be broken into multiple zones should
+<span class="anchor" id="line-2-13"></span>provide branching at the top of the domain so that the eventual
+<span class="anchor" id="line-3-12"></span>decomposition can be done without renaming.  Node labels which use
+<span class="anchor" id="line-4-11"></span>special characters, leading digits, etc., are likely to break older
+<span class="anchor" id="line-5-6"></span>software which depends on more restrictive choices.</pre><span class="anchor" id="line-201"></span><p class="line874">先々、複数のゾーンに分割されることが予想される下位ドメインは <span class="anchor" id="line-202"></span>分解されるときに名前を変更しなくてよいように <span class="anchor" id="line-203"></span>トップのドメインで分けておくべきである。 <span class="anchor" id="line-204"></span>特殊文字を使っていたり、数字で始まっていたりする節点ラベルは <span class="anchor" id="line-205"></span>より制約のある条件に依存している古いソフトウェアでは動作しない可能性がある。 <span class="anchor" id="line-206"></span><span class="anchor" id="line-207"></span></p><p class="line867"><span class="anchor" id="A98"></span> <span class="anchor" id="line-208"></span>
+</p><h3 id="A3.3._.2BUil1KE4KMG5igIhTdoQwrDCkMMkw6TCkMPM_Technical_guidelines_on_use">3.3. 利用上の技術的ガイドライン Technical guidelines on use</h3>
+<span class="anchor" id="line-209"></span><p class="line867"><span class="anchor" id="line-210"></span><span class="anchor" id="line-211"></span><span class="anchor" id="line-212"></span></p><pre><span class="anchor" id="line-1-14"></span>Before the DNS can be used to hold naming information for some kind of
+<span class="anchor" id="line-2-14"></span>object, two needs must be met:</pre><span class="anchor" id="line-213"></span><p class="line874">DNS になんらかのオブジェクトの名前情報を持たせる前に、 <span class="anchor" id="line-214"></span>次の二つの条件を満たすべきである： <span class="anchor" id="line-215"></span><span class="anchor" id="line-216"></span><span class="anchor" id="line-217"></span><span class="anchor" id="line-218"></span><span class="anchor" id="line-219"></span></p><pre><span class="anchor" id="line-1-15"></span>   - A convention for mapping between object names and domain
+<span class="anchor" id="line-2-15"></span>     names.  This describes how information about an object is
+<span class="anchor" id="line-3-13"></span>     accessed.</pre><span class="anchor" id="line-220"></span><ul><li style="list-style-type:none">- オブジェクト名とドメイン名の間の対応の便法。 <span class="anchor" id="line-221"></span><ul><li style="list-style-type:none">これはオブジェクト情報にアクセスする方法を記述する。 <span class="anchor" id="line-222"></span></li></ul></li></ul><p class="line867"><span class="anchor" id="line-223"></span><span class="anchor" id="line-224"></span></p><pre><span class="anchor" id="line-1-16"></span>   - RR types and data formats for describing the object.</pre><span class="anchor" id="line-225"></span><ul><li style="list-style-type:none">- RR タイプとオブジェクトを記述するデータ形式。 <span class="anchor" id="line-226"></span></li></ul><p class="line867"><span class="anchor" id="line-227"></span><span class="anchor" id="line-228"></span><span class="anchor" id="line-229"></span><span class="anchor" id="line-230"></span><span class="anchor" id="line-231"></span></p><pre><span class="anchor" id="line-1-17"></span>These rules can be quite simple or fairly complex.  Very often, the
+<span class="anchor" id="line-2-16"></span>designer must take into account existing formats and plan for upward
+<span class="anchor" id="line-3-14"></span>compatibility for existing usage.  Multiple mappings or levels of
+<span class="anchor" id="line-4-12"></span>mapping may be required.</pre><span class="anchor" id="line-232"></span><p class="line874">これらの規則は非常に単純であるか、あるいはかなり複雑である。 <span class="anchor" id="line-233"></span>よくあることだが、設計者は既存の形式も考慮に入れて、 <span class="anchor" id="line-234"></span>既存の使い方の上位互換性を計画しなければならい。 <span class="anchor" id="line-235"></span>多数の変換や多段の変換が必要となるかもしれない。 <span class="anchor" id="line-236"></span><span class="anchor" id="line-237"></span><span class="anchor" id="line-238"></span><span class="anchor" id="line-239"></span><span class="anchor" id="line-240"></span><span class="anchor" id="line-241"></span><span class="anchor" id="line-242"></span></p><pre><span class="anchor" id="line-1-18"></span>For hosts, the mapping depends on the existing syntax for host names
+<span class="anchor" id="line-2-17"></span>which is a subset of the usual text representation for domain names,
+<span class="anchor" id="line-3-15"></span>together with RR formats for describing host addresses, etc.  Because we
+<span class="anchor" id="line-4-13"></span>need a reliable inverse mapping from address to host name, a special
+<span class="anchor" id="line-5-7"></span>mapping for addresses into the IN-ADDR.ARPA domain is also defined.</pre><span class="anchor" id="line-243"></span><p class="line874">ホストに関しては、 <span class="anchor" id="line-244"></span>ドメイン名の通常のテキスト表現の部分集合である既存のホスト名の構文や <span class="anchor" id="line-245"></span>ホストアドレスを表現する RR 形式などに依存した <span class="anchor" id="line-246"></span>変換となる。 <span class="anchor" id="line-247"></span><span class="anchor" id="line-248"></span></p><p class="line874">アドレスからホスト名への信頼できる逆変換が必要なため、 <span class="anchor" id="line-249"></span>アドレスをIN-ADDR.ARPAドメインに変換する特別な規則も定義した。 <span class="anchor" id="line-250"></span><span class="anchor" id="line-251"></span><span class="anchor" id="line-252"></span><span class="anchor" id="line-253"></span><span class="anchor" id="line-254"></span><span class="anchor" id="line-255"></span><span class="anchor" id="line-256"></span><span class="anchor" id="line-257"></span><span class="anchor" id="line-258"></span><span class="anchor" id="line-259"></span><span class="anchor" id="line-260"></span><span class="anchor" id="line-261"></span></p><pre><span class="anchor" id="line-1-19"></span>For mailboxes, the mapping is slightly more complex.  The usual mail
+<span class="anchor" id="line-2-18"></span>address &lt;local-part&gt;@&lt;mail-domain&gt; is mapped into a domain name by
+<span class="anchor" id="line-3-16"></span>converting &lt;local-part&gt; into a single label (regardles of dots it
+<span class="anchor" id="line-4-14"></span>contains), converting &lt;mail-domain&gt; into a domain name using the usual
+<span class="anchor" id="line-5-8"></span>text format for domain names (dots denote label breaks), and
+<span class="anchor" id="line-6-5"></span>concatenating the two to form a single domain name.  Thus the mailbox
+<span class="anchor" id="line-7-4"></span>HOSTMASTER@SRI-NIC.ARPA is represented as a domain name by
+<span class="anchor" id="line-8-3"></span>HOSTMASTER.SRI-NIC.ARPA.  An appreciation for the reasons behind this
+<span class="anchor" id="line-9-2"></span>design also must take into account the scheme for mail exchanges [RFC-
+<span class="anchor" id="line-10-2"></span>974].</pre><span class="anchor" id="line-262"></span><p class="line874">メールボックスのための変換はもう少し複雑である。 <span class="anchor" id="line-263"></span>通常のメールアドレス &lt;local-part&gt;@&lt;mail-domain&gt;は <span class="anchor" id="line-264"></span>次のようにしてドメイン名に変換される。 <span class="anchor" id="line-265"></span>&lt;local-part&gt; を１つのラベルに変換し(ドットが含まれていてもよい）、 <span class="anchor" id="line-266"></span>&lt;mail-domain&gt;をドメイン名のために通常のテキスト形式を使った <span class="anchor" id="line-267"></span>ドメイン名(ドットをラベルの区切りとするもの）に変換して、 <span class="anchor" id="line-268"></span>これらをつないだものをドメイン名とする。 <span class="anchor" id="line-269"></span><span class="anchor" id="line-270"></span></p><p class="line862">それで、メールボックス <a class="mailto" href="mailto:HOSTMASTER@SRI-NIC.ARPA">HOSTMASTER@SRI-NIC.ARPA</a> はドメイン名では <span class="anchor" id="line-271"></span>HOSTMASTER.SRI-NIC.ARPA. と表現される。 <span class="anchor" id="line-272"></span>こう設計したことの背景にはメール交換 [RFC-974]のスキームを考慮したことがある。 <span class="anchor" id="line-273"></span><span class="anchor" id="line-274"></span><span class="anchor" id="line-275"></span><span class="anchor" id="line-276"></span><span class="anchor" id="line-277"></span><span class="anchor" id="line-278"></span><span class="anchor" id="line-279"></span><span class="anchor" id="line-280"></span><span class="anchor" id="line-281"></span></p><pre><span class="anchor" id="line-1-20"></span>The typical user is not concerned with defining these rules, but should
+<span class="anchor" id="line-2-19"></span>understand that they usually are the result of numerous compromises
+<span class="anchor" id="line-3-17"></span>between desires for upward compatibility with old usage, interactions
+<span class="anchor" id="line-4-15"></span>between different object definitions, and the inevitable urge to add new
+<span class="anchor" id="line-5-9"></span>features when defining the rules.  The way the DNS is used to support
+<span class="anchor" id="line-6-6"></span>some object is often more crucial than the restrictions inherent in the
+<span class="anchor" id="line-7-5"></span>DNS.</pre><span class="anchor" id="line-282"></span><p class="line874">通常の利用者はこれらの規則の定義には関わっていないが、 <span class="anchor" id="line-283"></span>これらは次のようなことについての多くの妥協の結果であることを理解してほしい。 <span class="anchor" id="line-284"></span><span class="anchor" id="line-285"></span></p><p class="line874">古い使い方の上位互換性、オブジェクトの異なる定義の間の干渉、 <span class="anchor" id="line-286"></span>新しい規則を定義する時に新しい機能を追加しようとする避けがたい衝動。 <span class="anchor" id="line-287"></span><span class="anchor" id="line-288"></span></p><p class="line874">ある種のオブジェクトをサポートするために DNSを使う方法は DNS 固有の制限に <span class="anchor" id="line-289"></span>よるよりもしばしばより困難である。 <span class="anchor" id="line-290"></span><span class="anchor" id="line-291"></span></p><p class="line867"><span class="anchor" id="A99"></span> <span class="anchor" id="line-292"></span>
+</p><h3 id="A3.4._.2BT4swa09.2FMEZUDVJNenqVkw_Example_name_space">3.4. 例に使う名前空間 Example name space</h3>
+<span class="anchor" id="line-293"></span><p class="line867"><span class="anchor" id="line-294"></span><span class="anchor" id="line-295"></span><span class="anchor" id="line-296"></span><span class="anchor" id="line-297"></span></p><pre><span class="anchor" id="line-1-21"></span>The following figure shows a part of the current domain name space, and
+<span class="anchor" id="line-2-20"></span>is used in many examples in this RFC.  Note that the tree is a very
+<span class="anchor" id="line-3-18"></span>small subset of the actual name space.</pre><span class="anchor" id="line-298"></span><p class="line874">次の図は現在のドメイン名空間の一部を示している。 <span class="anchor" id="line-299"></span>そして、このRFCの多くの例で使われる。 <span class="anchor" id="line-300"></span>木は現実の名前空間の非常に小さい部分であることに注意せよ。 <span class="anchor" id="line-301"></span><span class="anchor" id="line-302"></span><span class="anchor" id="line-303"></span><span class="anchor" id="line-304"></span><span class="anchor" id="line-305"></span><span class="anchor" id="line-306"></span><span class="anchor" id="line-307"></span><span class="anchor" id="line-308"></span><span class="anchor" id="line-309"></span><span class="anchor" id="line-310"></span><span class="anchor" id="line-311"></span><span class="anchor" id="line-312"></span><span class="anchor" id="line-313"></span><span class="anchor" id="line-314"></span><span class="anchor" id="line-315"></span><span class="anchor" id="line-316"></span><span class="anchor" id="line-317"></span><span class="anchor" id="line-318"></span><span class="anchor" id="line-319"></span><span class="anchor" id="line-320"></span><span class="anchor" id="line-321"></span><span class="anchor" id="line-322"></span><span class="anchor" id="line-323"></span></p><pre><span class="anchor" id="line-1-22"></span>                                   |
+<span class="anchor" id="line-2-21"></span>                                   |
+<span class="anchor" id="line-3-19"></span>             +---------------------+------------------+
+<span class="anchor" id="line-4-16"></span>             |                     |                  |
+<span class="anchor" id="line-5-10"></span>            MIL                   EDU                ARPA
+<span class="anchor" id="line-6-7"></span>             |                     |                  |
+<span class="anchor" id="line-7-6"></span>             |                     |                  |
+<span class="anchor" id="line-8-4"></span>       +-----+-----+               |     +------+-----+-----+
+<span class="anchor" id="line-9-3"></span>       |     |     |               |     |      |           |
+<span class="anchor" id="line-10-3"></span>      BRL  NOSC  DARPA             |  IN-ADDR  SRI-NIC     ACC
+<span class="anchor" id="line-11-1"></span>                                   |
+<span class="anchor" id="line-12-1"></span>       +--------+------------------+---------------+--------+
+<span class="anchor" id="line-13-1"></span>       |        |                  |               |        |
+<span class="anchor" id="line-14"></span>      UCI      MIT                 |              UDEL     YALE
+<span class="anchor" id="line-15"></span>                |                 ISI
+<span class="anchor" id="line-16"></span>                |                  |
+<span class="anchor" id="line-17"></span>            +---+---+              |
+<span class="anchor" id="line-18"></span>            |       |              |
+<span class="anchor" id="line-19"></span>           LCS  ACHILLES  +--+-----+-----+--------+
+<span class="anchor" id="line-20"></span>            |             |  |     |     |        |
+<span class="anchor" id="line-21"></span>            XX            A  C   VAXA  VENERA Mockapetris</pre><p class="line874">         <span class="anchor" id="line-324"></span><span class="anchor" id="line-325"></span><span class="anchor" id="line-326"></span><span class="anchor" id="line-327"></span><span class="anchor" id="line-328"></span></p><pre><span class="anchor" id="line-1-23"></span>In this example, the root domain has three immediate subdomains: MIL,
+<span class="anchor" id="line-2-22"></span>EDU, and ARPA.  The LCS.MIT.EDU domain has one immediate subdomain named
+<span class="anchor" id="line-3-20"></span>XX.LCS.MIT.EDU.  All of the leaves are also domains.</pre><span class="anchor" id="line-329"></span><p class="line874">この例では、ルートドメインは 3つの直下のサブドメインを持つ: <span class="anchor" id="line-330"></span>MIL, EDU, ARPA である。 <span class="anchor" id="line-331"></span>LCS.MIT.EDUドメインはXX.LCS.MIT.EDU という名前のただひとつの直接の <span class="anchor" id="line-332"></span>サブドメインを持つ。全ての枝(リーフ)はドメインである。 <span class="anchor" id="line-333"></span><span class="anchor" id="line-334"></span></p><p class="line867"><span class="anchor" id="A00"></span> <span class="anchor" id="line-335"></span>
+</p><h3 id="A3.5._.2BVA1STTBuMIgwijCIMERpy2WH_Preferred_name_syntax">3.5. 名前のよりよい構文 Preferred name syntax</h3>
+<span class="anchor" id="line-336"></span><p class="line867"><span class="anchor" id="line-337"></span><span class="anchor" id="line-338"></span><span class="anchor" id="line-339"></span><span class="anchor" id="line-340"></span><span class="anchor" id="line-341"></span><span class="anchor" id="line-342"></span><span class="anchor" id="line-343"></span><span class="anchor" id="line-344"></span></p><pre><span class="anchor" id="line-1-24"></span>The DNS specifications attempt to be as general as possible in the rules
+<span class="anchor" id="line-2-23"></span>for constructing domain names.  The idea is that the name of any
+<span class="anchor" id="line-3-21"></span>existing object can be expressed as a domain name with minimal changes.
+<span class="anchor" id="line-4-17"></span>However, when assigning a domain name for an object, the prudent user
+<span class="anchor" id="line-5-11"></span>will select a name which satisfies both the rules of the domain system
+<span class="anchor" id="line-6-8"></span>and any existing rules for the object, whether these rules are published
+<span class="anchor" id="line-7-7"></span>or implied by existing programs.</pre><span class="anchor" id="line-345"></span><p class="line874">DNS の仕様はドメイン名を構成する規則を可能な限り一般的にしようとしている。 <span class="anchor" id="line-346"></span>存在するものならなんでもその名前をドメイン名として最小限の変更で <span class="anchor" id="line-347"></span>表現できるようにしようという考えである。 <span class="anchor" id="line-348"></span><span class="anchor" id="line-349"></span></p><p class="line874">しかしながら、オブジェクトにドメイン名をつける時、 <span class="anchor" id="line-350"></span>慎重なユーザーなら DNS の規則に従うと同時に <span class="anchor" id="line-351"></span>オブジェクトに対しての既存のどんな規則にも従うような名前を <span class="anchor" id="line-352"></span>選ぶだろう。 <span class="anchor" id="line-353"></span>それらの規則が公開されているものか、 <span class="anchor" id="line-354"></span>既存プログラムにより意味づけされているものであるかにかかわらず。 <span class="anchor" id="line-355"></span><span class="anchor" id="line-356"></span><span class="anchor" id="line-357"></span><span class="anchor" id="line-358"></span><span class="anchor" id="line-359"></span><span class="anchor" id="line-360"></span></p><pre><span class="anchor" id="line-1-25"></span>For example, when naming a mail domain, the user should satisfy both the
+<span class="anchor" id="line-2-24"></span>rules of this memo and those in RFC-822.  When creating a new host name,
+<span class="anchor" id="line-3-22"></span>the old rules for HOSTS.TXT should be followed.  This avoids problems
+<span class="anchor" id="line-4-18"></span>when old software is converted to use domain names.</pre><span class="anchor" id="line-361"></span><p class="line874">例えば、メールドメインに名前を付ける時、 <span class="anchor" id="line-362"></span>このメモにある規則と RFC 822との両方を満たすようにすべきである。 <span class="anchor" id="line-363"></span>新しいホスト名を作る時、HOST.TXTの古い規則も守るべきである。 <span class="anchor" id="line-364"></span>これならドメイン名を使うように古いソフトウェアを書き直す時に <span class="anchor" id="line-365"></span>発生するトラブルを避けられる。 <span class="anchor" id="line-366"></span><span class="anchor" id="line-367"></span><span class="anchor" id="line-368"></span><span class="anchor" id="line-369"></span></p><pre><span class="anchor" id="line-1-26"></span>The following syntax will result in fewer problems with many
+<span class="anchor" id="line-2-25"></span>applications that use domain names (e.g., mail, TELNET).</pre><span class="anchor" id="line-370"></span><p class="line874">以下の構文なら、ドメイン名を使うアプリケーション(例えば、メール、TELNET） <span class="anchor" id="line-371"></span>の多くで、問題発生が少なくなるだろう。 <span class="anchor" id="line-372"></span><span class="anchor" id="line-373"></span><span class="anchor" id="line-374"></span><span class="anchor" id="line-375"></span><span class="anchor" id="line-376"></span><span class="anchor" id="line-377"></span><span class="anchor" id="line-378"></span><span class="anchor" id="line-379"></span><span class="anchor" id="line-380"></span><span class="anchor" id="line-381"></span><span class="anchor" id="line-382"></span><span class="anchor" id="line-383"></span><span class="anchor" id="line-384"></span><span class="anchor" id="line-385"></span><span class="anchor" id="line-386"></span><span class="anchor" id="line-387"></span><span class="anchor" id="line-388"></span><span class="anchor" id="line-389"></span><span class="anchor" id="line-390"></span></p><pre><span class="anchor" id="line-1-27"></span>&lt;domain&gt; ::= &lt;subdomain&gt; | ' '
+<span class="anchor" id="line-2-26"></span>
+<span class="anchor" id="line-3-23"></span>&lt;subdomain&gt; ::= &lt;label&gt; | &lt;subdomain&gt; '.' &lt;label&gt;
+<span class="anchor" id="line-4-19"></span>
+<span class="anchor" id="line-5-12"></span>&lt;label&gt; ::= &lt;letter&gt; [ [ &lt;ldh-str&gt; ] &lt;let-dig&gt; ]
+<span class="anchor" id="line-6-9"></span>
+<span class="anchor" id="line-7-8"></span>&lt;ldh-str&gt; ::= &lt;let-dig-hyp&gt; | &lt;let-dig-hyp&gt; &lt;ldh-str&gt;
+<span class="anchor" id="line-8-5"></span>
+<span class="anchor" id="line-9-4"></span>&lt;let-dig-hyp&gt; ::= &lt;let-dig&gt; | '-'
+<span class="anchor" id="line-10-4"></span>
+<span class="anchor" id="line-11-2"></span>&lt;let-dig&gt; ::= &lt;letter&gt; | &lt;digit&gt;
+<span class="anchor" id="line-12-2"></span>
+<span class="anchor" id="line-13-2"></span>&lt;letter&gt; ::= any one of the 52 alphabetic characters A through Z in
+<span class="anchor" id="line-14-1"></span>             upper case and a through z in lower case
+<span class="anchor" id="line-15-1"></span>             (大文字)AからZと(小文字)aからzの52文字のうちのどれか
+<span class="anchor" id="line-16-1"></span>
+<span class="anchor" id="line-17-1"></span>&lt;digit&gt; ::=  any one of the ten digits 0 through 9</pre><span class="anchor" id="line-391"></span><p class="line867"><span class="anchor" id="line-392"></span><span class="anchor" id="line-393"></span><span class="anchor" id="line-394"></span><span class="anchor" id="line-395"></span></p><pre><span class="anchor" id="line-1-28"></span>Note that while upper and lower case letters are allowed in domain
+<span class="anchor" id="line-2-27"></span>names, no significance is attached to the case.  That is, two names with
+<span class="anchor" id="line-3-24"></span>the same spelling but different case are to be treated as if identical.</pre><span class="anchor" id="line-396"></span><p class="line874">大文字小文字どちらでもドメイン名に許されるが、 <span class="anchor" id="line-397"></span>ケースの区別はされない事に注意せよ。 <span class="anchor" id="line-398"></span>つまり、大文字小文字が異なるだけの同じつづりの名前は <span class="anchor" id="line-399"></span>同一であるものとして扱われる。 <span class="anchor" id="line-400"></span><span class="anchor" id="line-401"></span><span class="anchor" id="line-402"></span><span class="anchor" id="line-403"></span><span class="anchor" id="line-404"></span><span class="anchor" id="line-405"></span></p><pre><span class="anchor" id="line-1-29"></span>The labels must follow the rules for ARPANET host names.  They must
+<span class="anchor" id="line-2-28"></span>start with a letter, end with a letter or digit, and have as interior
+<span class="anchor" id="line-3-25"></span>characters only letters, digits, and hyphen.  There are also some
+<span class="anchor" id="line-4-20"></span>restrictions on the length.  Labels must be 63 characters or less.</pre><span class="anchor" id="line-406"></span><p class="line874">ラベルは ARPANET ホスト名規則に従わなければならない。 <span class="anchor" id="line-407"></span>英字で始めて、英字か数字で終えること。 <span class="anchor" id="line-408"></span>途中は英字か数字かハイフンでなければならない。 <span class="anchor" id="line-409"></span>長さにも制限がある。ラベルは 63文字以下でなければならない。 <span class="anchor" id="line-410"></span><span class="anchor" id="line-411"></span><span class="anchor" id="line-412"></span></p><pre><span class="anchor" id="line-1-30"></span>For example, the following strings identify hosts in the Internet:</pre><span class="anchor" id="line-413"></span><p class="line874">例えば、次の文字列はインターネットのホストを特定している： <span class="anchor" id="line-414"></span><span class="anchor" id="line-415"></span><span class="anchor" id="line-416"></span></p><pre><span class="anchor" id="line-1-31"></span>A.ISI.EDU  XX.LCS.MIT.EDU  SRI-NIC.ARPA</pre><span class="anchor" id="line-417"></span><p class="line867"><span class="anchor" id="A01"></span> <span class="anchor" id="line-418"></span>
+</p><h3 id="A3.6._.2BjMdukDDsMLMw.2FDDJ_Resource_Records">3.6. 資源レコード Resource Records</h3>
+<span class="anchor" id="line-419"></span><p class="line867"><span class="anchor" id="line-420"></span><span class="anchor" id="line-421"></span><span class="anchor" id="line-422"></span><span class="anchor" id="line-423"></span><span class="anchor" id="line-424"></span><span class="anchor" id="line-425"></span></p><pre><span class="anchor" id="line-1-32"></span>A domain name identifies a node.  Each node has a set of resource
+<span class="anchor" id="line-2-29"></span>information, which may be empty.  The set of resource information
+<span class="anchor" id="line-3-26"></span>associated with a particular name is composed of separate resource
+<span class="anchor" id="line-4-21"></span>records (RRs).  The order of RRs in a set is not significant, and need
+<span class="anchor" id="line-5-13"></span>not be preserved by name servers, resolvers, or other parts of the DNS.</pre><span class="anchor" id="line-426"></span><p class="line874">ドメイン名は(ドメイン木の)節点を特定する。 <span class="anchor" id="line-427"></span>各節点は資源情報集合をもっている。それは空でもよい。 <span class="anchor" id="line-428"></span>ある名前に対応する資源情報の集合は別々の資源レコード(RRs)から構成される。 <span class="anchor" id="line-429"></span>集合中での RRs の順序は問題ではなく、 <span class="anchor" id="line-430"></span>ネームサーバ、リゾルバ、DNSの他の部分などでは保持する必要はない。 <span class="anchor" id="line-431"></span><span class="anchor" id="line-432"></span><span class="anchor" id="line-433"></span></p><pre><span class="anchor" id="line-1-33"></span>When we talk about a specific RR, we assume it has the following:</pre><span class="anchor" id="line-434"></span><p class="line874">特定の RR の話をする時には、次の項目を持つことを仮定する： <span class="anchor" id="line-435"></span><span class="anchor" id="line-436"></span><span class="anchor" id="line-437"></span><span class="anchor" id="line-438"></span><span class="anchor" id="line-439"></span><span class="anchor" id="line-440"></span><span class="anchor" id="line-441"></span><span class="anchor" id="line-442"></span><span class="anchor" id="line-443"></span><span class="anchor" id="line-444"></span><span class="anchor" id="line-445"></span><span class="anchor" id="line-446"></span><span class="anchor" id="line-447"></span><span class="anchor" id="line-448"></span><span class="anchor" id="line-449"></span><span class="anchor" id="line-450"></span><span class="anchor" id="line-451"></span><span class="anchor" id="line-452"></span><span class="anchor" id="line-453"></span><span class="anchor" id="line-454"></span><span class="anchor" id="line-455"></span><span class="anchor" id="line-456"></span><span class="anchor" id="line-457"></span><span class="anchor" id="line-458"></span><span class="anchor" id="line-459"></span><span class="anchor" id="line-460"></span><span class="anchor" id="line-461"></span><span class="anchor" id="line-462"></span><span class="anchor" id="line-463"></span><span class="anchor" id="line-464"></span><span class="anchor" id="line-465"></span><span class="anchor" id="line-466"></span><span class="anchor" id="line-467"></span><span class="anchor" id="line-468"></span><span class="anchor" id="line-469"></span><span class="anchor" id="line-470"></span><span class="anchor" id="line-471"></span><span class="anchor" id="line-472"></span><span class="anchor" id="line-473"></span><span class="anchor" id="line-474"></span><span class="anchor" id="line-475"></span><span class="anchor" id="line-476"></span><span class="anchor" id="line-477"></span><span class="anchor" id="line-478"></span><span class="anchor" id="line-479"></span><span class="anchor" id="line-480"></span><span class="anchor" id="line-481"></span><span class="anchor" id="line-482"></span><span class="anchor" id="line-483"></span><span class="anchor" id="line-484"></span><span class="anchor" id="line-485"></span><span class="anchor" id="line-486"></span><span class="anchor" id="line-487"></span><span class="anchor" id="line-488"></span><span class="anchor" id="line-489"></span><span class="anchor" id="line-490"></span><span class="anchor" id="line-491"></span><span class="anchor" id="line-492"></span><span class="anchor" id="line-493"></span><span class="anchor" id="line-494"></span><span class="anchor" id="line-495"></span><span class="anchor" id="line-496"></span><span class="anchor" id="line-497"></span><span class="anchor" id="line-498"></span><span class="anchor" id="line-499"></span><span class="anchor" id="line-500"></span><span class="anchor" id="line-501"></span><span class="anchor" id="line-502"></span><span class="anchor" id="line-503"></span><span class="anchor" id="line-504"></span><span class="anchor" id="line-505"></span><span class="anchor" id="line-506"></span><span class="anchor" id="line-507"></span><span class="anchor" id="line-508"></span><span class="anchor" id="line-509"></span><span class="anchor" id="line-510"></span><span class="anchor" id="line-511"></span><span class="anchor" id="line-512"></span><span class="anchor" id="line-513"></span><span class="anchor" id="line-514"></span><span class="anchor" id="line-515"></span><span class="anchor" id="line-516"></span><span class="anchor" id="line-517"></span><span class="anchor" id="line-518"></span><span class="anchor" id="line-519"></span><span class="anchor" id="line-520"></span><span class="anchor" id="line-521"></span><span class="anchor" id="line-522"></span></p><pre><span class="anchor" id="line-1-34"></span>owner           which is the domain name where the RR is found.
+<span class="anchor" id="line-2-30"></span>                RR のラベル (定義されるドメイン名)
+<span class="anchor" id="line-3-27"></span>
+<span class="anchor" id="line-4-22"></span>type            which is an encoded 16 bit value that specifies the type
+<span class="anchor" id="line-5-14"></span>                of the resource in this resource record.  Types refer to
+<span class="anchor" id="line-6-10"></span>                abstract resources.
+<span class="anchor" id="line-7-9"></span>                RR の種類を示す16ビットの値。タイプは抽象
+<span class="anchor" id="line-8-6"></span>                的な資源を参照する。
+<span class="anchor" id="line-9-5"></span>
+<span class="anchor" id="line-10-5"></span>                This memo uses the following types:
+<span class="anchor" id="line-11-3"></span>                この文書では以下のタイプを使う：
+<span class="anchor" id="line-12-3"></span>
+<span class="anchor" id="line-13-3"></span>                A               a host address
+<span class="anchor" id="line-14-2"></span>                                ホストアドレス
+<span class="anchor" id="line-15-2"></span>
+<span class="anchor" id="line-16-2"></span>                CNAME           identifies the canonical name of an alias
+<span class="anchor" id="line-17-2"></span>                                別名に対する正規名
+<span class="anchor" id="line-18-1"></span>
+<span class="anchor" id="line-19-1"></span>                HINFO           identifies the CPU and OS used by a host
+<span class="anchor" id="line-20-1"></span>                                ホストで使われるCPU と OS の情報
+<span class="anchor" id="line-21-1"></span>
+<span class="anchor" id="line-22"></span>                MX              identifies a mail exchange for the
+<span class="anchor" id="line-23"></span>                                domain.  See [RFC-974 for details.
+<span class="anchor" id="line-24"></span>                                ドメインのメール交換ホスト情報
+<span class="anchor" id="line-25"></span>                                詳細は [RFC-974] を参照。
+<span class="anchor" id="line-26"></span>                NS              the authoritative name server for the domain
+<span class="anchor" id="line-27"></span>                                ドメインの権威(正式）ネームサーバ
+<span class="anchor" id="line-28"></span>
+<span class="anchor" id="line-29"></span>                PTR             a pointer to another part of the domain name space
+<span class="anchor" id="line-30"></span>                                ドメイン空間の他の部分へのポインタ
+<span class="anchor" id="line-31"></span>
+<span class="anchor" id="line-32"></span>                SOA             identifies the start of a zone of authority
+<span class="anchor" id="line-33"></span>                                権威あるゾーンの開始をしめす
+<span class="anchor" id="line-34"></span>
+<span class="anchor" id="line-35"></span>class           which is an encoded 16 bit value which identifies a
+<span class="anchor" id="line-36"></span>                protocol family or instance of a protocol.
+<span class="anchor" id="line-37"></span>                16ビット値であり、プロトコルファミリーあるいはプロトコルの
+<span class="anchor" id="line-38"></span>                インスタンスを識別する。
+<span class="anchor" id="line-39"></span>
+<span class="anchor" id="line-40"></span>                This memo uses the following classes:
+<span class="anchor" id="line-41"></span>                この文書では以下のクラスが使われる
+<span class="anchor" id="line-42"></span>
+<span class="anchor" id="line-43"></span>                IN              the Internet system
+<span class="anchor" id="line-44"></span>                                インターネットシステム
+<span class="anchor" id="line-45"></span>                CH              the Chaos system
+<span class="anchor" id="line-46"></span>                                カオスシステム
+<span class="anchor" id="line-47"></span>
+<span class="anchor" id="line-48"></span>TTL             which is the time to live of the RR.  This field is a 32
+<span class="anchor" id="line-49"></span>                bit integer in units of seconds, and is primarily used by
+<span class="anchor" id="line-50"></span>                resolvers when they cache RRs.  The TTL describes how
+<span class="anchor" id="line-51"></span>                long a RR can be cached before it should be discarded.
+<span class="anchor" id="line-52"></span>                RR の有効時間。このフィールドは秒単位の 32ビッの整数である、
+<span class="anchor" id="line-53"></span>                主にリゾルバが RRsをキャッシュする時に使われる。
+<span class="anchor" id="line-54"></span>                TTL は RR がキャッシュから捨てられる前に、
+<span class="anchor" id="line-55"></span>                どれだけ長く RR をキャッシュしておいてよいかを記述する。
+<span class="anchor" id="line-56"></span>
+<span class="anchor" id="line-57"></span>RDATA           which is the type and sometimes class dependent data
+<span class="anchor" id="line-58"></span>                which describes the resource:
+<span class="anchor" id="line-59"></span>                タイプや時にはクラスに依存する資源を記述するデータ：
+<span class="anchor" id="line-60"></span>
+<span class="anchor" id="line-61"></span>                A               For the IN class, a 32 bit IP address
+<span class="anchor" id="line-62"></span>                                IN クラスでは 32ビットの IPアドレス
+<span class="anchor" id="line-63"></span>
+<span class="anchor" id="line-64"></span>                                For the CH class, a domain name followed
+<span class="anchor" id="line-65"></span>                                by a 16 bit octal Chaos address.
+<span class="anchor" id="line-66"></span>                                CH クラスではドメイン名とそれに続く16ビット
+<span class="anchor" id="line-67"></span>                                の8進数カオスアドレス
+<span class="anchor" id="line-68"></span>
+<span class="anchor" id="line-69"></span>                CNAME           a domain name.
+<span class="anchor" id="line-70"></span>                                ドメイン名
+<span class="anchor" id="line-71"></span>
+<span class="anchor" id="line-72"></span>                MX              a 16 bit preference value (lower is
+<span class="anchor" id="line-73"></span>                                better) followed by a host name willing
+<span class="anchor" id="line-74"></span>                                to act as a mail exchange for the owner
+<span class="anchor" id="line-75"></span>                                domain.
+<span class="anchor" id="line-76"></span>                                16ビットの優先値(小さいほど優先）と、
+<span class="anchor" id="line-77"></span>                                ドメインのメール交換ホスト名
+<span class="anchor" id="line-78"></span>
+<span class="anchor" id="line-79"></span>                NS              a host name.
+<span class="anchor" id="line-80"></span>                                ホスト名
+<span class="anchor" id="line-81"></span>
+<span class="anchor" id="line-82"></span>                PTR             a domain name.
+<span class="anchor" id="line-83"></span>                                ドメイン名
+<span class="anchor" id="line-84"></span>
+<span class="anchor" id="line-85"></span>                SOA             several fields.
+<span class="anchor" id="line-86"></span>                                いくつかのフィールド</pre><span class="anchor" id="line-523"></span><p class="line867"><span class="anchor" id="line-524"></span><span class="anchor" id="line-525"></span><span class="anchor" id="line-526"></span><span class="anchor" id="line-527"></span><span class="anchor" id="line-528"></span><span class="anchor" id="line-529"></span><span class="anchor" id="line-530"></span></p><pre><span class="anchor" id="line-1-35"></span>The owner name is often implicit, rather than forming an integral part
+<span class="anchor" id="line-2-31"></span>of the RR.  For example, many name servers internally form tree or hash
+<span class="anchor" id="line-3-28"></span>structures for the name space, and chain RRs off nodes.  The remaining
+<span class="anchor" id="line-4-23"></span>RR parts are the fixed header (type, class, TTL) which is consistent for
+<span class="anchor" id="line-5-15"></span>all RRs, and a variable part (RDATA) that fits the needs of the resource
+<span class="anchor" id="line-6-11"></span>being described.</pre><span class="anchor" id="line-531"></span><p class="line874">ラベルは RR の中心的部分をなすというよりも暗黙指定されていることが多い。 <span class="anchor" id="line-532"></span>例えば、多くのネームサーバは内部的には <span class="anchor" id="line-533"></span>名前空間を木やハッシュ構造で表現している。 <span class="anchor" id="line-534"></span>そして、RRs をノードから解き離す。 <span class="anchor" id="line-535"></span>残る RR 部分はすべての RR に共通の固定ヘッダ(タイプ、クラス、TTL）と <span class="anchor" id="line-536"></span>記述されるリソース毎の要求に適した可変部(RDATA）から成る。 <span class="anchor" id="line-537"></span><span class="anchor" id="line-538"></span><span class="anchor" id="line-539"></span><span class="anchor" id="line-540"></span><span class="anchor" id="line-541"></span><span class="anchor" id="line-542"></span><span class="anchor" id="line-543"></span><span class="anchor" id="line-544"></span><span class="anchor" id="line-545"></span><span class="anchor" id="line-546"></span><span class="anchor" id="line-547"></span><span class="anchor" id="line-548"></span></p><pre><span class="anchor" id="line-1-36"></span>The meaning of the TTL field is a time limit on how long an RR can be
+<span class="anchor" id="line-2-32"></span>kept in a cache.  This limit does not apply to authoritative data in
+<span class="anchor" id="line-3-29"></span>zones; it is also timed out, but by the refreshing policies for the
+<span class="anchor" id="line-4-24"></span>zone.  The TTL is assigned by the administrator for the zone where the
+<span class="anchor" id="line-5-16"></span>data originates.  While short TTLs can be used to minimize caching, and
+<span class="anchor" id="line-6-12"></span>a zero TTL prohibits caching, the realities of Internet performance
+<span class="anchor" id="line-7-10"></span>suggest that these times should be on the order of days for the typical
+<span class="anchor" id="line-8-7"></span>host.  If a change can be anticipated, the TTL can be reduced prior to
+<span class="anchor" id="line-9-6"></span>the change to minimize inconsistency during the change, and then
+<span class="anchor" id="line-10-6"></span>increased back to its former value following the change.</pre><span class="anchor" id="line-549"></span><p class="line874">TTL フィールドは RRをキャッシュに保持してよい期間を意味する。 <span class="anchor" id="line-550"></span>この制限はゾーン内の権威あるデータには適用されない; <span class="anchor" id="line-551"></span>権威あるデータにも期限はあるが、それはゾーンの更新ポリシーに従う。 <span class="anchor" id="line-552"></span>TTL はゾーンのデータを作成する管理者がきめるものである。 <span class="anchor" id="line-553"></span>短い TTL だとキャッシュされる期間を小さくし、 <span class="anchor" id="line-554"></span>ゼロ TTL はキャッシュを禁止するが、 <span class="anchor" id="line-555"></span>インターネットの性能を考慮すべき現実では <span class="anchor" id="line-556"></span>通常ホストの場合、これらの値は数「日」程度にすべきことを示唆している。 <span class="anchor" id="line-557"></span>変更が予定されているなら、変更にさきだって、TTL を小さくしてよい。 <span class="anchor" id="line-558"></span>変更が行われている間の食違いを少なくするためである。 <span class="anchor" id="line-559"></span>変更後には元の値に戻していくのである。 <span class="anchor" id="line-560"></span><span class="anchor" id="line-561"></span><span class="anchor" id="line-562"></span><span class="anchor" id="line-563"></span><span class="anchor" id="line-564"></span></p><pre><span class="anchor" id="line-1-37"></span>The data in the RDATA section of RRs is carried as a combination of
+<span class="anchor" id="line-2-33"></span>binary strings and domain names.  The domain names are frequently used
+<span class="anchor" id="line-3-30"></span>as 'pointers' to other data in the DNS.</pre><span class="anchor" id="line-565"></span><p class="line874">RRsの RDATA節にあるデータはバイナリ列とドメイン名の組み合わせとして <span class="anchor" id="line-566"></span>運ばれる。 ドメイン名はしばしばDNS 中の他のデータへの「ポインタ」として <span class="anchor" id="line-567"></span>使われる。 <span class="anchor" id="line-568"></span><span class="anchor" id="line-569"></span></p><p class="line867"><span class="anchor" id="A02"></span> <span class="anchor" id="line-570"></span>3.6.1. 資源レコードのテキスト表現 Textual expression of RRs <span class="anchor" id="line-571"></span><span class="anchor" id="line-572"></span><span class="anchor" id="line-573"></span><span class="anchor" id="line-574"></span><span class="anchor" id="line-575"></span><span class="anchor" id="line-576"></span><span class="anchor" id="line-577"></span><span class="anchor" id="line-578"></span></p><pre><span class="anchor" id="line-1-38"></span>RRs are represented in binary form in the packets of the DNS protocol,
+<span class="anchor" id="line-2-34"></span>and are usually represented in highly encoded form when stored in a name
+<span class="anchor" id="line-3-31"></span>server or resolver.  In this memo, we adopt a style similar to that used
+<span class="anchor" id="line-4-25"></span>in master files in order to show the contents of RRs.  In this format,
+<span class="anchor" id="line-5-17"></span>most RRs are shown on a single line, although continuation lines are
+<span class="anchor" id="line-6-13"></span>possible using parentheses.</pre><span class="anchor" id="line-579"></span><p class="line874">RRs は DNSプロトコルのパケット中ではバイナリ形式で表わされる。 <span class="anchor" id="line-580"></span>そしてネームサーバやリゾルバ中に保持される時には <span class="anchor" id="line-581"></span>通常は高度にコード化された形で表現される。 <span class="anchor" id="line-582"></span>このメモでは、RRs の内容を表わすのにマスターファイルで使われる形式に <span class="anchor" id="line-583"></span>似た表現を使う。 <span class="anchor" id="line-584"></span>この形式ではほとんどの RRs は 1行で表現される。 <span class="anchor" id="line-585"></span>ただし、カッコを使えば、継続行も可能になる。 <span class="anchor" id="line-586"></span><span class="anchor" id="line-587"></span><span class="anchor" id="line-588"></span><span class="anchor" id="line-589"></span><span class="anchor" id="line-590"></span></p><pre><span class="anchor" id="line-1-39"></span>The start of the line gives the owner of the RR.  If a line begins with
+<span class="anchor" id="line-2-35"></span>a blank, then the owner is assumed to be the same as that of the
+<span class="anchor" id="line-3-32"></span>previous RR.  Blank lines are often included for readability.</pre><span class="anchor" id="line-591"></span><p class="line874">行の最初に RR のラベル(持主)を置く。空白で始まっている場合、 <span class="anchor" id="line-592"></span>直前の RR と同じとなる。読みやすさのために空白行を使える。 <span class="anchor" id="line-593"></span><span class="anchor" id="line-594"></span><span class="anchor" id="line-595"></span><span class="anchor" id="line-596"></span><span class="anchor" id="line-597"></span><span class="anchor" id="line-598"></span><span class="anchor" id="line-599"></span><span class="anchor" id="line-600"></span></p><pre><span class="anchor" id="line-1-40"></span>Following the owner, we list the TTL, type, and class of the RR.  Class
+<span class="anchor" id="line-2-36"></span>and type use the mnemonics defined above, and TTL is an integer before
+<span class="anchor" id="line-3-33"></span>the type field.  In order to avoid ambiguity in parsing, type and class
+<span class="anchor" id="line-4-26"></span>mnemonics are disjoint, TTLs are integers, and the type mnemonic is
+<span class="anchor" id="line-5-18"></span>always last. The IN class and TTL values are often omitted from examples
+<span class="anchor" id="line-6-14"></span>in the interests of clarity.</pre><span class="anchor" id="line-601"></span><p class="line874">ラベルの次には RR の TTL,タイプ,クラスがくる。 <span class="anchor" id="line-602"></span>クラスとタイプには上に定義された名称を用いる。 <span class="anchor" id="line-603"></span>そして、TTL はタイプ欄の前にある整数である。 <span class="anchor" id="line-604"></span>構文解析するときのあいまい性を避けるために、 <span class="anchor" id="line-605"></span>タイプとクラスの名称が重なることはない。 <span class="anchor" id="line-606"></span>さらに TTLは整数で、タイプ名は常に最後に置く。 <span class="anchor" id="line-607"></span>例題中では、論点を明かにするために、IN クラスとTTL値はしばしば省略される。 <span class="anchor" id="line-608"></span><span class="anchor" id="line-609"></span><span class="anchor" id="line-610"></span><span class="anchor" id="line-611"></span></p><pre><span class="anchor" id="line-1-41"></span>The resource data or RDATA section of the RR are given using knowledge
+<span class="anchor" id="line-2-37"></span>of the typical representation for the data.</pre><span class="anchor" id="line-612"></span><p class="line874">リソースデータや RR の RDATA節はデータの典型的表現 <span class="anchor" id="line-613"></span>の知識を使って、記述される。 <span class="anchor" id="line-614"></span><span class="anchor" id="line-615"></span><span class="anchor" id="line-616"></span></p><pre><span class="anchor" id="line-1-42"></span>For example, we might show the RRs carried in a message as:</pre><span class="anchor" id="line-617"></span><p class="line874">例えば、メッセージ中の RRs を次のように表現することがある： <span class="anchor" id="line-618"></span><span class="anchor" id="line-619"></span><span class="anchor" id="line-620"></span><span class="anchor" id="line-621"></span><span class="anchor" id="line-622"></span><span class="anchor" id="line-623"></span><span class="anchor" id="line-624"></span><span class="anchor" id="line-625"></span></p><pre><span class="anchor" id="line-1-43"></span>    ISI.EDU.        MX      10 VENERA.ISI.EDU.
+<span class="anchor" id="line-2-38"></span>                    MX      10 VAXA.ISI.EDU.
+<span class="anchor" id="line-3-34"></span>    VENERA.ISI.EDU. A       128.9.0.32
+<span class="anchor" id="line-4-27"></span>                    A       10.1.0.52
+<span class="anchor" id="line-5-19"></span>    VAXA.ISI.EDU.   A       10.2.0.27
+<span class="anchor" id="line-6-15"></span>                    A       128.9.0.33</pre><span class="anchor" id="line-626"></span><p class="line867"><span class="anchor" id="line-627"></span><span class="anchor" id="line-628"></span><span class="anchor" id="line-629"></span><span class="anchor" id="line-630"></span></p><pre><span class="anchor" id="line-1-44"></span>The MX RRs have an RDATA section which consists of a 16 bit number
+<span class="anchor" id="line-2-39"></span>followed by a domain name.  The address RRs use a standard IP address
+<span class="anchor" id="line-3-35"></span>format to contain a 32 bit internet address.</pre><span class="anchor" id="line-631"></span><p class="line874">MX RRs は 16ビット数とそれに続くドメイン名から成る RDATA 節を持つ。 <span class="anchor" id="line-632"></span>アドレス RRs は32ビットインターネットアドレスを示す <span class="anchor" id="line-633"></span>標準的 IP アドレス形式を使う。 <span class="anchor" id="line-634"></span><span class="anchor" id="line-635"></span><span class="anchor" id="line-636"></span></p><pre><span class="anchor" id="line-1-45"></span>This example shows six RRs, with two RRs at each of three domain names.</pre><span class="anchor" id="line-637"></span><p class="line874">上の例では三つのドメイン名に対してそれぞれ 2 つのRR があり、 <span class="anchor" id="line-638"></span>計 6 つの RRs が使われている <span class="anchor" id="line-639"></span><span class="anchor" id="line-640"></span><span class="anchor" id="line-641"></span></p><pre><span class="anchor" id="line-1-46"></span>Similarly we might see:</pre><span class="anchor" id="line-642"></span><p class="line874">同様にこういうのもある： <span class="anchor" id="line-643"></span><span class="anchor" id="line-644"></span><span class="anchor" id="line-645"></span><span class="anchor" id="line-646"></span></p><pre><span class="anchor" id="line-1-47"></span>    XX.LCS.MIT.EDU. IN      A       10.0.0.44
+<span class="anchor" id="line-2-40"></span>                    CH      A       MIT.EDU. 2420</pre><span class="anchor" id="line-647"></span><p class="line867"><span class="anchor" id="line-648"></span><span class="anchor" id="line-649"></span><span class="anchor" id="line-650"></span></p><pre><span class="anchor" id="line-1-48"></span>This example shows two addresses for XX.LCS.MIT.EDU, each of a different
+<span class="anchor" id="line-2-41"></span>class.</pre><span class="anchor" id="line-651"></span><p class="line874">この例は XX.LCS.MIT.EDU の 2つの異なるクラスのアドレスを表わしている。 <span class="anchor" id="line-652"></span><span class="anchor" id="line-653"></span></p><p class="line867"><span class="anchor" id="A03"></span> <span class="anchor" id="line-654"></span>3.6.2. 別名と正規名 Aliases and canonical names <span class="anchor" id="line-655"></span><span class="anchor" id="line-656"></span><span class="anchor" id="line-657"></span><span class="anchor" id="line-658"></span><span class="anchor" id="line-659"></span><span class="anchor" id="line-660"></span><span class="anchor" id="line-661"></span><span class="anchor" id="line-662"></span><span class="anchor" id="line-663"></span></p><pre><span class="anchor" id="line-1-49"></span>In existing systems, hosts and other resources often have several names
+<span class="anchor" id="line-2-42"></span>that identify the same resource.  For example, the names C.ISI.EDU and
+<span class="anchor" id="line-3-36"></span>USC-ISIC.ARPA both identify the same host.  Similarly, in the case of
+<span class="anchor" id="line-4-28"></span>mailboxes, many organizations provide many names that actually go to the
+<span class="anchor" id="line-5-20"></span>same mailbox; for example Mockapetris@C.ISI.EDU, Mockapetris@B.ISI.EDU,
+<span class="anchor" id="line-6-16"></span>and PVM@ISI.EDU all go to the same mailbox (although the mechanism
+<span class="anchor" id="line-7-11"></span>behind this is somewhat complicated).</pre><span class="anchor" id="line-664"></span><p class="line874">既存のシステムにおいては、ホストやその他の資源は <span class="anchor" id="line-665"></span>同じ資源を指すいくつかの名前を持つことがよくある。 <span class="anchor" id="line-666"></span>例えば、C.ISI.EDU と USC-ISIC.ARPA という名前は共に同じホストを <span class="anchor" id="line-667"></span>指している。 <span class="anchor" id="line-668"></span>同様に、メールボックスの場合には多くの組織で <span class="anchor" id="line-669"></span>結果として同じメールボックスに転送されることになる多くの名前を使っている; <span class="anchor" id="line-670"></span>例えば、<a class="mailto" href="mailto:Mockapetris@C.ISI.EDU">Mockapetris@C.ISI.EDU</a>, <a class="mailto" href="mailto:Mockapetris@B.ISI.EDU">Mockapetris@B.ISI.EDU</a>, <a class="mailto" href="mailto:PVM@ISI.EDU">PVM@ISI.EDU</a> <span class="anchor" id="line-671"></span>はどれも同じメイルボックスを指す。(そのための機構はだいぶ複雑だが） <span class="anchor" id="line-672"></span><span class="anchor" id="line-673"></span><span class="anchor" id="line-674"></span><span class="anchor" id="line-675"></span></p><pre><span class="anchor" id="line-1-50"></span>Most of these systems have a notion that one of the equivalent set of
+<span class="anchor" id="line-2-43"></span>names is the canonical or primary name and all others are aliases.</pre><span class="anchor" id="line-676"></span><p class="line874">多くのシステムには等価な名前の集合のうちのひとつが正規名 <span class="anchor" id="line-677"></span>あるいは本名であり、その他は別名であるという考えがある。 <span class="anchor" id="line-678"></span><span class="anchor" id="line-679"></span><span class="anchor" id="line-680"></span><span class="anchor" id="line-681"></span><span class="anchor" id="line-682"></span><span class="anchor" id="line-683"></span><span class="anchor" id="line-684"></span><span class="anchor" id="line-685"></span><span class="anchor" id="line-686"></span></p><pre><span class="anchor" id="line-1-51"></span>The domain system provides such a feature using the canonical name
+<span class="anchor" id="line-2-44"></span>(CNAME) RR.  A CNAME RR identifies its owner name as an alias, and
+<span class="anchor" id="line-3-37"></span>specifies the corresponding canonical name in the RDATA section of the
+<span class="anchor" id="line-4-29"></span>RR.  If a CNAME RR is present at a node, no other data should be
+<span class="anchor" id="line-5-21"></span>present; this ensures that the data for a canonical name and its aliases
+<span class="anchor" id="line-6-17"></span>cannot be different.  This rule also insures that a cached CNAME can be
+<span class="anchor" id="line-7-12"></span>used without checking with an authoritative server for other RR types.</pre><span class="anchor" id="line-687"></span><p class="line874">DNS は正規名(CNAME) RRを使ってこういう機能を実現する。 <span class="anchor" id="line-688"></span>CNAME RR はラベルが別名であることを示し、 <span class="anchor" id="line-689"></span>RR の RDATA 節にある正規名が本名であることを指定している。 <span class="anchor" id="line-690"></span>CNAME RR が存在する節点中には、他のデータは存在させられない; <span class="anchor" id="line-691"></span>これにより、正規名と別名に対するデータに違いがでないことが保証される。 <span class="anchor" id="line-692"></span>また、この規則により、キャッシュされた CNAMEを <span class="anchor" id="line-693"></span>権威あるサーバへ他のRRタイプについて問合わせることなく、 <span class="anchor" id="line-694"></span>使えることを保証する。 <span class="anchor" id="line-695"></span><span class="anchor" id="line-696"></span><span class="anchor" id="line-697"></span><span class="anchor" id="line-698"></span><span class="anchor" id="line-699"></span><span class="anchor" id="line-700"></span><span class="anchor" id="line-701"></span><span class="anchor" id="line-702"></span><span class="anchor" id="line-703"></span></p><pre><span class="anchor" id="line-1-52"></span>CNAME RRs cause special action in DNS software.  When a name server
+<span class="anchor" id="line-2-45"></span>fails to find a desired RR in the resource set associated with the
+<span class="anchor" id="line-3-38"></span>domain name, it checks to see if the resource set consists of a CNAME
+<span class="anchor" id="line-4-30"></span>record with a matching class.  If so, the name server includes the CNAME
+<span class="anchor" id="line-5-22"></span>record in the response and restarts the query at the domain name
+<span class="anchor" id="line-6-18"></span>specified in the data field of the CNAME record.  The one exception to
+<span class="anchor" id="line-7-13"></span>this rule is that queries which match the CNAME type are not restarted.</pre><span class="anchor" id="line-704"></span><p class="line874">CNAME RRsは DNSソフトウェアにおいて特別な振舞いをおこさせる。 <span class="anchor" id="line-705"></span><span class="anchor" id="line-706"></span></p><p class="line874">ドメイン名に付属する RR の中に希望するRRを見つけられなかった時、 <span class="anchor" id="line-707"></span>ネームサーバは同じクラスの CNAME レコード であるかをチェックする。 <span class="anchor" id="line-708"></span>もし、CNAME レコードだった場合には、 <span class="anchor" id="line-709"></span>返答に CNAME レコードを含めるとともに、 <span class="anchor" id="line-710"></span>CNAMEレコードのデータ欄で指定されたドメイン名を使って、再度問合せを行う。 <span class="anchor" id="line-711"></span>ただし、このルールにはひとつ例外があって、 <span class="anchor" id="line-712"></span>CNAME タイプが問合せられたときには問合せは再開されない。 <span class="anchor" id="line-713"></span><span class="anchor" id="line-714"></span><span class="anchor" id="line-715"></span><span class="anchor" id="line-716"></span><span class="anchor" id="line-717"></span></p><pre><span class="anchor" id="line-1-53"></span>For example, suppose a name server was processing a query with for USC-
+<span class="anchor" id="line-2-46"></span>ISIC.ARPA, asking for type A information, and had the following resource
+<span class="anchor" id="line-3-39"></span>records:</pre><span class="anchor" id="line-718"></span><p class="line874">例えば、USC-ISIC.ARPAのタイプ A 情報の問合せを処理しているときに、 <span class="anchor" id="line-719"></span>次の資源レコードがあったとせよ： <span class="anchor" id="line-720"></span><span class="anchor" id="line-721"></span><span class="anchor" id="line-722"></span><span class="anchor" id="line-723"></span><span class="anchor" id="line-724"></span></p><pre><span class="anchor" id="line-1-54"></span>    USC-ISIC.ARPA   IN      CNAME   C.ISI.EDU
+<span class="anchor" id="line-2-47"></span>
+<span class="anchor" id="line-3-40"></span>    C.ISI.EDU       IN      A       10.0.0.52</pre><span class="anchor" id="line-725"></span><p class="line867"><span class="anchor" id="line-726"></span><span class="anchor" id="line-727"></span><span class="anchor" id="line-728"></span></p><pre><span class="anchor" id="line-1-55"></span>Both of these RRs would be returned in the response to the type A query,
+<span class="anchor" id="line-2-48"></span>while a type CNAME or * query should return just the CNAME.</pre><span class="anchor" id="line-729"></span><p class="line874">タイプ A の問合せには両方の RRが返答として返されるが、 <span class="anchor" id="line-730"></span>CNAME や * 問合せでは CNAME だけが返されるはずだ。 <span class="anchor" id="line-731"></span><span class="anchor" id="line-732"></span><span class="anchor" id="line-733"></span><span class="anchor" id="line-734"></span><span class="anchor" id="line-735"></span><span class="anchor" id="line-736"></span></p><pre><span class="anchor" id="line-1-56"></span>Domain names in RRs which point at another name should always point at
+<span class="anchor" id="line-2-49"></span>the primary name and not the alias.  This avoids extra indirections in
+<span class="anchor" id="line-3-41"></span>accessing information.  For example, the address to name RR for the
+<span class="anchor" id="line-4-31"></span>above host should be:</pre><span class="anchor" id="line-737"></span><p class="line874">他の名前を指す RRs 中のドメイン名は別名ではなく、常に正規名を <span class="anchor" id="line-738"></span>指さねばならない。 <span class="anchor" id="line-739"></span>これにより情報アクセスにおいて、余分の間接参照を回避できる。 <span class="anchor" id="line-740"></span>例えば、上記のホストのアドレスを名前に変換する RR は <span class="anchor" id="line-741"></span>以下のようにするべきであり: <span class="anchor" id="line-742"></span><span class="anchor" id="line-743"></span><span class="anchor" id="line-744"></span></p><pre><span class="anchor" id="line-1-57"></span>    52.0.0.10.IN-ADDR.ARPA  IN      PTR     C.ISI.EDU</pre><span class="anchor" id="line-745"></span><p class="line867"><span class="anchor" id="line-746"></span><span class="anchor" id="line-747"></span><span class="anchor" id="line-748"></span><span class="anchor" id="line-749"></span><span class="anchor" id="line-750"></span></p><pre><span class="anchor" id="line-1-58"></span>rather than pointing at USC-ISIC.ARPA.  Of course, by the robustness
+<span class="anchor" id="line-2-50"></span>principle, domain software should not fail when presented with CNAME
+<span class="anchor" id="line-3-42"></span>chains or loops; CNAME chains should be followed and CNAME loops
+<span class="anchor" id="line-4-32"></span>signalled as an error.</pre><span class="anchor" id="line-751"></span><p class="line874">USC-ISIC.ARPA.を指すべきではない。 <span class="anchor" id="line-752"></span>もちろん、頑健性原理によって、 <span class="anchor" id="line-753"></span>ドメインソフトウェアは CNAME 連鎖やループにであっても、 <span class="anchor" id="line-754"></span>動作しつづけるべきである; <span class="anchor" id="line-755"></span>CNAME 連鎖はたどられ、CNAMEループはエラー報告すべきである。 <span class="anchor" id="line-756"></span><span class="anchor" id="line-757"></span></p><p class="line867"><span class="anchor" id="A04"></span> <span class="anchor" id="line-758"></span>
+</p><h3 id="A3.7._.2BVU9UCDBb_Queries">3.7. 問合せ Queries</h3>
+<span class="anchor" id="line-759"></span><p class="line867"><span class="anchor" id="line-760"></span><span class="anchor" id="line-761"></span><span class="anchor" id="line-762"></span><span class="anchor" id="line-763"></span><span class="anchor" id="line-764"></span><span class="anchor" id="line-765"></span></p><pre><span class="anchor" id="line-1-59"></span>Queries are messages which may be sent to a name server to provoke a
+<span class="anchor" id="line-2-51"></span>response.  In the Internet, queries are carried in UDP datagrams or over
+<span class="anchor" id="line-3-43"></span>TCP connections.  The response by the name server either answers the
+<span class="anchor" id="line-4-33"></span>question posed in the query, refers the requester to another set of name
+<span class="anchor" id="line-5-23"></span>servers, or signals some error condition.</pre><span class="anchor" id="line-766"></span><p class="line874">問合せとは返事を得るためにネームサーバに送られるメッセージである。 <span class="anchor" id="line-767"></span>インターネットでは問合せには UDPデータグラムか、TCP接続が使われる。 <span class="anchor" id="line-768"></span>ネームサーバからの返答は問合せられた質問にたいする返答であるか、 <span class="anchor" id="line-769"></span>別のネームサーバ群への参照であるか、エラー発生の通知のどれかである。 <span class="anchor" id="line-770"></span><span class="anchor" id="line-771"></span><span class="anchor" id="line-772"></span><span class="anchor" id="line-773"></span><span class="anchor" id="line-774"></span><span class="anchor" id="line-775"></span><span class="anchor" id="line-776"></span></p><pre><span class="anchor" id="line-1-60"></span>In general, the user does not generate queries directly, but instead
+<span class="anchor" id="line-2-52"></span>makes a request to a resolver which in turn sends one or more queries to
+<span class="anchor" id="line-3-44"></span>name servers and deals with the error conditions and referrals that may
+<span class="anchor" id="line-4-34"></span>result.  Of course, the possible questions which can be asked in a query
+<span class="anchor" id="line-5-24"></span>does shape the kind of service a resolver can provide.</pre><span class="anchor" id="line-777"></span><p class="line874">一般に、利用者は問合せを直接生成せず、代わりにリゾルバに問い合わせる。 <span class="anchor" id="line-778"></span>リゾルバがネームサーバーに問合せて、発生したエラーや参照を処理する。 <span class="anchor" id="line-779"></span>もちろん、問合せとして出来る質問の範囲によって、 <span class="anchor" id="line-780"></span>リゾルバのサービスする種類がきまる。 <span class="anchor" id="line-781"></span><span class="anchor" id="line-782"></span><span class="anchor" id="line-783"></span><span class="anchor" id="line-784"></span><span class="anchor" id="line-785"></span><span class="anchor" id="line-786"></span></p><pre><span class="anchor" id="line-1-61"></span>DNS queries and responses are carried in a standard message format.  The
+<span class="anchor" id="line-2-53"></span>message format has a header containing a number of fixed fields which
+<span class="anchor" id="line-3-45"></span>are always present, and four sections which carry query parameters and
+<span class="anchor" id="line-4-35"></span>RRs.</pre><span class="anchor" id="line-787"></span><p class="line874">DNSの問合せと返答は標準的なメッセージ形式をしている。 <span class="anchor" id="line-788"></span>メッセージ形式はヘッダ(常に存在している複数の固定フィールドをもつ)と <span class="anchor" id="line-789"></span>問合せパラメータと RR のための 4つの節(section)を持つ。 <span class="anchor" id="line-790"></span><span class="anchor" id="line-791"></span><span class="anchor" id="line-792"></span><span class="anchor" id="line-793"></span><span class="anchor" id="line-794"></span><span class="anchor" id="line-795"></span><span class="anchor" id="line-796"></span></p><pre><span class="anchor" id="line-1-62"></span>The most important field in the header is a four bit field called an
+<span class="anchor" id="line-2-54"></span>opcode which separates different queries.  Of the possible 16 values,
+<span class="anchor" id="line-3-46"></span>one (standard query) is part of the official protocol, two (inverse
+<span class="anchor" id="line-4-36"></span>query and status query) are options, one (completion) is obsolete, and
+<span class="anchor" id="line-5-25"></span>the rest are unassigned.</pre><span class="anchor" id="line-797"></span><p class="line874">ヘッダのうち最も重要なフィールドは問合せを分離するための opcode と呼 <span class="anchor" id="line-798"></span>ばれる 4 ビットのフィールドである。 <span class="anchor" id="line-799"></span>16 の可能な値のうち、ひとつ(標準的問合せ)は公式プロトコルの一部であり、 <span class="anchor" id="line-800"></span>ふたつ (逆問合せと状態問合せ）は任意実装であり、 <span class="anchor" id="line-801"></span>また、別のひとつ(補完）は廃止されており、残りは割り当てられていない。 <span class="anchor" id="line-802"></span><span class="anchor" id="line-803"></span><span class="anchor" id="line-804"></span></p><pre><span class="anchor" id="line-1-63"></span>The four sections are:</pre><span class="anchor" id="line-805"></span><p class="line874">よっつの節とは <span class="anchor" id="line-806"></span><span class="anchor" id="line-807"></span><span class="anchor" id="line-808"></span><span class="anchor" id="line-809"></span><span class="anchor" id="line-810"></span><span class="anchor" id="line-811"></span><span class="anchor" id="line-812"></span><span class="anchor" id="line-813"></span><span class="anchor" id="line-814"></span><span class="anchor" id="line-815"></span><span class="anchor" id="line-816"></span><span class="anchor" id="line-817"></span><span class="anchor" id="line-818"></span><span class="anchor" id="line-819"></span><span class="anchor" id="line-820"></span><span class="anchor" id="line-821"></span><span class="anchor" id="line-822"></span></p><pre><span class="anchor" id="line-1-64"></span>Question        Carries the query name and other query parameters.
+<span class="anchor" id="line-2-55"></span>質問            問合せ名と問合せパラメータ
+<span class="anchor" id="line-3-47"></span>
+<span class="anchor" id="line-4-37"></span>Answer          Carries RRs which directly answer the query.
+<span class="anchor" id="line-5-26"></span>返答            問合せの直接の答えであるRR
+<span class="anchor" id="line-6-19"></span>
+<span class="anchor" id="line-7-14"></span>Authority       Carries RRs which describe other authoritative servers.
+<span class="anchor" id="line-8-8"></span>                May optionally carry the SOA RR for the authoritative
+<span class="anchor" id="line-9-7"></span>                data in the answer section.
+<span class="anchor" id="line-10-7"></span>権威            他の権威あるサーバについて記述する RR
+<span class="anchor" id="line-11-4"></span>                返答節にある権威あるデータの SOA RRを含めてもよい。
+<span class="anchor" id="line-12-4"></span>
+<span class="anchor" id="line-13-4"></span>Additional      Carries RRs which may be helpful in using the RRs in the
+<span class="anchor" id="line-14-3"></span>                other sections.
+<span class="anchor" id="line-15-3"></span>付加            他の節のRR を使うことを補助するRR</pre><span class="anchor" id="line-823"></span><p class="line867"><span class="anchor" id="line-824"></span><span class="anchor" id="line-825"></span><span class="anchor" id="line-826"></span></p><pre><span class="anchor" id="line-1-65"></span>Note that the content, but not the format, of these sections varies with
+<span class="anchor" id="line-2-56"></span>header opcode.</pre><span class="anchor" id="line-827"></span><p class="line874">これらの節の内容(形式ではなく）はヘッダの opcode により変わることに注意せよ。 <span class="anchor" id="line-828"></span><span class="anchor" id="line-829"></span><span class="anchor" id="line-830"></span><span class="anchor" id="line-831"></span><span class="anchor" id="line-832"></span><span class="anchor" id="line-833"></span><span class="anchor" id="line-834"></span><span class="anchor" id="line-835"></span><span class="anchor" id="line-836"></span><span class="anchor" id="line-837"></span><span class="anchor" id="line-838"></span></p><pre><span class="anchor" id="line-1-66"></span>&lt;&lt;Anchor(05)&gt;&gt;
+<span class="anchor" id="line-2-57"></span>3.7.1. 標準問合せ Standard queries
+<span class="anchor" id="line-3-48"></span>{{{
+<span class="anchor" id="line-4-38"></span>A standard query specifies a target domain name (QNAME), query type
+<span class="anchor" id="line-5-27"></span>(QTYPE), and query class (QCLASS) and asks for RRs which match.  This
+<span class="anchor" id="line-6-20"></span>type of query makes up such a vast majority of DNS queries that we use
+<span class="anchor" id="line-7-15"></span>the term 'query' to mean standard query unless otherwise specified.
+<span class="anchor" id="line-8-9"></span>The QTYPE and QCLASS fields are each 16 bits long, and are a superset of
+<span class="anchor" id="line-9-8"></span>defined types and classes.</pre><span class="anchor" id="line-839"></span><p class="line874">標準的な問合せは目標ドメイン名(QNAME)、問合せタイプ(QTYPE)、問合せク <span class="anchor" id="line-840"></span>ラス(QCLASS)を指定して一致する RR を求る。 <span class="anchor" id="line-841"></span>この種の問合せが DNS 問合せの大部分であるので、 <span class="anchor" id="line-842"></span>特に断わりなく単に「問合せ」と言った場合、標準の問合せを意味する。 <span class="anchor" id="line-843"></span>QTYPEとQCLASSフィールドは長さ 16ビットで、 <span class="anchor" id="line-844"></span>定義されているタイプとクラスの上位集合である。 <span class="anchor" id="line-845"></span><span class="anchor" id="line-846"></span><span class="anchor" id="line-847"></span></p><pre><span class="anchor" id="line-1-67"></span>The QTYPE field may contain:</pre><span class="anchor" id="line-848"></span><p class="line874">QTYPEフィールドに表われてよいもの： <span class="anchor" id="line-849"></span><span class="anchor" id="line-850"></span><span class="anchor" id="line-851"></span><span class="anchor" id="line-852"></span><span class="anchor" id="line-853"></span><span class="anchor" id="line-854"></span><span class="anchor" id="line-855"></span><span class="anchor" id="line-856"></span><span class="anchor" id="line-857"></span><span class="anchor" id="line-858"></span><span class="anchor" id="line-859"></span><span class="anchor" id="line-860"></span><span class="anchor" id="line-861"></span></p><pre><span class="anchor" id="line-1-68"></span>&lt;any type&gt;      matches just that type. (e.g., A, PTR).
+<span class="anchor" id="line-2-58"></span>                指定されたタイプそのものに一致する(AやPTRなど）
+<span class="anchor" id="line-3-49"></span>
+<span class="anchor" id="line-4-39"></span>AXFR            special zone transfer QTYPE.
+<span class="anchor" id="line-5-28"></span>                特別なゾーン転送 QTYPE
+<span class="anchor" id="line-6-21"></span>
+<span class="anchor" id="line-7-16"></span>MAILB           matches all mail box related RRs (e.g. MB and MG).
+<span class="anchor" id="line-8-10"></span>                全てのメールボックス関係のRR(MBやMGなど）
+<span class="anchor" id="line-9-9"></span>
+<span class="anchor" id="line-10-8"></span>*               matches all RR types.
+<span class="anchor" id="line-11-5"></span>                全てのRRタイプに一致</pre><span class="anchor" id="line-862"></span><p class="line867"><span class="anchor" id="line-863"></span><span class="anchor" id="line-864"></span></p><pre><span class="anchor" id="line-1-69"></span>The QCLASS field may contain:</pre><span class="anchor" id="line-865"></span><p class="line874">QCLASSフィールドに表われてよいもの: <span class="anchor" id="line-866"></span><span class="anchor" id="line-867"></span><span class="anchor" id="line-868"></span><span class="anchor" id="line-869"></span><span class="anchor" id="line-870"></span><span class="anchor" id="line-871"></span><span class="anchor" id="line-872"></span></p><pre><span class="anchor" id="line-1-70"></span>&lt;any class&gt;     matches just that class (e.g., IN, CH).
+<span class="anchor" id="line-2-59"></span>                指定されたクラスそのものに一致(INやCHなど）
+<span class="anchor" id="line-3-50"></span>
+<span class="anchor" id="line-4-40"></span>*               matches aLL RR classes.
+<span class="anchor" id="line-5-29"></span>                全てのRRクラスに一致</pre><span class="anchor" id="line-873"></span><p class="line867"><span class="anchor" id="line-874"></span><span class="anchor" id="line-875"></span><span class="anchor" id="line-876"></span><span class="anchor" id="line-877"></span><span class="anchor" id="line-878"></span><span class="anchor" id="line-879"></span><span class="anchor" id="line-880"></span><span class="anchor" id="line-881"></span><span class="anchor" id="line-882"></span></p><pre><span class="anchor" id="line-1-71"></span>Using the query domain name, QTYPE, and QCLASS, the name server looks
+<span class="anchor" id="line-2-60"></span>for matching RRs.  In addition to relevant records, the name server may
+<span class="anchor" id="line-3-51"></span>return RRs that point toward a name server that has the desired
+<span class="anchor" id="line-4-41"></span>information or RRs that are expected to be useful in interpreting the
+<span class="anchor" id="line-5-30"></span>relevant RRs.  For example, a name server that doesn't have the
+<span class="anchor" id="line-6-22"></span>requested information may know a name server that does; a name server
+<span class="anchor" id="line-7-17"></span>that returns a domain name in a relevant RR may also return the RR that
+<span class="anchor" id="line-8-11"></span>binds that domain name to an address.</pre><span class="anchor" id="line-883"></span><p class="line874">問合せドメイン名、QTYPEとQCLASSを使って、 <span class="anchor" id="line-884"></span>ネームサーバーは該当する RRs を探す。 <span class="anchor" id="line-885"></span><span class="anchor" id="line-886"></span></p><p class="line874">ネームサーバは返答としてのレコードのほかに、 <span class="anchor" id="line-887"></span>期待される情報を持つネームサーバをポイントするRRや、 <span class="anchor" id="line-888"></span>RRを解釈するのに有用と思われる RR を返すことがある。 <span class="anchor" id="line-889"></span>例えば、求められた情報を持たないネームサーバでも、 <span class="anchor" id="line-890"></span>持っているネームサーバは知っているかもしれない; <span class="anchor" id="line-891"></span><span class="anchor" id="line-892"></span></p><p class="line874">RR中にドメイン名を返すネームサーバは <span class="anchor" id="line-893"></span>ドメイン名をアドレスに結合する RR を一緒に返す <span class="anchor" id="line-894"></span>ことがある。 <span class="anchor" id="line-895"></span><span class="anchor" id="line-896"></span><span class="anchor" id="line-897"></span><span class="anchor" id="line-898"></span><span class="anchor" id="line-899"></span><span class="anchor" id="line-900"></span></p><pre><span class="anchor" id="line-1-72"></span>For example, a mailer tying to send mail to Mockapetris@ISI.EDU might
+<span class="anchor" id="line-2-61"></span>ask the resolver for mail information about ISI.EDU, resulting in a
+<span class="anchor" id="line-3-52"></span>query for QNAME=ISI.EDU, QTYPE=MX, QCLASS=IN.  The response's answer
+<span class="anchor" id="line-4-42"></span>section would be:</pre><span class="anchor" id="line-901"></span><p class="line862">例えば、<a class="mailto" href="mailto:Mockapetris@ISI.EDU%E3%81%AB%E3%83%A1%E3%83%BC%E3%83%AB%E3%82%92%E9%80%81%E3%82%8D%E3%81%86%E3%81%A8%E3%81%97%E3%81%A6%E3%81%84%E3%82%8B%E3%83%A1%E3%82%A4%E3%83%A9%E3%81%AF">Mockapetris@ISI.EDUにメールを送ろうとしているメイラは</a> <span class="anchor" id="line-902"></span>リゾルバに ISI.EDU のメール情報を問い合わせる。 <span class="anchor" id="line-903"></span>その結果、QNAME=ISI.EDU, QTYPE=MX, QCLASS=INの問合せが発生する。 <span class="anchor" id="line-904"></span>返事の返答節はこうなる： <span class="anchor" id="line-905"></span><span class="anchor" id="line-906"></span><span class="anchor" id="line-907"></span><span class="anchor" id="line-908"></span></p><pre><span class="anchor" id="line-1-73"></span>    ISI.EDU.        MX      10 VENERA.ISI.EDU.
+<span class="anchor" id="line-2-62"></span>                    MX      10 VAXA.ISI.EDU.</pre><span class="anchor" id="line-909"></span><p class="line867"><span class="anchor" id="line-910"></span><span class="anchor" id="line-911"></span><span class="anchor" id="line-912"></span></p><pre><span class="anchor" id="line-1-74"></span>while the additional section might be:</pre><span class="anchor" id="line-913"></span><p class="line874">一方、付加節はこうだろう： <span class="anchor" id="line-914"></span><span class="anchor" id="line-915"></span><span class="anchor" id="line-916"></span><span class="anchor" id="line-917"></span><span class="anchor" id="line-918"></span><span class="anchor" id="line-919"></span></p><pre><span class="anchor" id="line-1-75"></span>    VAXA.ISI.EDU.   A       10.2.0.27
+<span class="anchor" id="line-2-63"></span>                    A       128.9.0.33
+<span class="anchor" id="line-3-53"></span>    VENERA.ISI.EDU. A       10.1.0.52
+<span class="anchor" id="line-4-43"></span>                    A       128.9.0.32</pre><span class="anchor" id="line-920"></span><p class="line867"><span class="anchor" id="line-921"></span><span class="anchor" id="line-922"></span><span class="anchor" id="line-923"></span><span class="anchor" id="line-924"></span></p><pre><span class="anchor" id="line-1-76"></span>Because the server assumes that if the requester wants mail exchange
+<span class="anchor" id="line-2-64"></span>information, it will probably want the addresses of the mail exchanges
+<span class="anchor" id="line-3-54"></span>soon afterward.</pre><span class="anchor" id="line-925"></span><p class="line874">要求者がメール交換ホスト情報を必要とするなら、すぐにメール交換ホストの <span class="anchor" id="line-926"></span>アドレスも必要になるものとネームサーバは想定するからだ。 <span class="anchor" id="line-927"></span><span class="anchor" id="line-928"></span><span class="anchor" id="line-929"></span><span class="anchor" id="line-930"></span><span class="anchor" id="line-931"></span><span class="anchor" id="line-932"></span><span class="anchor" id="line-933"></span></p><pre><span class="anchor" id="line-1-77"></span>Note that the QCLASS=* construct requires special interpretation
+<span class="anchor" id="line-2-65"></span>regarding authority.  Since a particular name server may not know all of
+<span class="anchor" id="line-3-55"></span>the classes available in the domain system, it can never know if it is
+<span class="anchor" id="line-4-44"></span>authoritative for all classes.  Hence responses to QCLASS=* queries can
+<span class="anchor" id="line-5-31"></span>never be authoritative.</pre><span class="anchor" id="line-934"></span><p class="line874">QCLASS=* 構成は権威に関して特別な解釈を要することに注意せよ。 <span class="anchor" id="line-935"></span>ネームサーバは DNS で利用可能なクラスのすべてを知っているとは限らないので、 <span class="anchor" id="line-936"></span>すべてのクラスに対して権威があるかどうかは知るはずもない。 <span class="anchor" id="line-937"></span>そのため、QCLASS=* の質問に対する返答は決して権威あるものにはならない。 <span class="anchor" id="line-938"></span><span class="anchor" id="line-939"></span></p><p class="line867"><span class="anchor" id="A06"></span> <span class="anchor" id="line-940"></span>3.7.2. 逆問合せ(任意）Inverse queries (Optional) <span class="anchor" id="line-941"></span><span class="anchor" id="line-942"></span><span class="anchor" id="line-943"></span><span class="anchor" id="line-944"></span><span class="anchor" id="line-945"></span><span class="anchor" id="line-946"></span><span class="anchor" id="line-947"></span></p><pre><span class="anchor" id="line-1-78"></span>Name servers may also support inverse queries that map a particular
+<span class="anchor" id="line-2-66"></span>resource to a domain name or domain names that have that resource.  For
+<span class="anchor" id="line-3-56"></span>example, while a standard query might map a domain name to a SOA RR, the
+<span class="anchor" id="line-4-45"></span>corresponding inverse query might map the SOA RR back to the domain
+<span class="anchor" id="line-5-32"></span>name.</pre><span class="anchor" id="line-948"></span><p class="line874">ネームサーバは資源から資源もつドメイン名(複数可)へ変換するような <span class="anchor" id="line-949"></span>逆問合せをサポートするかもしれない。 <span class="anchor" id="line-950"></span>例えば、標準的問合せでドメイン名をSOA RRに変換するものがあるが、 <span class="anchor" id="line-951"></span>対応する逆問合せは SOA RR をドメイン名に戻す。 <span class="anchor" id="line-952"></span><span class="anchor" id="line-953"></span><span class="anchor" id="line-954"></span><span class="anchor" id="line-955"></span><span class="anchor" id="line-956"></span></p><pre><span class="anchor" id="line-1-79"></span>Implementation of this service is optional in a name server, but all
+<span class="anchor" id="line-2-67"></span>name servers must at least be able to understand an inverse query
+<span class="anchor" id="line-3-57"></span>message and return a not-implemented error response.</pre><span class="anchor" id="line-957"></span><p class="line874">このサービスの実装はネームサーバには任意であるが、 <span class="anchor" id="line-958"></span>ネームサーバは少なくとも逆問合せメッセージを理解して、 <span class="anchor" id="line-959"></span>「実装していない」エラー返答を返す必要がある。 <span class="anchor" id="line-960"></span><span class="anchor" id="line-961"></span><span class="anchor" id="line-962"></span><span class="anchor" id="line-963"></span><span class="anchor" id="line-964"></span><span class="anchor" id="line-965"></span></p><pre><span class="anchor" id="line-1-80"></span>The domain system cannot guarantee the completeness or uniqueness of
+<span class="anchor" id="line-2-68"></span>inverse queries because the domain system is organized by domain name
+<span class="anchor" id="line-3-58"></span>rather than by host address or any other resource type.  Inverse queries
+<span class="anchor" id="line-4-46"></span>are primarily useful for debugging and database maintenance activities.</pre><span class="anchor" id="line-966"></span><p class="line874">DNS はドメイン名をもとに構成されており、 <span class="anchor" id="line-967"></span>ホストアドレスやほかの資源タイプをもとにしていないので、 <span class="anchor" id="line-968"></span>逆問合せの完全性やユニーク性を保証できない。 <span class="anchor" id="line-969"></span>逆問合せは主としてデバッグやデータベース管理作業に有用である。 <span class="anchor" id="line-970"></span><span class="anchor" id="line-971"></span><span class="anchor" id="line-972"></span><span class="anchor" id="line-973"></span><span class="anchor" id="line-974"></span><span class="anchor" id="line-975"></span></p><pre><span class="anchor" id="line-1-81"></span>Inverse queries may not return the proper TTL, and do not indicate cases
+<span class="anchor" id="line-2-69"></span>where the identified RR is one of a set (for example, one address for a
+<span class="anchor" id="line-3-59"></span>host having multiple addresses).  Therefore, the RRs returned in inverse
+<span class="anchor" id="line-4-47"></span>queries should never be cached.</pre><span class="anchor" id="line-976"></span><p class="line874">逆問い合わせは適切なTTLを返さないかもしれず、 <span class="anchor" id="line-977"></span>識別された RR が集合のうちのひとつである場合、 <span class="anchor" id="line-978"></span>そのことを示さない。 <span class="anchor" id="line-979"></span>(例えば、複数アドレスをもつホストのアドレスのうちの１つ）。 <span class="anchor" id="line-980"></span>そのため逆問い合わせに対して返された RRs は決してキャッシュすべきではない。 <span class="anchor" id="line-981"></span><span class="anchor" id="line-982"></span><span class="anchor" id="line-983"></span><span class="anchor" id="line-984"></span></p><pre><span class="anchor" id="line-1-82"></span>Inverse queries are NOT an acceptable method for mapping host addresses
+<span class="anchor" id="line-2-70"></span>to host names; use the IN-ADDR.ARPA domain instead.</pre><span class="anchor" id="line-985"></span><p class="line874">逆問合せはホストアドレスをホスト名に変換する方法としては <span class="anchor" id="line-986"></span>受入れられる方法ではない; <span class="anchor" id="line-987"></span>代わりにIN-ADDR.ARPAドメインを使うべきだ。 <span class="anchor" id="line-988"></span><span class="anchor" id="line-989"></span><span class="anchor" id="line-990"></span></p><pre><span class="anchor" id="line-1-83"></span>A detailed discussion of inverse queries is contained in [RFC-1035].</pre><span class="anchor" id="line-991"></span><p class="line874">逆問い合わせの詳細な論議は[RFC-1035]にある。 <span class="anchor" id="line-992"></span><span class="anchor" id="line-993"></span></p><p class="line867"><span class="anchor" id="A07"></span> <span class="anchor" id="line-994"></span>
+</p><h3 id="A3.8._.2BcrZhS1VPVAgwWw.28.2BW5.2BaE3aE.2Fwk_Status_queries_.28Experimental.29">3.8. 状態問合せ(実験的） Status queries (Experimental)</h3>
+<span class="anchor" id="line-995"></span><p class="line867"><span class="anchor" id="line-996"></span><span class="anchor" id="line-997"></span></p><pre><span class="anchor" id="line-1-84"></span>To be defined.</pre><span class="anchor" id="line-998"></span><p class="line874">まだ定義されていない。 <span class="anchor" id="line-999"></span><span class="anchor" id="line-1000"></span></p><p class="line867"><span class="anchor" id="A08"></span> <span class="anchor" id="line-1001"></span>
+</p><h3 id="A3.9._.2BiNxbjDBujOpVTw.28.2BXsNrYg.29_Completion_queries_.28Obsolete.29">3.9. 補完の質問(廃止) Completion queries (Obsolete)</h3>
+<span class="anchor" id="line-1002"></span><p class="line867"><span class="anchor" id="line-1003"></span><span class="anchor" id="line-1004"></span><span class="anchor" id="line-1005"></span><span class="anchor" id="line-1006"></span></p><pre><span class="anchor" id="line-1-85"></span>The optional completion services described in RFCs 882 and 883 have been
+<span class="anchor" id="line-2-71"></span>deleted.  Redesigned services may become available in the future, or the
+<span class="anchor" id="line-3-60"></span>opcodes may be reclaimed for other use.</pre><span class="anchor" id="line-1007"></span><p class="line874">RFC882とRFC883にあった実装任意の補完サービスは削除された。 <span class="anchor" id="line-1008"></span>将来、設計しなおされたサービスが利用可能になったり、 <span class="anchor" id="line-1009"></span>opcodesが他の目的のために回収される可能性がある。 <span class="anchor" id="line-1010"></span><span class="anchor" id="line-1011"></span></p><p class="line867"></p><hr><p class="line874"> <span class="anchor" id="line-1012"></span>2002-08-08 訳 前野年紀 <span class="anchor" id="line-1013"></span><span class="anchor" id="bottom"></span></p></div><p id="pageinfo" class="info" lang="ja" dir="ltr">MoinqmailJp: DNS/RFC/1034/3  (最終更新日時 2017-03-13 10:04:43 更新者 <span title="maeno @ localhost[127.0.0.1]"><a href="https://moin.qmail.jp/ToshinoriMaeno" title="maeno @ localhost[127.0.0.1]">ToshinoriMaeno</a></span>)</p>
+
+<div id="pagebottom"></div>
+</div>
+
+
+<div id="footer">
+<ul class="editbar"><li><span class="disabled">編集不可のページ</span></li><li class="toggleCommentsButton" style="display:none;"><a href="https://moin.qmail.jp/DNS/RFC/1034/3#" class="nbcomment" onclick="toggleComments();return false;">コメント</a></li><li><a class="nbinfo" href="https://moin.qmail.jp/DNS/RFC/1034/3?action=info" rel="nofollow">情報</a></li><li><a class="nbattachments" href="https://moin.qmail.jp/DNS/RFC/1034/3?action=AttachFile" rel="nofollow">添付ファイル</a></li><li>
+<form class="actionsmenu" method="GET" action="https://moin.qmail.jp/DNS/RFC/1034/3">
+<div>
+    
+    <select name="action" onchange="if ((this.selectedIndex != 0) &amp;&amp;
+                      (this.options[this.selectedIndex].disabled == false)) {
+                this.form.submit();
+            }
+            this.selectedIndex = 0;">
+        <option value="show">その他のアクション:</option><option value="raw">Wikiテキスト</option>
+<option value="print">印刷ビュー</option>
+<option value="RenderAsDocbook">Docbookで表示</option>
+<option value="refresh">キャッシュ削除</option>
+<option value="show" disabled="" class="disabled">------------------------</option>
+<option value="SpellCheck">スペルチェック</option>
+<option value="LikePages">似たページ</option>
+<option value="LocalSiteMap">ローカルサイトマップ</option>
+<option value="show" disabled="" class="disabled">------------------------</option>
+<option value="RenamePage" disabled="" class="disabled">ページ名変更</option>
+<option value="CopyPage">ページコピー</option>
+<option value="DeletePage" disabled="" class="disabled">ページ削除</option>
+<option value="show" disabled="" class="disabled">------------------------</option>
+<option value="MyPages">マイページ</option>
+<option value="show" disabled="" class="disabled">購読ユーザ追加</option>
+<option value="show" disabled="" class="disabled">------------------------</option>
+<option value="show" disabled="" class="disabled">スパム削除</option>
+<option value="show" disabled="" class="disabled">このリビジョンに戻す</option>
+<option value="PackagePages">ページパッケージ化</option>
+<option value="SyncPages">ページ同期</option>
+<option value="show" disabled="" class="disabled">------------------------</option>
+<option value="CreateNewPage">CreateNewPage</option>
+<option value="Load">ロード</option>
+<option value="PageActions">PageActions</option>
+<option value="Save">保存</option>
+<option value="SlideShow">SlideShow</option>
+<option value="Thumbnails">Thumbnails</option>
+    </select>
+    
+    
+</div>
+<script type="text/javascript">
+<!--// Init menu
+actionsMenuInit('その他のアクション:');
+//-->
+</script>
+</form>
+</li></ul>
+
+<ul id="credits">
+<li><a href="http://moinmo.in/" title="This site uses the MoinMoin Wiki software.">MoinMoin Powered</a></li><li><a href="http://moinmo.in/Python" title="MoinMoin is written in Python.">Python Powered</a></li><li><a href="http://moinmo.in/GPL" title="MoinMoin is GPL licensed.">GPL licensed</a></li><li><a href="http://validator.w3.org/check?uri=referer" title="Click here to validate this page.">Valid HTML 4.01</a></li>
+</ul>
+
+
+</div>
+
+
+
+</body></html>
