@@ -32,15 +32,6 @@ functions:
    1. Host name to host address translation.
 
       This function is often defined to mimic a previous HOSTS.TXT
-
-
-
-Mockapetris                                                    [Page 29]
-
- 
-RFC 1034             Domain Concepts and Facilities        November 1987
-
-
       based function.  Given a character string, the caller wants
       one or more 32 bit IP addresses.  Under the DNS, it
       translates into a request for type A RRs.  Since the DNS does
@@ -89,15 +80,6 @@ the following results to pass back to the client:
 
      This happens when the referenced name exists, but data of the
      appropriate type does not.  For example, a host address
-
-
-
-Mockapetris                                                    [Page 30]
-
- 
-RFC 1034             Domain Concepts and Facilities        November 1987
-
-
      function applied to a mailbox name would return this error
      since the name exists, but no address RR is present.
 
@@ -146,15 +128,6 @@ DNS.
 While in some cases it is possible to deal with such a temporary problem
 by blocking the request indefinitely, this is usually not a good choice,
 particularly when the client is a server process that could move on to
-
-
-
-Mockapetris                                                    [Page 31]
-
- 
-RFC 1034             Domain Concepts and Facilities        November 1987
-
-
 other tasks.  The recommended solution is to always have temporary
 failure as one of the possible results of a resolver function, even
 though this may make emulation of existing HOSTS.TXT functions more
@@ -203,15 +176,6 @@ resolver the advantage of more rapid access, but the resolver must be
 careful to never let cached information override zone data.  In this
 discussion the term "local information" is meant to mean the union of
 the cache and such shared zones, with the understanding that
-
-
-
-Mockapetris                                                    [Page 32]
-
- 
-RFC 1034             Domain Concepts and Facilities        November 1987
-
-
 authoritative data is always used in preference to cached data when both
 are present.
 
@@ -258,15 +222,6 @@ CACHE           A structure which stores the results from previous
                 old RRs when it runs across them in the course of a
                 search, or discards them during periodic sweeps to
                 reclaim the memory consumed by old RRs.
-
-
-
-
-
-Mockapetris                                                    [Page 33]
-
- 
-RFC 1034             Domain Concepts and Facilities        November 1987
 
 
 5.3.3. Algorithm
@@ -317,15 +272,6 @@ These NS RRs list the names of hosts for a zone at or above SNAME.  Copy
 the names into SLIST.  Set up their addresses using local data.  It may
 be the case that the addresses are not available.  The resolver has many
 choices here; the best is to start parallel resolver processes looking
-
-
-
-Mockapetris                                                    [Page 34]
-
- 
-RFC 1034             Domain Concepts and Facilities        November 1987
-
-
 for the addresses while continuing onward with the addresses which are
 available.  Obviously, the design choices and options are complicated
 and a function of the local host's capabilities.  The recommended
@@ -374,15 +320,6 @@ and keep track of previous transmissions.
 Step 4 involves analyzing responses.  The resolver should be highly
 paranoid in its parsing of responses.  It should also check that the
 response matches the query it sent using the ID field in the response.
-
-
-
-Mockapetris                                                    [Page 35]
-
- 
-RFC 1034             Domain Concepts and Facilities        November 1987
-
-
 The ideal answer is one from a server authoritative for the query which
 either gives the required data or a name error.  The data is passed back
 to the user and entered in the cache for future use if its TTL is

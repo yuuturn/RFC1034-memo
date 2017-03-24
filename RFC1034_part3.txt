@@ -7,15 +7,6 @@ database.  The database is divided up into sections called zones, which
 are distributed among the name servers.  While name servers can have
 several optional functions and sources of data, the essential task of a
 name server is to answer queries using data in its zones.  By design,
-
-
-
-Mockapetris                                                    [Page 18]
-
- 
-RFC 1034             Domain Concepts and Facilities        November 1987
-
-
 name servers can answer queries in a simple manner; the response can
 always be generated using only local data, and either contains the
 answer to the question or a referral to other name servers "closer" to
@@ -64,15 +55,6 @@ It would be possible, though not particularly useful, to partition the
 name space so that each domain name was in a separate zone or so that
 all nodes were in a single zone.  Instead, the database is partitioned
 at points where a particular organization wants to take over control of
-
-
-
-Mockapetris                                                    [Page 19]
-
- 
-RFC 1034             Domain Concepts and Facilities        November 1987
-
-
 a subtree.  Once an organization controls its own zone it can
 unilaterally change the data in the zone, grow new tree sections
 connected to the zone, delete existing nodes, or delegate new subzones
@@ -121,15 +103,6 @@ be exactly the same as the corresponding RRs in the top node of the
 subzone.  Since name servers are always associated with zone boundaries,
 NS RRs are only found at nodes which are the top node of some zone.  In
 the data that makes up a zone, NS RRs are found at the top node of the
-
-
-
-Mockapetris                                                    [Page 20]
-
- 
-RFC 1034             Domain Concepts and Facilities        November 1987
-
-
 zone (and are authoritative) and at cuts around the bottom of the zone
 (where they are not authoritative), but never in between.
 
@@ -177,15 +150,6 @@ zone.  The administrators of both zones should insure that the NS and
 glue RRs which mark both sides of the cut are consistent and remain so.
 
 4.3. Name server internals
-
-
-
-
-Mockapetris                                                    [Page 21]
-
- 
-RFC 1034             Domain Concepts and Facilities        November 1987
-
 
 4.3.1. Queries and responses
 
@@ -236,14 +200,6 @@ the use of two bits in query and response messages:
      regardless of whether the client requested recursive service.
      That is, RA signals availability rather than use.
 
-
-
-Mockapetris                                                    [Page 22]
-
- 
-RFC 1034             Domain Concepts and Facilities        November 1987
-
-
    - Queries contain a bit called recursion desired or RD.  This
      bit specifies specifies whether the requester wants recursive
      service for this query.  Clients may request recursive service
@@ -290,15 +246,6 @@ recursive response will be one of the following:
    - RRs that the name server thinks will prove useful to the
      requester.
 
-
-
-
-
-
-Mockapetris                                                    [Page 23]
-
- 
-RFC 1034             Domain Concepts and Facilities        November 1987
 
 
 4.3.2. Algorithm
@@ -349,15 +296,6 @@ zone, and another for the cache:
 
             If the "*" label does not exist, check whether the name
             we are looking for is the original QNAME in the query
-
-
-
-Mockapetris                                                    [Page 24]
-
- 
-RFC 1034             Domain Concepts and Facilities        November 1987
-
-
             or a name we have followed due to a CNAME.  If the name
             is original, set an authoritative name error in the
             response and exit.  Otherwise just exit.
@@ -406,15 +344,6 @@ the form "*.<anydomain>", where <anydomain> is any domain name.
 <anydomain> should not contain other * labels, and should be in the
 authoritative data of the zone.  The wildcards potentially apply to
 descendants of <anydomain>, but not to <anydomain> itself.  Another way
-
-
-
-Mockapetris                                                    [Page 25]
-
- 
-RFC 1034             Domain Concepts and Facilities        November 1987
-
-
 to look at this is that the "*" label always matches at least one whole
 label and sometimes more, but always whole labels.
 
@@ -463,15 +392,6 @@ would match a query name of XX.COM.
 
 The DNS provides an optional service which allows name servers to
 distribute, and resolvers to cache, negative results with TTLs.  For
-
-
-
-Mockapetris                                                    [Page 26]
-
- 
-RFC 1034             Domain Concepts and Facilities        November 1987
-
-
 example, a name server can distribute a TTL along with a name error
 indication, and a resolver receiving such information is allowed to
 assume that the name does not exist during the TTL period without
@@ -519,14 +439,6 @@ the cached data can be reset to the zone MINIMUM value if it is smaller.
 This usage is mentioned for planning purposes only, and is not
 recommended as yet.
 
-
-
-
-
-Mockapetris                                                    [Page 27]
-
- 
-RFC 1034             Domain Concepts and Facilities        November 1987
 
 
 4.3.5. Zone maintenance and transfers
@@ -577,15 +489,6 @@ When the poll shows that the zone has changed, then the secondary server
 must request a zone transfer via an AXFR request for the zone.  The AXFR
 may cause an error, such as refused, but normally is answered by a
 sequence of response messages.  The first and last messages must contain
-
-
-
-Mockapetris                                                    [Page 28]
-
- 
-RFC 1034             Domain Concepts and Facilities        November 1987
-
-
 the data for the top authoritative node of the zone.  Intermediate
 messages carry all of the other RRs from the zone, including both
 authoritative and non-authoritative RRs.  The stream of messages allows
