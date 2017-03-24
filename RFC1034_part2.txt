@@ -1,4 +1,4 @@
-3. DOMAIN NAME SPACE and RESOURCE RECORDS
+﻿3. DOMAIN NAME SPACE and RESOURCE RECORDS
 
 3.1. Name space specifications(仕様) and terminology(用語)
 
@@ -49,7 +49,7 @@ label, you should preserve(保護する) its case.  The rationale(理論的根�
 that we may someday need to add full binary domain names for new
 services; existing services would not be changed.
 慣習的にドメイン名は大文字/小文字もOKだが、
-現在のドメイン機能では、アスキー文字かつ0bitより大きいことを想定しているので、	大文字・小文字を区別しない
+現在のドメイン機能では、アスキー文字かつ0bitより大きいことを想定しているので、大文字・小文字を区別しない
 Aだろうがaだろうがnodeのラベルを作れるけど、兄弟nodeにしてはならない
 (兄弟nodeは同じラベルを持てない)
 ドメイン名やラベルを受け取ったときは、そのままの文字にしておくべき
@@ -65,16 +65,16 @@ ends in a dot.  We use this property(特性) to distinguish between:
 この特徴を使って以下のように区別される
    - a character string which represents a complete domain name
      (often called "absolute").  For example, "poneria.ISI.EDU."
-	 完全なドメイン名を表現する文字列　絶対名"absolute"
-	 (FQDNかな？)
+	完全なドメイン名を表現する文字列　絶対名"absolute"
+	(FQDNかな？)
 	 
    - a character string that represents the starting labels of a
      domain name which is incomplete, and should be completed by
      local software using knowledge of the local domain (often
      called "relative").  For example, "poneria" used in the
      ISI.EDU domain.
-	 不完全なドメイン名のラベルから始まるラベルを表す文字列は
-	 ローカルのソフトウェアによって補完されるべき　相対名"relative"
+	不完全なドメイン名のラベルから始まるラベルを表す文字列は
+	ローカルのソフトウェアによって補完されるべき　相対名"relative"
 
 Relative names are either(どちらか) taken relative to a well known origin, or to a
 list of domains used as a search list.  Relative names appear mostly at
@@ -104,6 +104,8 @@ cf. https://www.nic.ad.jp/ja/dom/system.html
 "253文字になる理由ですが、具体的に上記「www.example.co.jp」を例に挙げると、 DNSメッセージ中の表現は、
 "3" +「www」+ "7" ＋「example」+ "2" ＋「co」＋ "2 " ＋「jp」＋ "0" 
 となり19オクテットですが、 ドメイン名の表記としては17文字（ピリオドを含む）となり、2オクテット分少なくなります。"
+
+cf. DNSパケットフォーマットと、DNSパケットの作り方 http://www.atmarkit.co.jp/ait/articles/1601/29/news014.html
 
 A domain is identified by a domain name, and consists of that part of
 the domain name space [that is at or below the domain name [which
@@ -166,10 +168,10 @@ object, two needs must be met:
    - A convention for mapping between object names and domain
      names.  This describes how information about an object is
      accessed.
-	 オブジェクト名とドメイン名の間のしきたりがあり、オブジェクト情報へのアクセス方法が記されている
+	オブジェクト名とドメイン名の間のしきたりがあり、オブジェクト情報へのアクセス方法が記されている
 
    - RR types and data formats for describing the object.
-   RRタイプとオブジェクトを記すデータ形式
+	RRタイプとオブジェクトを記すデータ形式
 
 These rules can be quite simple or fairly complex.  Very often, the
 designer must take into account(考慮する) existing formats and plan for upward(上向きの)
@@ -330,71 +332,71 @@ When we talk about a specific RR, we assume it has the following:
 特定のRRについて議論する際、下記事項を想定する
 
 owner           which is the domain name where the RR is found.
-				　RRがあるドメイン名　ラベルのこと？
+		RRがあるドメイン名　ラベルのこと？
 
 type            which is an encoded 16 bit value that specifies the type
                 of the resource in this resource record.  Types refer to
                 abstract resources.
-				RRの中で資源のtypeを指定する16bit値でエンコードされている
+		RRの中で資源のtypeを指定する16bit値でエンコードされている
 				
                 This memo uses the following types:
-				このメモでは次のタイプを使用する
+		このメモでは次のタイプを使用する
 
                 A               a host address
-								ホストアドレス
+				ホストアドレス
 
                 CNAME           identifies the canonical name of an alias
-									エイリアスの正式名を表す
+				エイリアスの正式名を表す
 
                 HINFO           identifies the CPU and OS used by a host
-									ホストのCPUやOSを表す
+				ホストのCPUやOSを表す
 
                 MX              identifies a mail exchange for the
                                 domain.  See [RFC-974 for details.
-								ドメインに対してのメールを表す。詳細はRFC974を
+				ドメインに対してのメールを表す。詳細はRFC974を
 
                 NS
                 the authoritative name server for the domain
-				ドメインに対しての権威あるネームサーバー
+		ドメインに対しての権威あるネームサーバー
 
                 PTR
                 a pointer to another part of the domain name space
-				ドメイン名前空間の別部分へのポインタ
+		ドメイン名前空間の別部分へのポインタ
 
                 SOA
                 identifies the start of a zone of authority]
-				権威のゾーンの始まりを表す
+		権威のゾーンの始まりを表す
 
 class           which is an encoded 16 bit value which identifies a
                 protocol family or instance of a protocol.
-				プロトコルファミリーまたはプロトコルのインスタンスを表す16bitでエンコードされた値
+		プロトコルファミリーまたはプロトコルのインスタンスを表す16bitでエンコードされた値
 
                 This memo uses the following classes:
-				このメモでは下記クラスを扱う
+		このメモでは下記クラスを扱う
 
                 IN              the Internet system
-								インターネットシステム
+				インターネットシステム
 
                 CH              the Chaos system
-								カオスシステム
+				カオスシステム
 
 TTL             which is the time to live of the RR.  This field is a 32
                 bit integer in units of seconds, an is primarily used by
                 resolvers when they cache RRs.  The TTL describes how
                 long a RR can be cached before it should be discarded.
-				RRの生存期間。このフィールどは秒単位の32bit整数で、主にリゾルバーがRRをキャッシュした際に用いられる
-				TTLはRRが破棄されるまでどの長さキャッシュしてよいか示している
+		RRの生存期間。このフィールどは秒単位の32bit整数で、主にリゾルバーがRRをキャッシュした際に用いられる
+		TTLはRRが破棄されるまでどの長さキャッシュしてよいか示している
 
 RDATA           which is the type and sometimes class dependent data
                 which describes the resource:
-				RDATAとは、タイプやクラスが依存している資源を表すデータ
+		RDATAとは、タイプやクラスが依存している資源を表すデータ
 
                 A               For the IN class, a 32 bit IP address
-								INクラスで32bitのIPアドレスを表す
+				INクラスで32bitのIPアドレスを表す
 
                                 For the CH class, a domain name followed
                                 by a 16 bit octal Chaos address.
-								CHクラスではドメイン名と16bitオクテットのカオスアドレス
+				CHクラスではドメイン名と16bitオクテットのカオスアドレス
 
                 CNAME           a domain name.
 
@@ -402,16 +404,16 @@ RDATA           which is the type and sometimes class dependent data
                                 better) followed by a host name willing
                                 to act as a mail exchange for the owner
                                 domain.
-								16bitの優先値(低いほど優先)とそれに続く、メール交換をするホスト名
+				16bitの優先値(低いほど優先)とそれに続く、メール交換をするホスト名
 
                 NS              a host name.
-									ホスト名
+				ホスト名
 
                 PTR             a domain name.
-									ドメイン名
+				ドメイン名
 
                 SOA             several fields.
-									いくつかのフィールド
+				いくつかのフィールド
 
 The owner name is often implicit(暗黙的), rather than forming an integral(完全な) part
 of the RR.  For example, many name servers internally form tree or hash
