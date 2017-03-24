@@ -330,7 +330,7 @@ When we talk about a specific RR, we assume it has the following:
 特定のRRについて議論する際、下記事項を想定する
 
 owner           which is the domain name where the RR is found.
-				　RRがあるドメイン名
+				　RRがあるドメイン名　ラベルのこと？
 
 type            which is an encoded 16 bit value that specifies the type
                 of the resource in this resource record.  Types refer to
@@ -413,12 +413,15 @@ RDATA           which is the type and sometimes class dependent data
                 SOA             several fields.
 									いくつかのフィールド
 
-The owner name is often implicit, rather than forming an integral part
+The owner name is often implicit(暗黙的), rather than forming an integral(完全な) part
 of the RR.  For example, many name servers internally form tree or hash
-structures for the name space, and chain RRs off nodes.  The remaining
+structures for the name space, and  chain RRs off nodes.  The remaining
 RR parts are the fixed header (type, class, TTL) which is consistent for
 all RRs, and a variable part (RDATA) that fits the needs of the resource
 being described.
+オーナー名(ラベル)はRRの完全一部を形ドルというより暗黙的である
+例えば、ネームサーバーは内部的に名前空間に木/ハッシュ構造を成しており　ネームサーバーはRRをノードから繋ぎ止めない
+残りのRRはすべてのRRに含まれる固定ヘッダ(type class TTL)とか表現するリソースの必要にあった変部分(RDATA)
 
 The meaning of the TTL field is a time limit on how long an RR can be
 kept in a cache.  This limit does not apply to authoritative data in
@@ -426,23 +429,37 @@ zones; it is also timed out, but by the refreshing policies for the
 zone.  The TTL is assigned by the administrator for the zone where the
 data originates.  While short TTLs can be used to minimize caching, and
 a zero TTL prohibits caching, the realities of Internet performance
-suggest that these times should be on the order of days for the typical
-host.  If a change can be anticipated, the TTL can be reduced prior to
-the change to minimize inconsistency during the change, and then
+suggest [that these times should be on the order of days for the typical
+host.]  If a change can be anticipated(予想する), the TTL can be reduced prior to(より前)
+the change to minimize inconsistency(矛盾) during the change, and then
 increased back to its former value following the change.
+TTLフィールドはどのくらいの長さRRがキャッシュでも持しても良いかを示す
+この制限はゾーンの権威あるデータに適用しない。タイムアウトもあるがゾーンの更新プリシーによる
+TTLは管理者によって元のゾーンに指定される。
+短いTTLはキャッシュを短くするよう使われ、TTL 0でキャッシュ保持を禁止したりする一方
+インターネットパフォーマンスを現実的に考えると、これらの時間(TTL)は普通のホストでは数日にすべき
+もし変更が生じることが予想されるときは、変更中の矛盾を最小化するためにTTLは変更前に減らしておき
+変更状況にかんがみて、以前のTTL値に戻しておく
 
 The data in the RDATA section of RRs is carried as a combination of
 binary strings and domain names.  The domain names are frequently used
 as "pointers" to other data in the DNS.
+RR内のRDATAのデータはバイナリ文字やドメイン名の組み合わせとして運ばれる
+ドメイン名は頻繁にDNS内では他のデータへのポインタとして使われる
 
 3.6.1. Textual expression of RRs
+RRのテキスト表現
 
 RRs are represented in binary form in the packets of the DNS protocol,
 and are usually represented in highly encoded form when stored in a name
-server or resolver.  In this memo, we adopt a style similar to that used
+server or resolver.  In this memo, we adopt(採用する) a style similar to(に似た) that used
 in master files in order to show the contents of RRs.  In this format,
-most RRs are shown on a single line, although continuation lines are
-possible using parentheses.
+most RRs are shown on a single line, although continuation(連続した) lines are
+possible using parentheses(丸括弧).
+RRはDNSプロトコル内でバイナリ形式で表現され、
+また一般的にネームサーバーやリゾルバーで保持される際には高度にエンコードされ表現される
+ここでは、RR の内容を表すために、マスターファイルで使われる形式に似たスタイルを採用する
+この形式では多くのRRは一行で表されるが、複数行の(RR)は丸括弧を使うことによって可能
 
 The start of the line gives the owner of the RR.  If a line begins with
 a blank, then the owner is assumed to be the same as that of the
