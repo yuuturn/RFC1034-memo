@@ -465,19 +465,29 @@ RRはDNSプロトコル内でバイナリ形式で表現され、
 
 The start of the line gives the owner of the RR.  If a line begins with
 a blank, then the owner is assumed to be the same as that of the
-previous RR.  Blank lines are often included for readability.
+previous RR.  Blank lines are often included for readability(読みやすさ).
+行の始めはRRの所有者(ラベル)
+ラベルが空白の場合は、ラベルが前の(上の)ものと同じと解釈される
+空行は読みやすさの為によく使われる
 
 Following the owner, we list the TTL, type, and class of the RR.  Class
-and type use the mnemonics defined above, and TTL is an integer before
-the type field.  In order to avoid ambiguity in parsing, type and class
-mnemonics are disjoint, TTLs are integers, and the type mnemonic is
+and type use the mnemonics(記憶を助ける工夫) defined above, and TTL is an integer before
+the type field.  In order to avoid ambiguity(両義性) in parsing, type and class
+mnemonics are disjoint(解体する), TTLs are integers, and the type mnemonic is
 always last. The IN class and TTL values are often omitted from examples
 in the interests of clarity.
+ラベルの次は、RRのTTL, type, classを記述する
+classとtypeは上で定義されたニーモニックを使用し、TTLはtypeフィールドの前で整数で記す
+パースする際の曖昧さを避けるためにtypeとclassのニーモニックは分離される
+TTLは整数で、タイプのニーモニックは常に最後にくる
+IN classとTTL値はよく明快さのために省略している
 
 The resource data or RDATA section of the RR are given using knowledge
 of the typical representation for the data.
+RRでの資源データやRDATAの部分はデータのよくある表現の知識を使う
 
 For example, we might show the RRs carried in a message as:
+例えば、下記RR
 
     ISI.EDU.        MX      10 VENERA.ISI.EDU.
                     MX      10 VAXA.ISI.EDU.
@@ -489,18 +499,24 @@ For example, we might show the RRs carried in a message as:
 The MX RRs have an RDATA section which consists of a 16 bit number
 followed by a domain name.  The address RRs use a standard IP address
 format to contain a 32 bit internet address.
+MX RRには16bitの数字とその後にドメイン名がある
+アドレスRRは32bitのインターネットアドレスを含む標準的なIPアドレスの形式を使用
 
 This example shows six RRs, with two RRs at each of three domain names.
+この例は6つのRRを記し、各3つのドメインに2つのRR
 
 Similarly we might see:
+似た感じで見ると
 
     XX.LCS.MIT.EDU. IN      A       10.0.0.44
                     CH      A       MIT.EDU. 2420
 
 This example shows two addresses for XX.LCS.MIT.EDU, each of a different
 class.
+この例だと、２つのアドレスが記されているが、おのおのは異なるclass
 
 3.6.2. Aliases and canonical names
+エイリアスと正式名
 
 In existing systems, hosts and other resources often have several names
 that identify the same resource.  For example, the names C.ISI.EDU and
@@ -508,10 +524,16 @@ USC-ISIC.ARPA both identify the same host.  Similarly, in the case of
 mailboxes, many organizations provide many names that actually go to the
 same mailbox; for example Mockapetris@C.ISI.EDU, Mockapetris@B.ISI.EDU,
 and PVM@ISI.EDU all go to the same mailbox (although the mechanism
-behind this is somewhat complicated).
+behind this is somewhat(幾分) complicated).
+既存のシステムでは、ホストと他の資源は同じ資源を示すいくつかの名前を持つ
+例えば、C.ISI.EDUとUSC-ISIC.ARPAは同じホストを示す
+同様に、メールボックスの場合では、多くの組織で実際には同じmailboxに着弾する多くの名前を提供する
+例えば、Mockapetris@C.ISI.EDU, Mockapetris@B.ISI.EDU,PVM@ISI.EDUは同じmailboxに着弾する
+この裏側のメカニズムは幾分複雑だが
 
-Most of these systems have a notion that one of the equivalent set of
+Most of these systems have a notion that one of the equivalent(同等で) set of
 names is the canonical or primary name and all others are aliases.
+これらのシステムの多くが、その同等な名前のなかのひとつが正式名または主要な名前であり、他の名前はすべて別名であるという概念を持つ
 
 The domain system provides such a feature using the canonical name
 (CNAME) RR.  A CNAME RR identifies its owner name as an alias, and
@@ -520,6 +542,11 @@ RR.  If a CNAME RR is present at a node, no other data should be
 present; this ensures that the data for a canonical name and its aliases
 cannot be different.  This rule also insures that a cached CNAME can be
 used without checking with an authoritative server for other RR types.
+ドメインシステムはこのような正式名(CNAME)のRRを使う機能を提供している
+CNAME RRはラベルを別名として識別して、RRのRDATA部内で対応する正式名を指定する
+CNAME RRがノードで記されてあると、他のデータは記されるべきでない
+このことは正式名のデータと別名に違いがないことを保証している
+またこの規則はキャッシュされたCNAMEが他のRR typeを権威サーバーへ問い合わせることなく使えることを保証する
 
 CNAME RRs cause special action in DNS software.  When a name server
 fails to find a desired RR in the resource set associated with the
@@ -528,10 +555,17 @@ record with a matching class.  If so, the name server includes the CNAME
 record in the response and restarts the query at the domain name
 specified in the data field of the CNAME record.  The one exception to
 this rule is that queries which match the CNAME type are not restarted.
+CNAME RRはDNSソフトウェアにて特殊な挙動を起こす
+ネームサーバーがドメイン名に関連づいた資源セット内に望んだRRが見つけれなかったら
+資源セットに同じclassでのCNAMEレコードがないかチェックする
+もしそうだったら、ネームサーバは返答にCNAMEレコードを含め、
+CNAMEレコードのデータフィールドに記されたドメイン名を再度問い合わせをする
+このルールには一つ例外があって、問い合わせのtypeがCNAMEだったら、再度問い合わせしない
 
 For example, suppose a name server was processing a query with for USC-
 ISIC.ARPA, asking for type A information, and had the following resource
 records:
+USC-ISIC.ARPAのtype Aが問い合わされたら下記出力
 
     USC-ISIC.ARPA   IN      CNAME   C.ISI.EDU
 
@@ -539,11 +573,16 @@ records:
 
 Both of these RRs would be returned in the response to the type A query,
 while a type CNAME or * query should return just the CNAME.
+type Aの問い合わせには両方(CNAME,A)がレスポンスで返る
+一方、CNAME typeや*(any)問い合わせはCNAMEのみの応答を返す
 
 Domain names in RRs which point at another name should always point at
 the primary name and not the alias.  This avoids extra indirections in
 accessing information.  For example, the address to name RR for the
 above host should be:
+RR内の他の名前への示すドメイン名はかならず別名でなく正式名であるべき
+これにより情報アクセスする際に余分の間接参照を避けれる
+例えば、上記例のホストのアドレスを名前に変換するRRは下記のようにするべき
 
     52.0.0.10.IN-ADDR.ARPA  IN      PTR     C.ISI.EDU
 
@@ -551,6 +590,9 @@ rather than pointing at USC-ISIC.ARPA.  Of course, by the robustness
 principle, domain software should not fail when presented with CNAME
 chains or loops; CNAME chains should be followed and CNAME loops
 signalled as an error.
+USC-ISIC.ARPA(別名)を示すべきでない
+もちろん堅牢性の原理では、ドメインソフトウェアはCNAME連鎖やループが示されていても失敗するべきでない
+CNAME連鎖はサポートされ、CNAMEループはエラーとして出力されるべき
 
 3.7. Queries
 
