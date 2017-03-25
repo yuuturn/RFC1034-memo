@@ -9,6 +9,8 @@ leaves, and this memo uses the term "node" to refer to both.
 ドメイン名前空間は木構造
 node/leafはリソースセットに対応している(emptyかもしれない)
 DNSは内部のnode/leafの使用を区別しない
+>どちらもnodeと呼びましょう。今後leafはでてこない
+> .(ドット) -> node
 
 Each node has a label, which is zero to 63 octets in length.  Brother
 nodes may not have the same label, although the same label can be used
@@ -17,6 +19,8 @@ the null (i.e., zero length) label used for the root.
 ノードはラベルをもち、それは0-63オクテットの長さ
 兄弟のでは同じラベルを持てないが兄弟nodeでなければ同じラベルを持てる
 nullのラベルはroot用のみ使われる
+> example.jpとexample.co.jpのように兄弟でなければ良い
+> 長さがnullであって、ラベルの長さが0であるだけ。 0 = null length
 
 cf. https://www.nic.ad.jp/ja/dom/system.html
 "."に区切られたのがラベル
@@ -29,6 +33,8 @@ to the root).
 ノードのドメイン名は、nodeから木のrootへの経路におけるラベルのリストである
 ドメイン名を構成するラベルは左から右へ読み書きされ、
 つまりrootから遠い(低い)からrootに近い(高い)へ
+> cf. http://www.e-ontap.com/dns/whatdnsisnot.html
+> 鈴木先生：「仮定の話として、DNSの設計について一つ言えるのは、上位から下位に向かって、左から右に書かれていたら良かったな、と」
 
 Internally(内部的に), programs [that manipulate(操作する) domain names] should represent them
 as sequences of labels, where each label is a length octet followed by
@@ -55,6 +61,7 @@ Aだろうがaだろうがnodeのラベルを作れるけど、兄弟nodeにし�
 ドメイン名やラベルを受け取ったときは、そのままの文字にしておくべき
  理由は新サービスのために任意の文字が使えるドメイン名を加えることになるかもしれず、 
  それでも既存のサービスを変えずに済ませるためである。 
+> you should preserve its case -> 毒入れの0x20の根拠？
 
 When a user needs to type a domain name, the length of each label is
 omitted and the labels are separated by dots (".").  Since a complete
@@ -67,6 +74,9 @@ ends in a dot.  We use this property(特性) to distinguish between:
      (often called "absolute").  For example, "poneria.ISI.EDU."
 	完全なドメイン名を表現する文字列　絶対名"absolute"
 	(FQDNかな？)
+	> complete domain nameがFQDNかどうかは議論の的
+	> FQDNは限定的な使用。FQDNはホスト名に限定。
+	> complete domain nameはホスト名とは限らない(ただrootまで書いてあるもの)
 	 
    - a character string that represents the starting labels of a
      domain name which is incomplete, and should be completed by
@@ -75,7 +85,8 @@ ends in a dot.  We use this property(特性) to distinguish between:
      ISI.EDU domain.
 	不完全なドメイン名のラベルから始まるラベルを表す文字列は
 	ローカルのソフトウェアによって補完されるべき　相対名"relative"
-
+	>何処かで途中までわかっているもの
+	
 Relative names are either(どちらか) taken relative to a well known origin, or to a
 list of domains used as a search list.  Relative names appear mostly at
 the user interface, where their interpretation(解釈) varies(違い) from
@@ -89,11 +100,14 @@ the trailing(後端の) dot has been omitted to save typing.
 マスターファイルでは相対名は一つのドメイン名に関連付けされる
 もっとも一般的な解釈は、ルート"."を単一のオリジンとしてか、もしくはサーチリストのメンバーにふくめて使う
 マルチラベルの相対名はドットを省略したものとしてよく使用される
+> relativeはオリジンまでわかっていることを前提。省略されているものがなにかわかっている。
+> resolv.confのsearch exampel.com
 
 To simplify implementations, the total number of octets [that represent a
 domain name (i.e., the sum of all label octets and label lengths)] is
 limited to 255.
 オクテットのトータルの数(オクテットラベルとラベル長合わせて)は255に制限
+> 255に制限は、「To simplify implementations」の為
 
 cf. https://www.nic.ad.jp/ja/dom/system.html
 "DNSメッセージ中のドメイン名を表すパラメータの長さは255オクテット以下とされています。 
@@ -138,6 +152,10 @@ from network or host numbers to names; NetBIOS domains [RFC-1001, RFC-
 名前空間は暗黙の意味をもつべきでないとと言いたいわけではなく、むしろ意味の選択は手元の問題に使うためにオープンにしておくべき
 ツリーの異なる部分では異なる暗黙の意味を持つことが可能ということである
 (手元の問題？)
+> 名前付けのルールは色々議論あるけど、DNSでは強制はしない
+> 意味とかは、プロトコルに持ち込むな。各々勝手にしろ
+> nameing compention
+> ただIN-ADDR.ARPAは逆引きに使われているよ(移行の為に使われていたから)
 
 However, there are some guidelines that apply to the "normal" parts of
 the name space used for hosts, mailboxes, etc., that will make the name
@@ -172,6 +190,7 @@ object, two needs must be met:
 
    - RR types and data formats for describing the object.
 	RRタイプとオブジェクトを記すデータ形式
+	> 属性　プロパティのこと
 
 These rules can be quite simple or fairly complex.  Very often, the
 designer must take into account(考慮する) existing formats and plan for upward(上向きの)
@@ -180,6 +199,7 @@ mapping may be required.
 この２つはシンプルか複雑かどちらか
 設計者は既存の形式も考慮に入れて、 既存の使い方の上位互換性を計画しなきゃならない
 多数のマッピングや多段のマッピングが必要かも
+>シンプルにも複雑にもなりえる
 
 For hosts, the mapping depends on the existing syntax for host names
 [which is a subset of the usual text representation(表現) for domain names,
@@ -188,6 +208,7 @@ need a reliable(信頼できる) inverse(逆の) mapping from address to host na
 mapping for addresses into the IN-ADDR.ARPA domain is also defined.
 ホストでは、マッピングは既存のホスト名の記法に依存する、逆引きが必要なのでin-addr.arpaも規定
 既存のホスト名形式：ドメイン名のテキスト表記、ホストアドレスを記すRR形式
+
 
 For mailboxes, the mapping is slightly more complex.  The usual mail
 address <local-part>@<mail-domain> is mapped into a domain name by
@@ -201,6 +222,14 @@ design also must take into account the scheme for mail exchanges [RFC-
 974].
 メールのマッピングは複雑、ローカルパートを一つのラベル、メールドメインはいつものラベルで、その２つをつなげる
 ex. HOSTMASTER@SRI-NIC.ARPA. -> HOSTMASTER.SRI-NIC.ARPA.
+(SOAのメールアドレスとか？)
+
+cf http://www.atmarkit.co.jp/fnetwork/dnstips/014.html 
+"名前：RNAME（postmaster.example.jp.）
+・このドメインの管理者のメールアドレス
+・ DNS のサーバがこのアドレスを使うことはないが、人がゾーンの管理者と連絡を取りたい際に使う 
+・メールアドレスをそのまま書くのではなく、「@」記号を「.」に置き換えて記載
+・例えば、「postmaster@example.jp」が管理者のメールアドレスであれば、「postmaster.example.jp」と記載する"
 
 The typical user is not concerned with(興味がない) defining these rules, but should
 understand [that they usually are the result of numerous(多数の) compromises(妥協)
@@ -245,6 +274,7 @@ small subset of the actual name space.
 In this example, the root domain has three immediate subdomains: MIL,
 EDU, and ARPA.  The LCS.MIT.EDU domain has one immediate subdomain named
 XX.LCS.MIT.EDU.  All of the leaves are also domains.
+> immediate subdomain root直下のドメイン名
 
 3.5. Preferred name syntax
 好まれる名前の文法
@@ -261,6 +291,8 @@ DNSの仕様は、ドメイン名を構築するルールの中で、できる�
 しかし、オブジェクトに対しドメイン名をアサインする際には、
 慎重なユーザはDNSのルールと既存のオブジェクト名のルール両方を満たす名前を選ぶ
 そのルールが公開されているか既存のプログラムに暗に含まれていようが関係なく
+> minimal changes　当時の名前から変換するのに最小限の変更で
+> 当時は7bit以上は通さないとかあった、ASCIIは7bit
 
 For example, when naming a mail domain, the user should satisfy both the
 rules of this memo and those in RFC-822.  When creating a new host name,
@@ -269,12 +301,15 @@ when old software is converted to use domain names.
 上記の例として、メール用ドメイン名をきめる際にユーザはRFC1034とRFC822を両方満たさなきゃならない
 新しいホスト名を作成する際、HOSTS.TXTの古いルールは守られるべき
 ことことは、古いソフトウェアがDNSを使うようになったら時に、問題が避けれる
+> RFC822当時のメールの形式 今だったらRFC5322か
+> 形式の強制はしない、あくまで提案的な
 
 The following syntax will result in fewer problems with many
 applications that use domain names (e.g., mail, TELNET).
 下記の文法だと、DNSを使う多くのアプリケーションで問題が起きにくい
 
 <domain> ::= <subdomain> | " "
+> " " はnull
 
 <subdomain> ::= <label> | <subdomain> "." <label>
 
@@ -294,6 +329,8 @@ upper case and a through z in lower case
 バッカスナウア記法(BNF)
 怖くないバッカスナウア記法(BNF)入門　http://qiita.com/h_sakurai/items/3cc328a6db8941ac6336
 BNF記法入門（1）　http://www.atmarkit.co.jp/fxml/ddd/ddd004/ddd004-bnf.html
+
+> BNF、下から読むとわかりやすい
 
 Note that while upper and lower case letters are allowed in domain
 names, no significance(意味、意義) is attached to the case.  That is, two names with
@@ -327,6 +364,8 @@ not be preserved by name servers, resolvers, or other parts of the DNS.
 各ノードは資源情報をもっていて、それは空でもよい
 特定の名前に紐付いている資源情報は別々の資源レコード(RR)から構成される
 RRの並び順には意味がなく、ネームサーバー、リゾルバー、DNSの他の部分で保持される必要はない
+>The set of resource　AがあったりNS,MXがあったりとsetになっている
+> 一番上に書いてあるものが、(優先して)使われるわけではない
 
 When we talk about a specific RR, we assume it has the following:
 特定のRRについて議論する際、下記事項を想定する
@@ -370,6 +409,8 @@ type            which is an encoded 16 bit value that specifies the type
 class           which is an encoded 16 bit value which identifies a
                 protocol family or instance of a protocol.
 		プロトコルファミリーまたはプロトコルのインスタンスを表す16bitでエンコードされた値
+		> ここに16bitも！？
+		> 当時はいろんなネットワークでDNSを使ってほしかった背景がある
 
                 This memo uses the following classes:
 		このメモでは下記クラスを扱う
@@ -386,6 +427,13 @@ TTL             which is the time to live of the RR.  This field is a 32
                 long a RR can be cached before it should be discarded.
 		RRの生存期間。このフィールどは秒単位の32bit整数で、主にリゾルバーがRRをキャッシュした際に用いられる
 		TTLはRRが破棄されるまでどの長さキャッシュしてよいか示している
+		> キャッシュは保持していい時間
+		> 32bit RFC2181の10で詳しく記載
+		> "TTL value is an unsigned number, with a
+		> minimum value of 0, and a maximum value of 2147483647.  That is, a
+		> maximum of 2^31 - 1.  When transmitted, this value shall be encoded
+		> in the less significant 31 bits of the 32 bit TTL field, with the
+		> most significant, or sign, bit set to zero."
 
 RDATA           which is the type and sometimes class dependent data
                 which describes the resource:
@@ -408,9 +456,18 @@ RDATA           which is the type and sometimes class dependent data
 
                 NS              a host name.
 				ホスト名
+				> IPアドレスでよかったのでは。下記間違った例だけど
+				> $ dig @ns.hyundai-motor.com. hyundai-motor.com ns +noall +ans
+				> hyundai-motor.com.      600     IN      NS      10.10.111.1.
+				> hyundai-motor.com.      600     IN      NS      ns.hyundai-motor.com.
+				> hyundai-motor.com.      600     IN      NS      ns1.hyundai-motor.com.
+				> hyundai-motor.com.      600     IN      NS      10.10.111.50.
 
                 PTR             a domain name.
 				ドメイン名
+				> 「逆引き」と言っていますが、「PTR の正引き」なんです
+				> invers queryは省略。使われていないくて今更だから。
+
 
                 SOA             several fields.
 				いくつかのフィールド
@@ -439,9 +496,11 @@ TTLフィールドはどのくらいの長さRRがキャッシュでも持して
 この制限はゾーンの権威あるデータに適用しない。タイムアウトもあるがゾーンの更新プリシーによる
 TTLは管理者によって元のゾーンに指定される。
 短いTTLはキャッシュを短くするよう使われ、TTL 0でキャッシュ保持を禁止したりする一方
-インターネットパフォーマンスを現実的に考えると、これらの時間(TTL)は普通のホストでは数日にすべき
+インターネットパフォーマンスを現実的に考えると、これらの時間(TTL)は普通のホストでは日単位にすべき
 もし変更が生じることが予想されるときは、変更中の矛盾を最小化するためにTTLは変更前に減らしておき
 変更状況にかんがみて、以前のTTL値に戻しておく
+> zoneで決められたTTLもある -> $TTLってやつ
+> 変更前後のTTLの調整->浸透もすくなくできる
 
 The data in the RDATA section of RRs is carried as a combination of
 binary strings and domain names.  The domain names are frequently used
@@ -462,6 +521,8 @@ RRはDNSプロトコル内でバイナリ形式で表現され、
 また一般的にネームサーバーやリゾルバーで保持される際には高度にエンコードされ表現される
 ここでは、RR の内容を表すために、マスターファイルで使われる形式に似たスタイルを採用する
 この形式では多くのRRは一行で表されるが、複数行の(RR)は丸括弧を使うことによって可能
+> この際、RRの外部表現と内部表現がでてくる
+> ここでは外部表現
 
 The start of the line gives the owner of the RR.  If a line begins with
 a blank, then the owner is assumed to be the same as that of the
@@ -469,6 +530,7 @@ previous RR.  Blank lines are often included for readability(読みやすさ).
 行の始めはRRの所有者(ラベル)
 ラベルが空白の場合は、ラベルが前の(上の)ものと同じと解釈される
 空行は読みやすさの為によく使われる
+> readabilityはhuman的なreadability 機械的でないのでパースしづらい
 
 Following the owner, we list the TTL, type, and class of the RR.  Class
 and type use the mnemonics(記憶を助ける工夫) defined above, and TTL is an integer before
@@ -481,6 +543,8 @@ classとtypeは上で定義されたニーモニックを使用し、TTLはtype�
 パースする際の曖昧さを避けるためにtypeとclassのニーモニックは分離される
 TTLは整数で、タイプのニーモニックは常に最後にくる
 IN classとTTL値はよく明快さのために省略している
+> レコード毎にTTL値はかけるよ！知らない人は$TTLを短くしてしまうことも
+> INも省略できる
 
 The resource data or RDATA section of the RR are given using knowledge
 of the typical representation for the data.
@@ -535,6 +599,8 @@ Most of these systems have a notion that one of the equivalent(同等で) set of
 names is the canonical or primary name and all others are aliases.
 これらのシステムの多くが、その同等な名前のなかのひとつが正式名または主要な名前であり、他の名前はすべて別名であるという概念を持つ
 
+cf「CNAMEの間違った使い方」  http://blog.livedoor.jp/techblog/archives/65340720.html 
+
 The domain system provides such a feature using the canonical name
 (CNAME) RR.  A CNAME RR identifies its owner name as an alias, and
 specifies the corresponding canonical name in the RDATA section of the
@@ -547,6 +613,7 @@ CNAME RRはラベルを別名として識別して、RRのRDATA部内で対応�
 CNAME RRがノードで記されてあると、他のデータは記されるべきでない
 このことは正式名のデータと別名に違いがないことを保証している
 またこの規則はキャッシュされたCNAMEが他のRR typeを権威サーバーへ問い合わせることなく使えることを保証する
+> "他のデータは記されるべきでない"ここ大事
 
 CNAME RRs cause special action in DNS software.  When a name server
 fails to find a desired RR in the resource set associated with the
@@ -583,8 +650,8 @@ above host should be:
 RR内の他の名前への示すドメイン名はかならず別名でなく正式名であるべき
 これにより情報アクセスする際に余分の間接参照を避けれる
 例えば、上記例のホストのアドレスを名前に変換するRRは下記のようにするべき
-
-    52.0.0.10.IN-ADDR.ARPA  IN      PTR     C.ISI.EDU
+> "RR内の他の名前への示すドメイン名はかならず別名でなく正式名であるべき"ここ大事
+> CNAME が CNAMEを示すのもどうか。。
 
 rather than pointing at USC-ISIC.ARPA.  Of course, by the robustness
 principle, domain software should not fail when presented with CNAME
@@ -593,6 +660,7 @@ signalled as an error.
 USC-ISIC.ARPA(別名)を示すべきでない
 もちろん堅牢性の原理では、ドメインソフトウェアはCNAME連鎖やループが示されていても失敗するべきでない
 CNAME連鎖はサポートされ、CNAMEループはエラーとして出力されるべき
+> obustness principle ポステルの原理 送るときは厳密に、受け取るときは寛容に
 
 3.7. Queries
 問い合わせ
@@ -632,6 +700,7 @@ the rest are unassigned.
 ヘッダの中で最も重要なフィールドはopcodeと呼ばれる4bitのフィールドで、クエリの種類を区別するもの
 とり得る16の値のうち、一つ目(標準クエリ)は公式なプロトコルの一部で、二つ目(逆問合せと状態問合せ)は任意で
 また、別のひとつ(補完は廃止されており、残りは割り当てられていない
+> standardしか使わない。。。16bitがもったいない。
 
 The four sections are:
 
@@ -650,6 +719,7 @@ Note that the content, but not the format, of these sections varies with
 header opcode.
 
 3.7.1. Standard queries
+> 今日これしかない
 
 A standard query specifies a target domain name (QNAME), query type
 (QTYPE), and query class (QCLASS) and asks for RRs which match.  This
@@ -667,6 +737,7 @@ AXFR            special zone transfer QTYPE.
 MAILB           matches all mail box related RRs (e.g. MB and MG).
 
 *               matches all RR types.
+> アスタリスクについては後で詳しく書いてある
 
 The QCLASS field may contain:
 

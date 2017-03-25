@@ -11,6 +11,8 @@ name servers can answer queries in a simple manner; the response can
 always be generated using only local data, and either contains the
 answer to the question or a referral to other name servers "closer" to
 the desired information.
+> closerの定義がないまい。知ってそうなサーバーを紹介するのみ
+> bindだとexample.comがrootを紹介したり
 
 A given zone will be available from several name servers to insure its
 availability in spite of host or communication link failure.  By
@@ -23,6 +25,8 @@ domain tree.  It may also have some cached non-authoritative data about
 other parts of the tree.  The name server marks its responses to queries
 so that the requester can tell whether the response comes from
 authoritative data or not.
+> 親子共存だが、この時点ではそこまで考えられていない
+> 問合せ側で判定できるように ネームサーバは返答に印を付ける <- name serverが権威かキャッシュか兼用かもしれない。
 
 4.2. How the database is divided into zones
 
@@ -37,6 +41,8 @@ that the data attached to nodes will be different for these different
 parallel classes.  The most common reasons for creating a new class are
 the necessity for a new data format for existing types or a desire for a
 separately managed version of the existing name space.
+> zone cut
+> Zone が「カット」されて繋がった状態となるのが正しく、「飛び地」は無い
 
 Within a class, "cuts" in the name space can be made between any two
 adjacent nodes.  After all cuts are made, each group of connected name
@@ -44,12 +50,15 @@ space is a separate zone.  The zone is said to be authoritative for all
 names in the connected region.  Note that the "cuts" in the name space
 may be in different places for different classes, the name servers may
 be different, etc.
+> nodeひとつひとつをzoneにすることもできるし、connected regionでのzoneもありえる
 
 These rules mean that every zone has at least one node, and hence domain
 name, for which it is authoritative, and all of the nodes in a
 particular zone are connected.  Given, the tree structure, every zone
 has a highest node which is closer to the root than any other node in
 the zone.  The name of this node is often used to identify the zone.
+> あるノードは、複数の Zone に含まれてはいけない
+> zoneは管理権限を移譲したいときなど、管理を分けるためにzone cutをする
 
 It would be possible, though not particularly useful, to partition the
 name space so that each domain name was in a separate zone or so that
@@ -73,13 +82,14 @@ The data that describes a zone has four major parts:
 
    - Data that defines the top node of the zone (can be thought of
      as part of the authoritative data).
-
+	> 上のzone cut
    - Data that describes delegated subzones, i.e., cuts around the
      bottom of the zone.
-
+	> 下のzone cut
    - Data that allows access to name servers for subzones
      (sometimes called "glue" data).
-
+	> host address
+	
 All of this data is expressed in the form of RRs, so a zone can be
 completely described in terms of a set of RRs.  Whole zones can be
 transferred between name servers by transferring the RRs, either carried
@@ -105,6 +115,8 @@ NS RRs are only found at nodes which are the top node of some zone.  In
 the data that makes up a zone, NS RRs are found at the top node of the
 zone (and are authoritative) and at cuts around the bottom of the zone
 (where they are not authoritative), but never in between.
+> "be exactly the same as the corresponding RRs in the top node of the subzone."
+> そうでないものがいくつか
 
 One of the goals of the zone structure is that any zone have all the
 data required to set up communications with the name servers for any
@@ -119,6 +131,12 @@ to learn.  To fix this problem, a zone contains "glue" RRs which are not
 part of the authoritative data, and are address RRs for the servers.
 These RRs are only necessary if the name server's name is "below" the
 cut, and are only used as part of a referral response.
+> "The NS RRs that name the servers for subzones are often not enough for this task since they name
+> the servers, but do not give their addresses"
+> subzoneにあるアドレスにたどり着けられない、そのためにglueがある
+> "内部名"とよくいわれるが"下部名"とよびたい
+> "are only used as part of a referral response."
+> glueはAとして扱ってはいけない。参照情報をたどるときに使う。
 
 4.2.2. Administrative considerations
 
@@ -132,6 +150,9 @@ create their own rules.  For example, one university might choose to use
 a single zone, while another might choose to organize by subzones
 dedicated to individual departments or schools.  [RFC-1033] catalogs
 available DNS software an discusses administration procedures.
+> 自分のドメインを管理したいとき
+> 親ゾーンにお願いする
+> catalogs available DNS software -> BINDのみ
 
 Once the proper name for the new subzone is selected, the new owners
 should be required to demonstrate redundant name server support.  Note
@@ -143,11 +164,14 @@ by the same organization that manages the zone.  For example, in the
 current DNS, one of the name servers for the United Kingdom, or UK
 domain, is found in the US.  This allows US hosts to get UK data without
 using limited transatlantic bandwidth.
+> 名前空間のなかになくても良い
+> 一箇所より、分散化すべき
 
 As the last installation step, the delegation NS RRs and glue RRs
 necessary to make the delegation effective should be added to the parent
 zone.  The administrators of both zones should insure that the NS and
 glue RRs which mark both sides of the cut are consistent and remain so.
+> NS RRに登録して移譲してもらえ
 
 4.3. Name server internals
 
@@ -158,15 +182,18 @@ Both the query and its response are carried in a standard message format
 which is described in [RFC-1035].  The query contains a QTYPE, QCLASS,
 and QNAME, which describe the types and classes of desired information
 and the name of interest.
+> STYPE, SCLASSは概念
 
 The way that the name server answers the query depends upon whether it
 is operating in recursive mode or not:
+> recursiveかどうかで応答が変わる
 
    - The simplest mode for the server is non-recursive, since it
      can answer queries using only local information: the response
      contains an error, the answer, or a referral to some other
      server "closer" to the answer.  All name servers must
      implement non-recursive queries.
+	 > name serverの必須はnon-recursive
 
    - The simplest mode for the client is recursive, since in this
      mode the name server acts in the role of a resolver and
@@ -174,17 +201,21 @@ is operating in recursive mode or not:
      This service is optional in a name server, and the name server
      may also choose to restrict the clients which can use
      recursive mode.
+	 > recursiveはoptional
+	 > "may also choose to restrict the clients" オープンリゾルバぇ
 
 Recursive service is helpful in several situations:
 
    - a relatively simple requester that lacks the ability to use
      anything other than a direct answer to the question.
-
+	 > the ability = iterative ability
+	 
    - a request that needs to cross protocol or other boundaries and
      can be sent to a server which can act as intermediary.
 
    - a network where we want to concentrate the cache rather than
      having a separate cache for each client.
+	 > クライアントがそれぞれじゃなくてキャッシュを集中
 
 Non-recursive service is appropriate if the requester is capable of
 pursuing referrals and interested in information which will aid future
@@ -194,11 +225,13 @@ The use of recursive mode is limited to cases where both the client and
 the name server agree to its use.  The agreement is negotiated through
 the use of two bits in query and response messages:
 
+
    - The recursion available, or RA bit, is set or cleared by a
      name server in all responses.  The bit is true if the name
      server is willing to provide recursive service for the client,
      regardless of whether the client requested recursive service.
      That is, RA signals availability rather than use.
+	 RAがセットされているかされないかで
 
    - Queries contain a bit called recursion desired or RD.  This
      bit specifies specifies whether the requester wants recursive
@@ -207,6 +240,7 @@ the use of two bits in query and response messages:
      it only from servers which have previously sent an RA, or
      servers which have agreed to provide service through private
      agreement or some other means outside of the DNS protocol.
+	 > RDがついてないクエリで他のサーバーに問い合わせにいってはいけない
 
 The recursive mode occurs when a query with RD set arrives at a server
 which is willing to provide recursive service; the client can verify
@@ -239,10 +273,12 @@ recursive response will be one of the following:
 
      RRs that answer the question, together with an indication
      whether the data comes from a zone or is cached.
+	 > +norecでもキャッシュされたデータを返すことも
 
      A referral to name servers which have zones which are closer
      ancestors to the name than the server sending the reply.
-
+	 > ancestors 問い合わせられた、自分の知っているancestor
+	 
    - RRs that the name server thinks will prove useful to the
      requester.
 
@@ -310,15 +346,19 @@ zone, and another for the cache:
       answer section.  If there was no delegation from
       authoritative data, look for the best one from the cache, and
       put it in the authority section.  Go to step 6.
+	  > おせっかい。無視するべき
 
    5. Using the local resolver or a copy of its algorithm (see
       resolver section of this memo) to answer the query.  Store
       the results, including any intermediate CNAMEs, in the answer
       section of the response.
+	  > recursive query only
+	  > copy of its algorithm 多段で動く
 
    6. Using local data only, attempt to add other RRs which may be
       useful to the additional section of the query.  Exit.
-
+	  
+	  
 4.3.3. Wildcards
 
 In the previous algorithm, special treatment was given to RRs with owner
@@ -327,6 +367,9 @@ Wildcard RRs can be thought of as instructions for synthesizing RRs.
 When the appropriate conditions are met, the name server creates RRs
 with an owner name equal to the query name and contents taken from the
 wildcard RRs.
+>  synthesizing RRs. いろんな名前があるよう振る舞う
+> *はzone内の表現のみ
+> 委譲されたサブドメインへは適用されません
 
 This facility is most often used to create a zone which will be used to
 forward mail from the Internet to some other mail system.  The general
@@ -346,6 +389,7 @@ authoritative data of the zone.  The wildcards potentially apply to
 descendants of <anydomain>, but not to <anydomain> itself.  Another way
 to look at this is that the "*" label always matches at least one whole
 label and sometimes more, but always whole labels.
+> *が優先されることはない
 
 Wildcard RRs do not apply:
 
@@ -358,11 +402,16 @@ Wildcard RRs do not apply:
      attached to B.X, the wildcards would apply to queries for name
      Z.X (presuming there is no explicit information for Z.X), but
      not to B.X, A.B.X, or X.
+	 > *.X hoge
+	 > B.X fuga
+	 > B.Xはfuga, A.B.Xはhogeでない。Xはhogeでない
 
 A * label appearing in a query name has no special effect, but can be
 used to test for wildcards in an authoritative zone; such a query is the
 only way to get a response containing RRs with an owner name with * in
 it.  The result of such a query should not be cached.
+> *のついた応答はキャッシュしない　いろんなものにマッチしてかえしてしまうので
+> *. example. com を検索することが出来ます。で、応答があったら、ワイルドカードを使っているってことがわかります
 
 Note that the contents of the wildcard RRs are not modified when used to
 synthesize RRs.
@@ -389,6 +438,8 @@ MX data at X.COM and A.X.COM is required, and that none of the RRs above
 would match a query name of XX.COM.
 
 4.3.4. Negative response caching (Optional)
+ネガティブキャッシュはオプショナル
+> 色々変遷があって今日のネガティブキャッシュとは異なる
 
 The DNS provides an optional service which allows name servers to
 distribute, and resolvers to cache, negative results with TTLs.  For
@@ -410,6 +461,9 @@ be that of the zone which was the source of the authoritative data in
 the answer section, or name error if applicable.  The MINIMUM field of
 the SOA controls the length of time that the negative result may be
 cached.
+> あくまで提案、正式にきまったのはRFC2308
+> SOAのMINIMUMをADDITONALとしてネガティブキャッシュのTTLとして使う
+> RFC1035ではSOAのMINIMUMはデフォルトTTLとして当時は利用
 
 Note that in some circumstances, the answer section may contain multiple
 owner names.  In this case, the SOA mechanism should only be used for
@@ -438,8 +492,8 @@ zone's SERIAL has not changed since the data was cached, then the TTL of
 the cached data can be reset to the zone MINIMUM value if it is smaller.
 This usage is mentioned for planning purposes only, and is not
 recommended as yet.
-
-
+> "the TTL of the cached data can be reset to the zone MINIMUM value"
+> 2308で短いTTLを採用
 
 4.3.5. Zone maintenance and transfers
 
