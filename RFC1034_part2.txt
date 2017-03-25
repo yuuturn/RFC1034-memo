@@ -595,29 +595,43 @@ USC-ISIC.ARPA(別名)を示すべきでない
 CNAME連鎖はサポートされ、CNAMEループはエラーとして出力されるべき
 
 3.7. Queries
+問い合わせ
 
-Queries are messages which may be sent to a name server to provoke a
+Queries are messages which may be sent to a name server to provoke(引き起こす) a
 response.  In the Internet, queries are carried in UDP datagrams or over
 TCP connections.  The response by the name server either answers the
 question posed in the query, refers the requester to another set of name
 servers, or signals some error condition.
+問い合わせは、応答を引き出す為にネームサーバーに送られるメッセージ
+インターネットにて、問い合わせはUDPデータグラムかTCPコネクション上でやりとりされる
+ネームサーバーからのレスポンスは、クエリの中で呈された問い合わせに答えるか
+リクエストを送った人に他のネームサーバーを参照させるか
+エラーを返すかである
 
 In general, the user does not generate queries directly, but instead
 makes a request to a resolver which in turn sends one or more queries to
 name servers and deals with the error conditions and referrals that may
 result.  Of course, the possible questions which can be asked in a query
 does shape the kind of service a resolver can provide.
+一般的に、ユーザーは直接クエリを生成しない代わりに、
+ネームサーバーにクエリを送ったりエラーを処理したり他の参照したりするリゾルバにリクエストする
+もちろん、クエリのなかで問い合わせることができる問い合わせが、リゾルバが提供できる種類を決定する
 
 DNS queries and responses are carried in a standard message format.  The
-message format has a header containing a number of fixed fields which
+message format has a header containing a number of(幾つかの) fixed fields which
 are always present, and four sections which carry query parameters and
 RRs.
+DNS問い合わせと応答は、標準的なメッセージ形式の中でやり取りされる
+メッセージ形式は、必ず付く幾つか固定フィールドを含むヘッダと4つのクエリパラメータとRRを示すセクションがある
 
 The most important field in the header is a four bit field called an
 opcode which separates different queries.  Of the possible 16 values,
 one (standard query) is part of the official protocol, two (inverse
 query and status query) are options, one (completion) is obsolete, and
 the rest are unassigned.
+ヘッダの中で最も重要なフィールドはopcodeと呼ばれる4bitのフィールドで、クエリの種類を区別するもの
+とり得る16の値のうち、一つ目(標準クエリ)は公式なプロトコルの一部で、二つ目(逆問合せと状態問合せ)は任意で
+また、別のひとつ(補完は廃止されており、残りは割り当てられていない
 
 The four sections are:
 
